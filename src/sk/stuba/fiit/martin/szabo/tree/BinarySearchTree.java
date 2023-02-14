@@ -26,18 +26,23 @@ public class BinarySearchTree{
     }
 
     /**
-     * Prints all nodes in the tree.
+     * Prints all nodes in the tree. Level by level.
      */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         ArrayList<BinarySearchNode> currentLevelBinarySearchNodes = new ArrayList<>();
-        currentLevelBinarySearchNodes.add(this.getRoot());
+        currentLevelBinarySearchNodes.add(this.getRoot()); // Gets current level nodes
         while(!currentLevelBinarySearchNodes.isEmpty()){
             ArrayList<BinarySearchNode> nextLevelBinarySearchNodes = new ArrayList<>();
-            for(BinarySearchNode binarySearchNode : currentLevelBinarySearchNodes){
-                sb.append(binarySearchNode).append("\n");
-                nextLevelBinarySearchNodes.addAll(binarySearchNode.getAdjects());
+            for(BinarySearchNode binarySearchNode : currentLevelBinarySearchNodes){ // For each node on current level
+                sb.append(binarySearchNode).append("\n"); // Append it to the final output
+                if(binarySearchNode.getLeftChild() != null){ // And append it to the list of next level nodes.
+                    nextLevelBinarySearchNodes.add(binarySearchNode.getLeftChild());
+                }
+                if(binarySearchNode.getRightChild() != null){
+                    nextLevelBinarySearchNodes.add(binarySearchNode.getRightChild());
+                }
             }
             currentLevelBinarySearchNodes = nextLevelBinarySearchNodes;
         }
@@ -84,7 +89,6 @@ public class BinarySearchTree{
      *
      * @param value - the value to be inserted into the tree
      */
-    // TODO Auto decide value position and Auto adjust tree after value insertion.
     public void insert(Integer value){
 
         BinarySearchNode splitNode = root;
@@ -116,9 +120,11 @@ public class BinarySearchTree{
         // That's when we want to decide where to insert the new node
         if(value < splitNode.getValue()){
             splitNode.setLeftChild(new BinarySearchNode(value));
+            splitNode.getLeftChild().setParent(splitNode);
         }
         else{
             splitNode.setRightChild(new BinarySearchNode(value));
+            splitNode.getRightChild().setParent(splitNode);
         }
     }
 
@@ -126,10 +132,10 @@ public class BinarySearchTree{
         BinarySearchNode deleteNode = this.search(value);
         BinarySearchNode parent = deleteNode.getParent();
 
-        // Case 1 leaf
+        // We are deleteing a leaf
         if(deleteNode.getLeftChild() == null && deleteNode.getRightChild() == null){
             if(parent.getLeftChild() == deleteNode){
-                parent.setLeftChild(null);
+                parent.setLeftChild(null); // Just removing leaf from tree
             }
             else{
                 parent.setRightChild(null);
@@ -143,7 +149,9 @@ public class BinarySearchTree{
         ){
             BinarySearchNode child;
 
+            // Looking which child is empty
             if(deleteNode.getLeftChild() == null){
+                // Getting the child that is not empty
                 child = deleteNode.getRightChild();
             }
             else{
@@ -151,6 +159,7 @@ public class BinarySearchTree{
             }
 
             if(parent.getLeftChild() == deleteNode){
+                // Setting the child as a parent's child
                 parent.setLeftChild(child);
             }
             else{
@@ -163,36 +172,39 @@ public class BinarySearchTree{
             deleteNode.getLeftChild()!= null && deleteNode.getRightChild()!= null
         ){
             BinarySearchNode child;
+
+            // Getting the smallest child that is bigger than the node to be deleted
             child = deleteNode.getInorderSuccessor();
 
+            // Removing the child from parent side
+            if(child.getParent().getLeftChild() == child){
+                child.getParent().setLeftChild(null);
+            }
+            else if(child.getParent().getRightChild() == child){
+                child.getParent().setRightChild(null);
+            }
+            // Removing the parent from child side
+            child.setParent(null);
+
+            // Now that the child node is completely removed and doesn't have a parent or left nor right children
+            // Figuring out the placement of the node to be deleted and replacing it with the child node
             if(parent.getLeftChild() == deleteNode){
                 parent.setLeftChild(child);
             }
             else{
                 parent.setRightChild(child);
             }
+
+            // Setting up connections from node to be deleted to the child
+            child.setLeftChild(deleteNode.getLeftChild());
+            child.setRightChild(deleteNode.getRightChild());
+            child.setParent(parent);
+
         }
     }
 
     public Boolean isBalanced(){
-        ArrayList<BinarySearchNode> currentLevelBinarySearchNodes = new ArrayList<>();
-        currentLevelBinarySearchNodes.add(this.getRoot());
 
-        while(!currentLevelBinarySearchNodes.isEmpty()){
-            ArrayList<BinarySearchNode> nextLevelBinarySearchNodes = new ArrayList<>();
-
-            for(BinarySearchNode currentBinarySearchNode : currentLevelBinarySearchNodes){
-                if(
-                    (currentBinarySearchNode.getValue() - currentBinarySearchNode.getParent().getValue()) != 1 &&
-                    (currentBinarySearchNode.getValue() - currentBinarySearchNode.getParent().getValue()) != 0
-                ){
-                    return false;
-                }
-                nextLevelBinarySearchNodes.addAll(currentBinarySearchNode.getAdjects());
-            }
-
-            currentLevelBinarySearchNodes = nextLevelBinarySearchNodes;
-        }
-        return true;
+        return false; // TOOD Implement this
     }
 }

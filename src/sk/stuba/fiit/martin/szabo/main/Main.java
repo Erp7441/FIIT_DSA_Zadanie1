@@ -1,6 +1,5 @@
 package sk.stuba.fiit.martin.szabo.main;
 
-import sk.stuba.fiit.martin.szabo.tree.BinarySearchNode;
 import sk.stuba.fiit.martin.szabo.tree.BinarySearchTree;
 
 // TODO refactor placments in classes

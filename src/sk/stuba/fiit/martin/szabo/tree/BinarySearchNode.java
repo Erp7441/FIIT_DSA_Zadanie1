@@ -29,15 +29,9 @@ public class BinarySearchNode{
         this.parent = binarySearchNode;
     }
     public void setLeftChild(BinarySearchNode binarySearchNode){
-        if(binarySearchNode != null){
-            binarySearchNode.setParent(this);
-        }
         this.leftChild = binarySearchNode;
     }
     public void setRightChild(BinarySearchNode binarySearchNode){
-        if(binarySearchNode != null){
-            binarySearchNode.setParent(this);
-        }
         this.rightChild = binarySearchNode;
     }
 
@@ -65,37 +59,28 @@ public class BinarySearchNode{
         return sb.toString();
     }
 
-    /**
-     * Gets adjecent node of this node
-     * @return adjecent node of this node
-     */
-    public ArrayList<BinarySearchNode> getAdjects(){
-        ArrayList<BinarySearchNode> adjects = new ArrayList<>();
-        if(this.leftChild != null){
-            adjects.add(this.leftChild);
-        }
-        if(this.rightChild != null){
-            adjects.add(this.rightChild);
-        }
-        return adjects;
-    }
-
-    /**
-     * Adds adjecent node to this node
-     * @param value value of new adjecent node
-     */
-    public void addAdjecent(Object value){
-        // TODO add balancing logic
-    }
-
     public BinarySearchNode getInorderSuccessor(){
-        BinarySearchNode current = this;
-        BinarySearchNode successor = null;
-
         // If right tree exits look for minimal value of the tree
+        if(this.getRightChild() != null){
+            return this.getRightChild().minimum();
+        }
 
+        BinarySearchNode parent = this.getParent();
+        BinarySearchNode current = this;
+        // While we are the right child of a parent
+        while(current != null && current == parent.getRightChild()){
+            current = parent;
+            parent = parent.getParent(); // Move up a parent
+        }
+        return parent; // If we are the left child. We return parent as the inorder successor
+    }
 
-        return successor;
+    public BinarySearchNode minimum(){
+        BinarySearchNode current = this;
+        while (current.getLeftChild() != null){
+            current = current.getLeftChild();
+        }
+        return current;
     }
 
     @Override
