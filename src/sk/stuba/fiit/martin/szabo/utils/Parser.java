@@ -1,18 +1,17 @@
 package sk.stuba.fiit.martin.szabo.utils;
 
-import sk.stuba.fiit.martin.szabo.structure.Node;
-import sk.stuba.fiit.martin.szabo.structure.Tree;
+import sk.stuba.fiit.martin.szabo.tree.BinarySearchTree;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Parser{
-    private ArrayList<Object> dataset;
+    private ArrayList<Integer> dataset;
 
     public Parser(){
         this.dataset = null;
     }
-    public Parser(ArrayList<Object> dataset){
+    public Parser(ArrayList<Integer> dataset){
         this.dataset = dataset;
     }
 
@@ -20,32 +19,39 @@ public class Parser{
         Scanner in = new Scanner(System.in);
         System.out.println("Enter your dataset [enter \"done\" to end dataset]: ");
         String input;
-        do{
+        while(true){
             input = in.nextLine();
+
             if(input.equals("")){
                 dataset.add(null);
                 continue;
+            } else if(input.equals("done")){ break; }
+
+            try{
+                dataset.add(Integer.parseInt(input));
             }
-            dataset.add(input);
-
-        } while(!input.equals("done"));
-    }
-
-    public Tree createTree(){
-        Node root = new Node(dataset.get(0));
-        Tree tree = new Tree(root);
-
-        // TODO auto balance tree in Tree class
-        for(int i = 1; i < dataset.size(); i++){
-            tree.insert(dataset.get(i), i, Position.LEFT);
+            catch(NumberFormatException e){
+                System.out.println("Invalid input");
+            }
         }
-        return tree;
     }
 
-    public ArrayList<Object> getDataset(){
+    public BinarySearchTree createTree(){
+        /*BinarySearchNode root = new BinarySearchNode(dataset.get(0));
+        BinarySearchTree binaryTree = new BinarySearchTree(root);
+
+        // TODO auto balance tree in BinarySearchTree class
+        for(int i = 1; i < dataset.size(); i++){
+            binaryTree.insert(dataset.get(i));
+        }
+        return binaryTree;*/
+        return null;
+    }
+
+    public ArrayList<Integer> getDataset(){
         return this.dataset;
     }
-    public void setDataset(ArrayList<Object> input){
+    public void setDataset(ArrayList<Integer> input){
         this.dataset = input;
     }
 
