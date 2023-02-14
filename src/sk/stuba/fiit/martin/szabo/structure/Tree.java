@@ -8,9 +8,17 @@ import static java.lang.System.*;
 
 public class Tree{
 
-    Node root;
+    private Node root;
 
     public Tree(Node root){
+        this.root = root;
+    }
+
+    public Node getRoot(){
+        return root;
+    }
+
+    public void setRoot(Node root){
         this.root = root;
     }
 
@@ -21,7 +29,7 @@ public class Tree{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         ArrayList<Node> currentLevelNodes = new ArrayList<>();
-        currentLevelNodes.add(root);
+        currentLevelNodes.add(this.getRoot());
         while(!currentLevelNodes.isEmpty()){
             ArrayList<Node> nextLevelNodes = new ArrayList<>();
             for(Node node : currentLevelNodes){
@@ -41,7 +49,7 @@ public class Tree{
      */
     public Node search(Object value){
         ArrayList<Node> currentLevelNodes = new ArrayList<>();
-        currentLevelNodes.add(root);
+        currentLevelNodes.add(this.getRoot());
         while(!currentLevelNodes.isEmpty()){
             ArrayList<Node> nextLevelNodes = new ArrayList<>();
             for(Node currentNode : currentLevelNodes){
