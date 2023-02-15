@@ -14,7 +14,8 @@ public class Node{
     private Integer balance = 0;
 
     //* Constructors
-    public Node(){
+    public Node(Integer key){
+        this.key = key;
     }
 
     //* Utility methods

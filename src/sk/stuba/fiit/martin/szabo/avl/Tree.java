@@ -1,5 +1,7 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
+import java.util.ArrayList;
+
 public class Tree{
 
     //* Attributes
@@ -185,6 +187,33 @@ public class Tree{
                 5.2 Else do right left rotation
             6. End
         */
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+        currentLevelNodes.add(this.getRoot()); // Gets current level nodes
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+
+            for(Node node : currentLevelNodes){ // For each node on current level
+
+                sb.append(node).append("\n"); // Append it to the final output
+
+                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node != null && node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
+        }
+        return sb.toString();
     }
 
 
