@@ -1,7 +1,6 @@
-package sk.stuba.fiit.martin.szabo.tree;
+package sk.stuba.fiit.martin.szabo.tests;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BinarySearchNode{
     private Integer value;
@@ -37,7 +36,7 @@ public class BinarySearchNode{
     }
 
     /**
-     * Prints all nodes in the tree in format: <br><br>
+     * Prints all nodes in the tests in format: <br><br>
      *
      * [CurrentNode]: [LeftNode], [RightNode]
      */
@@ -61,7 +60,7 @@ public class BinarySearchNode{
     }
 
     public BinarySearchNode getInorderSuccessor(){
-        // If right tree exits look for minimal value of the tree
+        // If right tests exits look for minimal value of the tests
         if(this.getRightChild() != null){
             return this.getRightChild().minimum();
         }

@@ -1,6 +1,6 @@
 package sk.stuba.fiit.martin.szabo.utils;
 
-import sk.stuba.fiit.martin.szabo.tree.BinarySearchTree;
+import sk.stuba.fiit.martin.szabo.tests.BinarySearchTree;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -40,7 +40,7 @@ public class Parser{
         /*BinarySearchNode root = new BinarySearchNode(dataset.get(0));
         BinarySearchTree binaryTree = new BinarySearchTree(root);
 
-        // TODO auto balance tree in BinarySearchTree class
+        // TODO auto balance tests in BinarySearchTree class
         for(int i = 1; i < dataset.size(); i++){
             binaryTree.insert(dataset.get(i));
         }

@@ -1,10 +1,6 @@
-package sk.stuba.fiit.martin.szabo.tree;
-
-import sk.stuba.fiit.martin.szabo.tree.BinarySearchNode;
+package sk.stuba.fiit.martin.szabo.tests;
 
 import java.util.ArrayList;
-
-import static java.lang.System.*;
 
 public class BinarySearchTree{
 
@@ -26,7 +22,7 @@ public class BinarySearchTree{
     }
 
     /**
-     * Prints all nodes in the tree. Level by level.
+     * Prints all nodes in the tests. Level by level.
      */
     @Override
     public String toString(){
@@ -50,7 +46,7 @@ public class BinarySearchTree{
     }
 
     /**
-     * Searched for a node in the tree based on its value
+     * Searched for a node in the tests based on its value
      *
      * @param value - value of node we are looking for
      * @return - node reference we found
@@ -59,7 +55,7 @@ public class BinarySearchTree{
 
         BinarySearchNode splitNode = root;
 
-        // Check if tree is empty
+        // Check if tests is empty
         if(splitNode == null){
             return null;
         }
@@ -85,15 +81,15 @@ public class BinarySearchTree{
     }
 
     /**
-     * Inserts a new node at the specified position in the tree.
+     * Inserts a new node at the specified position in the tests.
      *
-     * @param value - the value to be inserted into the tree
+     * @param value - the value to be inserted into the tests
      */
     public void insert(Integer value){
 
         BinarySearchNode splitNode = root;
 
-        // Check if tree is empty
+        // Check if tests is empty
         if(splitNode == null){
             this.setRoot(new BinarySearchNode(value));
             return;
@@ -112,11 +108,11 @@ public class BinarySearchTree{
             }
             // Error state
             else{
-                throw new IllegalStateException("Invalid tree");
+                throw new IllegalStateException("Invalid tests");
             }
         }
 
-        // Eventually we will get to the bottom of the tree
+        // Eventually we will get to the bottom of the tests
         // That's when we want to decide where to insert the new node
         if(value < splitNode.getValue()){
             splitNode.setLeftChild(new BinarySearchNode(value));
@@ -132,7 +128,7 @@ public class BinarySearchTree{
         Integer value = node.getValue();
         BinarySearchNode splitNode = root; // TODO:: Resolve duplicate code warking
 
-        // Check if tree is empty
+        // Check if tests is empty
         if(splitNode == null){
             this.setRoot(node);
             return;
@@ -151,11 +147,11 @@ public class BinarySearchTree{
             }
             // Error state
             else{
-                throw new IllegalStateException("Invalid tree");
+                throw new IllegalStateException("Invalid tests");
             }
         }
 
-        // Eventually we will get to the bottom of the tree
+        // Eventually we will get to the bottom of the tests
         // That's when we want to decide where to insert the new node
         if(value < splitNode.getValue()){
             splitNode.setLeftChild(node);
@@ -176,7 +172,7 @@ public class BinarySearchTree{
         // We are deleteing a leaf
         if(deleteNode.getLeftChild() == null && deleteNode.getRightChild() == null){
             if(parent.getLeftChild() == deleteNode){
-                parent.setLeftChild(null); // Just removing leaf from tree
+                parent.setLeftChild(null); // Just removing leaf from tests
             }
             else{
                 parent.setRightChild(null);

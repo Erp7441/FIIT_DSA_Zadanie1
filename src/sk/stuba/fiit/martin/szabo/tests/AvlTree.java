@@ -1,7 +1,5 @@
-package sk.stuba.fiit.martin.szabo.tree;
+package sk.stuba.fiit.martin.szabo.tests;
 import java.util.ArrayList;
-
-import static java.lang.System.err;
 
 
 public class AvlTree{
@@ -15,37 +13,6 @@ public class AvlTree{
         this.root = root;
     }
 
-    public AvlNode getRoot(){
-        return root;
-    }
-    public void setRoot(AvlNode root){
-        this.root = root;
-    }
-
-    /**
-     * Prints all nodes in the tree. Level by level.
-     */
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        ArrayList<AvlNode> currentLevelAvlNodes = new ArrayList<>();
-        currentLevelAvlNodes.add(this.getRoot()); // Gets current level nodes
-        while(!currentLevelAvlNodes.isEmpty()){
-            ArrayList<AvlNode> nextLevelAvlNodes = new ArrayList<>();
-            for(AvlNode binarySearchNode : currentLevelAvlNodes){ // For each node on current level
-                sb.append(binarySearchNode).append("\n"); // Append it to the final output
-                if(binarySearchNode != null && binarySearchNode.getLeftChild() != null){ // And append it to the list of next level nodes.
-                    nextLevelAvlNodes.add(binarySearchNode.getLeftChild());
-                }
-                if(binarySearchNode != null && binarySearchNode.getRightChild() != null){
-                    nextLevelAvlNodes.add(binarySearchNode.getRightChild());
-                }
-            }
-            currentLevelAvlNodes = nextLevelAvlNodes;
-        }
-        return sb.toString();
-    }
-
     public AvlNode search(Integer value){
         return null;
     }
@@ -53,7 +20,7 @@ public class AvlTree{
 
         AvlNode splitNode = root;
 
-        // Check if tree is empty
+        // Check if tests is empty
         if(splitNode == null){
             this.setRoot(node);
             return;
@@ -72,22 +39,24 @@ public class AvlTree{
             }
             // Error state
             else{
-                throw new IllegalStateException("Invalid tree");
+                throw new IllegalStateException("Invalid tests");
             }
         }
 
-        // Eventually we will get to the bottom of the tree
+        // Eventually we will get to the bottom of the tests
         // That's when we want to decide where to insert the new node
+
         if(node.getValue() < splitNode.getValue()){
             splitNode.setLeftChild(node);
-            splitNode.getLeftChild().setParent(splitNode);
+            node.setParent(splitNode);
         }
         else{
             splitNode.setRightChild(node);
-            splitNode.getRightChild().setParent(splitNode);
+            node.setParent(splitNode);
         }
 
-        //TODO:: Rebalance tree
+        rebalance();
+        // TODO:: always rebalance
     }
     public void delete(Integer value){
 
@@ -103,7 +72,7 @@ public class AvlTree{
             n1.setRightChild(n2.getLeftChild());
         }
 
-        // Check if we need to modify root of the tree
+        // Check if we need to modify root of the tests
         if(n1 == this.getRoot()){
             this.setRoot(n2);
         }
@@ -121,7 +90,7 @@ public class AvlTree{
             n2.setLeftChild(n1.getRightChild());
         }
 
-        // Check if we need to modify root of the tree
+        // Check if we need to modify root of the tests
         if(n2 == this.getRoot()){
             this.setRoot(n1);
         }
@@ -144,6 +113,43 @@ public class AvlTree{
             this.rightRotation(n1, n2);
         }
 
+    }
+
+    public void rebalance(){
+        this.getRoot().calculateBalancingFactor();
+        if(this.getRoot().getBalancingFactor() > 1 || this.getRoot().getBalancingFactor() < -1){
+            System.out.println("Rotate to balance");
+        }
+    }
+
+    /**
+     * Prints all nodes in the tests. Level by level.
+     */
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        ArrayList<AvlNode> currentLevelAvlNodes = new ArrayList<>();
+        currentLevelAvlNodes.add(this.getRoot()); // Gets current level nodes
+        while(!currentLevelAvlNodes.isEmpty()){
+            ArrayList<AvlNode> nextLevelAvlNodes = new ArrayList<>();
+            for(AvlNode avlNode : currentLevelAvlNodes){ // For each node on current level
+                sb.append(avlNode).append("\n"); // Append it to the final output
+                if(avlNode != null && avlNode.getLeftChild() != null){ // And append it to the list of next level nodes.
+                    nextLevelAvlNodes.add(avlNode.getLeftChild());
+                }
+                if(avlNode != null && avlNode.getRightChild() != null){
+                    nextLevelAvlNodes.add(avlNode.getRightChild());
+                }
+            }
+            currentLevelAvlNodes = nextLevelAvlNodes;
+        }
+        return sb.toString();
+    }
+    public AvlNode getRoot(){
+        return root;
+    }
+    public void setRoot(AvlNode root){
+        this.root = root;
     }
 
 }

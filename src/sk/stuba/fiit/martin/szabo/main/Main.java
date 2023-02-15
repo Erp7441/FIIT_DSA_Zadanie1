@@ -1,7 +1,7 @@
 package sk.stuba.fiit.martin.szabo.main;
 
-import sk.stuba.fiit.martin.szabo.tree.AvlNode;
-import sk.stuba.fiit.martin.szabo.tree.AvlTree;
+//import sk.stuba.fiit.martin.szabo.tests.AvlNode;
+//import sk.stuba.fiit.martin.szabo.tests.AvlTree;
 
 import static java.lang.System.out;
 
@@ -11,35 +11,128 @@ public class Main{
     public static void main(String[] args){
 
 
-        AvlTree avl = new AvlTree();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*AvlTree avl = new AvlTree();
 
         AvlNode node1 = new AvlNode(2);
         AvlNode node2 = new AvlNode(4);
         AvlNode node3 = new AvlNode(1);
         AvlNode node4 = new AvlNode(3);
-        AvlNode node5 = new AvlNode(5);
+        AvlNode node5 = new AvlNode(5);*/
 
-        node1.setLeftChild(node3);
+        /*node1.setLeftChild(node3);
         node1.setRightChild(node2);
         node2.setLeftChild(node4);
         node2.setRightChild(node5);
-        avl.setRoot(node1);
+        avl.setRoot(node1);*/
 
         /*avl.insert(node1);
+        avl.insert(node4);
         avl.insert(node2);
         avl.insert(node3);
-        avl.insert(node4);
-        avl.insert(node5);*/
+        avl.insert(node5);
+
+        out.println(avl);*/
+
+        /*avl.rotate(node1, node2);
 
         out.println(avl);
 
         avl.rotate(node1, node2);
 
-        out.println(avl);
-
-        avl.rotate(node1, node2);
-
-        out.println(avl);
+        out.println(avl);*/
 
 
         /*AvlNode node1 = new AvlNode(13);

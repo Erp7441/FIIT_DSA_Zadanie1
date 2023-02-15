@@ -1,8 +1,8 @@
-package sk.stuba.fiit.martin.szabo.tree;
+package sk.stuba.fiit.martin.szabo.tests;
 import java.util.ArrayList;
 
 public class AvlNode{
-    private Integer balancingFactor;
+    private Integer balancingFactor = 0;
     private Integer value;
     private AvlNode leftChild = null;
     private AvlNode rightChild = null;
@@ -14,7 +14,7 @@ public class AvlNode{
 
 
     /**
-     * Prints all nodes in the tree in format: <br><br>
+     * Prints all nodes in the tests in format: <br><br>
      *
      * [CurrentNode]: [LeftNode], [RightNode]
      */
@@ -38,10 +38,7 @@ public class AvlNode{
     }
 
     public AvlNode getInorderSuccessor(){
-
-        // TODO:: Reimplement
-
-        // If right tree exits look for minimal value of the tree
+        // If right tests exits look for minimal value of the tests
         if(this.getRightChild() != null){
             return this.getRightChild().minimum();
         }
@@ -65,8 +62,14 @@ public class AvlNode{
         return current;
     }
 
+    public Integer calculateBalancingFactor(){
+        Integer left = this.getLeftChild() != null ? this.getLeftChild().height() : 0;
+        Integer right = this.getRightChild() != null ? this.getRightChild().height() : 0;
+        this.balancingFactor = left - right;
+        return this.balancingFactor;
+    }
+
     public Integer height(){
-        // TODO:: Reimplement this
         Integer height = 0;
         ArrayList<AvlNode> currentLevelAvlNodes = new ArrayList<>();
         currentLevelAvlNodes.add(this);
@@ -147,14 +150,7 @@ public class AvlNode{
         return this.value.hashCode();
     }
 
-    public void calculateBalancingFactor(){
-        Integer left = this.getLeftChild() != null ? this.getLeftChild().height() : 0;
-        Integer right = this.getRightChild() != null ? this.getRightChild().height() : 0; //TODO:: Here it fails
-        this.balancingFactor = left - right;
-    }
-    public Integer getBalancingFactor(){
-        return balancingFactor;
-    }
+
     public AvlNode getLeftChild(){
         return this.leftChild;
     }
@@ -167,6 +163,9 @@ public class AvlNode{
     public AvlNode getParent(){
         return this.parent;
     }
+    public Integer getBalancingFactor(){
+        return balancingFactor;
+    }
     public void setParent(AvlNode avlNode){
         this.parent = avlNode;
     }
@@ -176,6 +175,7 @@ public class AvlNode{
     public void setRightChild(AvlNode avlNode){
         this.rightChild = avlNode;
     }
+
 
 }
 
