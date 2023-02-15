@@ -7,7 +7,9 @@ public class AvlNode extends BinarySearchNode{
         super(value);
     }
     public void calculateBalancingFactor(){
-        this.balancingFactor = this.getLeftChild().height() - this.getRightChild().height();
+        Integer left = this.getLeftChild() != null ? this.getLeftChild().height() : 0;
+        Integer right = this.getRightChild() != null ? this.getRightChild().height() : 0; //TODO:: Here it fails
+        this.balancingFactor = left - right;
     }
 
     public Integer getBalancingFactor(){
