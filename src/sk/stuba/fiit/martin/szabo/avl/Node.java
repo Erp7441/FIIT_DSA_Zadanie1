@@ -1,8 +1,11 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
+import sk.stuba.fiit.martin.szabo.tests.BinarySearchNode;
+
 public class Node{
 
     //* Attributes
+    private Integer key;
     private Node left = null;
     private Node right = null;
     private Node parent = null;
@@ -21,6 +24,85 @@ public class Node{
         this.balance = leftHeight - rightHeight;
         return this.balance;
     }
+
+    public Integer calculateHeight(){
+        return height;
+    }
+    public Integer calculateDepth(){
+        Integer depth = 0;
+        Node current = this;
+        while(current.getParent() != null){
+            current = current.getParent();
+            depth++;
+        }
+        return depth;
+    }
+
+    public Integer getChildCount(){
+        if (this.getLeft() == null && this.getRight() == null){
+            return 0;
+        }
+        else if(this.getLeft() != null && this.getRight() != null){
+            return 2;
+        }
+        return 1;
+    }
+
+    // Gets minimum of tree
+    public static Node minimum(Node root){
+        Node current = root;
+        while (current.getLeft() != null){
+            current = current.getLeft();
+        }
+        return current;
+    }
+
+    // Gets maximum of tree
+    public static Node maximum(Node root){
+        Node current = root;
+        while (current.getRight() != null){
+            current = current.getRight();
+        }
+        return current;
+    }
+
+    // Gets the next node with minimal value in order of a tree
+    public static Node getInOrderSuccessor(Node root){
+        // If right tests exits look for minimal value of the tests
+        if(root.getRight() != null){
+            return Node.minimum(root.getRight());
+        }
+
+        Node parent = root.getParent();
+        Node current = root;
+        // While we are the right child of a parent
+        while(current != null && current == parent.getRight()){
+            current = parent;
+            parent = parent.getParent(); // Move up a parent
+        }
+        return parent; // If we are the left child. We return parent as the inorder successor
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.key).append(": ");
+        if(this.left != null){
+            sb.append(this.left.getKey()).append(", ");
+        }
+        else{
+            sb.append("x, ");
+        }
+        if(this.right != null){
+            sb.append(this.right.getKey());
+        }
+        else{
+            sb.append("x");
+        }
+        return sb.toString();
+    }
+
+
 
     //* Getters and setters
     public Node getLeft(){
@@ -65,5 +147,13 @@ public class Node{
 
     public Integer getBalance(){
         return balance;
+    }
+
+    public Integer getKey(){
+        return key;
+    }
+
+    public void setKey(Integer key){
+        this.key = key;
     }
 }

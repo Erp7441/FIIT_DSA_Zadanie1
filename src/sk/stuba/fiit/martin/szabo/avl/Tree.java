@@ -18,7 +18,7 @@ public class Tree{
     public void insert(Node node){
         /*
             1. Start
-            2. Loop throught tree nodes until you find a leaf
+            2. Loop through tree nodes until you find a leaf
             3. If @node.value < @currentRoot.value then move left
             4. Else if @node.value > @currentRoot.value then move right
             5. Else you found a leaf
@@ -29,32 +29,73 @@ public class Tree{
             6. Else make @node right child of @leaf
 
             7. Update balance factor of whole tree
-            8. Rebalance the whole tree
+            8. Balance the whole tree
         */
     }
-    public void search(Node node){
+    public Node search(Node node){
         /*
             1. Start
             2. Set @currentNode to @root
             3. Loop through nodes of the tree until @currentNode is NULL
             4. If @currentNode equals @node then break loop
-            5. If @currentNode.value < @root.value move left
+            5. If @node.key < @currentNode.key move left
             6. Else move right
             7. Return @currentNode
         */
+
+        Node currentNode = root;
+        while(currentNode != null){
+            if(currentNode.equals(node) || currentNode.getKey().equals(node.getKey())){ break; }
+            if(node.getKey() < currentNode.getKey()){
+                // Move left
+                currentNode = currentNode.getLeft();
+            }
+            else{
+                // Move right
+                currentNode = currentNode.getRight();
+            }
+        }
+        return currentNode;
     }
     public void delete(Node node){
         /*
             1. Start
             2. Use search to locate node to be deleted
 
-            3. If @noteToBeDeleted has two children. Find inorder successor of @noteToBeDeleted and replace it with the successor
-            4. Else if @noteToBeDeleted has one child. Replace it with the child
+            3. If @noteToBeDeleted has two children. Set child as inorder successor of @noteToBeDeleted and replace @noteToBeDeleted with @child
+            4. Else if @noteToBeDeleted has one child. Replace it with the @child
             5. Else @noteToBeDeleted is a leaf. Then remove it
 
             6. Update balance factor of whole tree
-            7. Rebalance the whole tree
+            7. Balance the whole tree
         */
+
+        Node nodeToBeDeleted = this.search(node);
+        if(nodeToBeDeleted == null) { return; }
+
+        Integer childCount = nodeToBeDeleted.getChildCount();
+        Node child = null;
+
+        if (childCount == 2){
+            child = Node.getInOrderSuccessor(nodeToBeDeleted);
+        }
+        else if(childCount == 1){
+            child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
+        }
+
+        if(child != null && (childCount == 1 || childCount == 2)){
+            child.setParent(nodeToBeDeleted.getParent());
+        }
+
+        if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
+            nodeToBeDeleted.getParent().setLeft(child);
+        }
+        else{
+            nodeToBeDeleted.getParent().setRight(child);
+        }
+        nodeToBeDeleted.setParent(null);
+
+        // TODO:: Implement balancing
     }
 
     //* AVL methods
@@ -94,10 +135,10 @@ public class Tree{
     }
 
     //? Is special one needed for insertion and deletion ?//
-    public void rebalance(Node node){
+    public void balance(Node node){
         /*
             1. Start
-            2. If balance factor is > 1 it means the heigh of the left subtree is greater than the right subtree
+            2. If balance factor is > 1 it means the height of the left subtree is greater than the right subtree
             3. Use right rotation or left right rotation to fix the balance factor
                 3.1 If @node.value < @node.left.value then do right rotation
                 3.2 Else do left right rotation
