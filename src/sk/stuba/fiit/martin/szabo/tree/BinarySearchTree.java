@@ -128,6 +128,45 @@ public class BinarySearchTree{
         }
     }
 
+    public void insert(BinarySearchNode node){
+        Integer value = node.getValue();
+        BinarySearchNode splitNode = root; // TODO:: Resolve duplicate code warking
+
+        // Check if tree is empty
+        if(splitNode == null){
+            this.setRoot(new BinarySearchNode(value));
+            return;
+        }
+
+        // If left and right is not empty
+        while(splitNode.getLeftChild() != null && splitNode.getRightChild() != null){
+
+            // Move to the left?
+            if(value < splitNode.getValue()){
+                splitNode = splitNode.getLeftChild();
+            }
+            // Or to the right?
+            else if(value > splitNode.getValue()){
+                splitNode = splitNode.getRightChild();
+            }
+            // Error state
+            else{
+                throw new IllegalStateException("Invalid tree");
+            }
+        }
+
+        // Eventually we will get to the bottom of the tree
+        // That's when we want to decide where to insert the new node
+        if(value < splitNode.getValue()){
+            splitNode.setLeftChild(node);
+            splitNode.getLeftChild().setParent(splitNode);
+        }
+        else{
+            splitNode.setRightChild(node);
+            splitNode.getRightChild().setParent(splitNode);
+        }
+    }
+
     public void delete(Integer value){
         BinarySearchNode deleteNode = this.search(value);
         BinarySearchNode parent = deleteNode.getParent();

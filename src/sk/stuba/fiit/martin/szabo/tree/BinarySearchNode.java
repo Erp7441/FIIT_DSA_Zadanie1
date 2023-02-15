@@ -1,6 +1,7 @@
 package sk.stuba.fiit.martin.szabo.tree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BinarySearchNode{
     private Integer value;
@@ -48,13 +49,13 @@ public class BinarySearchNode{
             sb.append(this.leftChild.getValue()).append(", ");
         }
         else{
-            sb.append("(null), ");
+            sb.append("x, ");
         }
         if(this.rightChild != null){
             sb.append(this.rightChild.getValue());
         }
         else{
-            sb.append("(null)");
+            sb.append("x");
         }
         return sb.toString();
     }
@@ -81,6 +82,43 @@ public class BinarySearchNode{
             current = current.getLeftChild();
         }
         return current;
+    }
+
+    public Integer height(){
+        Integer height = 0;
+        ArrayList<BinarySearchNode> currentLevelBinarySearchNodes = new ArrayList<>();
+        currentLevelBinarySearchNodes.add(this);
+        while(!currentLevelBinarySearchNodes.isEmpty()){
+            ArrayList<BinarySearchNode> nextLevelBinarySearchNodes = new ArrayList<>();
+
+            for(BinarySearchNode binarySearchNode : currentLevelBinarySearchNodes){
+                if(binarySearchNode.getLeftChild() != null){ //
+                    nextLevelBinarySearchNodes.add(binarySearchNode.getLeftChild());
+                }
+                if(binarySearchNode.getRightChild() != null){
+                    nextLevelBinarySearchNodes.add(binarySearchNode.getRightChild());
+                }
+            }
+
+            if(!nextLevelBinarySearchNodes.isEmpty()){
+                currentLevelBinarySearchNodes = nextLevelBinarySearchNodes;
+                height++;
+            }
+            else{
+                break;
+            }
+        }
+        return height;
+    }
+
+    public Integer depth(){
+        Integer depth = 0;
+        BinarySearchNode current = this;
+        while(current.getParent() != null){
+            current = current.getParent();
+            depth++;
+        }
+        return depth;
     }
 
     @Override
