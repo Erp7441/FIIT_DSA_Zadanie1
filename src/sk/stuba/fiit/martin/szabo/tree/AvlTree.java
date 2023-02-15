@@ -18,7 +18,17 @@ public class AvlTree extends BinarySearchTree{
         return null;
     }
 
-    public AvlTree(BinarySearchNode root){
-        super(root);
+    public void balance(){
+
     }
+
+    public void insert(AvlNode node){
+        super.insert(node);
+
+        // TODO:: Balance
+
+
+    }
+
+
 }

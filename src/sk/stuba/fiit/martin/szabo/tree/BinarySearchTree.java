@@ -37,10 +37,10 @@ public class BinarySearchTree{
             ArrayList<BinarySearchNode> nextLevelBinarySearchNodes = new ArrayList<>();
             for(BinarySearchNode binarySearchNode : currentLevelBinarySearchNodes){ // For each node on current level
                 sb.append(binarySearchNode).append("\n"); // Append it to the final output
-                if(binarySearchNode.getLeftChild() != null){ // And append it to the list of next level nodes.
+                if(binarySearchNode != null && binarySearchNode.getLeftChild() != null){ // And append it to the list of next level nodes.
                     nextLevelBinarySearchNodes.add(binarySearchNode.getLeftChild());
                 }
-                if(binarySearchNode.getRightChild() != null){
+                if(binarySearchNode != null && binarySearchNode.getRightChild() != null){
                     nextLevelBinarySearchNodes.add(binarySearchNode.getRightChild());
                 }
             }
@@ -134,7 +134,7 @@ public class BinarySearchTree{
 
         // Check if tree is empty
         if(splitNode == null){
-            this.setRoot(new BinarySearchNode(value));
+            this.setRoot(node);
             return;
         }
 
@@ -165,6 +165,8 @@ public class BinarySearchTree{
             splitNode.setRightChild(node);
             splitNode.getRightChild().setParent(splitNode);
         }
+
+        // TODO:: Move node
     }
 
     public void delete(Integer value){

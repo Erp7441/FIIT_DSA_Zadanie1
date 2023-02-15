@@ -2,7 +2,6 @@ package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.tree.AvlNode;
 import sk.stuba.fiit.martin.szabo.tree.AvlTree;
-import sk.stuba.fiit.martin.szabo.tree.BinarySearchTree;
 
 import static java.lang.System.out;
 
@@ -24,16 +23,15 @@ public class Main{
         //bst.delete(3);
         //System.out.println(bst.toString());
          */
-        AvlNode root = new AvlNode(33);
-        AvlNode node1 = new AvlNode(9);
-        AvlNode node2 = new AvlNode(53);
+        AvlNode node1 = new AvlNode(13);
+        AvlNode node2 = new AvlNode(33);
         AvlNode node3 = new AvlNode(8);
         AvlNode node4 = new AvlNode(21);
         AvlNode node5 = new AvlNode(11);
         AvlNode node6 = new AvlNode(53);
         AvlNode node7 = new AvlNode(61);
 
-        AvlTree avl = new AvlTree(root);
+        AvlTree avl = new AvlTree();
         avl.insert(node1);
         avl.insert(node2);
         avl.insert(node3);
@@ -51,8 +49,10 @@ public class Main{
         avl.insert(11);
         */
 
-        node2.calculateBalancingFactor();
-        out.println(node2.getBalancingFactor()); // FIXME:: Null exception
+        //node2.calculateBalancingFactor();
+        //out.println(node2.getBalancingFactor()); // FIXME:: Null exception
+
+        out.println(avl);
 
 
 
