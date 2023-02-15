@@ -111,6 +111,25 @@ public class Tree{
             6. Make @n2 parent of @n1
             7. End
         */
+
+        // TODO:: Improve inline comments
+
+        // Taking left child of n2 and assigning as right child of n1
+        if(n2.getLeft() != null){
+            n2.getLeft().setParent(n1);
+            n1.setRight(n2.getLeft());
+        }
+
+        // Check if we need to modify root of the tests
+        if(n1 == this.getRoot()){
+            this.setRoot(n2);
+        }
+
+
+        // Now that n2 left child is empty we need to move n1 there
+        n2.setParent(n1.getParent()); // We "copy" old top node parent and assigning it to the new top node
+        n1.setParent(n2); // We set old top node parent to the new top node
+        n2.setLeft(n1); // Same thing as above from new top node perspective
     }
     public void rightRotate(Node n1, Node n2){
         /*
@@ -124,6 +143,23 @@ public class Tree{
             6. Make @n1 parent of @n2
             7. End
         */
+
+        // TODO:: Improve inline comments
+
+        if(n1.getRight() != null){
+            n1.getRight().setParent(n2);
+            n2.setLeft(n1.getRight());
+        }
+
+        // Check if we need to modify root of the tests
+        if(n2 == this.getRoot()){
+            this.setRoot(n1);
+        }
+
+        // Now that n1 right child is empty we need to move n2 there
+        n1.setParent(n2.getParent()); // We "copy" old top node parent and assigning it to the new top node
+        n2.setParent(n1); // We set old top node parent to the new top node
+        n1.setRight(n2); // Same thing as above from new top node perspective
     }
     public void leftAndRightRotate(Node n1, Node n2, Node n3){
         leftRotate(n1, n2);
