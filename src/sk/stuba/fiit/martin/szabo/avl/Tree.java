@@ -32,7 +32,17 @@ public class Tree{
             8. Rebalance the whole tree
         */
     }
-    public void search(Node node){}
+    public void search(Node node){
+        /*
+            1. Start
+            2. Set @currentNode to @root
+            3. Loop through nodes of the tree until @currentNode is NULL
+            4. If @currentNode equals @node then break loop
+            5. If @currentNode.value < @root.value move left
+            6. Else move right
+            7. Return @currentNode
+        */
+    }
     public void delete(Node node){
         /*
             1. Start
