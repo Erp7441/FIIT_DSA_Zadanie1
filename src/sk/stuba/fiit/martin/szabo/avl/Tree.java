@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Tree{
 
     //* Attributes
-    private Integer height = 0;
+    private Integer height = 0; //? TODO:: Is this needed when you can do root.getHeight()?
     private Node root = null;
 
     //* Constructors
@@ -44,7 +44,7 @@ public class Tree{
         }
 
         Node currentRoot = this.root;
-        while(currentRoot.getChildCount() == 0 || currentRoot.getChildCount() == 1){
+        while(currentRoot != null){
             if(node.getKey() < currentRoot.getKey()){
 
                 // If we have to move left but there is no left child
@@ -74,13 +74,12 @@ public class Tree{
         }
 
 
-        // TODO:: Rebalance the whole treek,
+        // TODO:: Rebalance the whole three,
 
-        /*this.root.calculateBalance();
-        this.root.calculateHeight(); //? Should I do this?
-        if(this.root.getBalance() < -1 || this.root.getBalance() > 1){
-            this.balance(this.root);
-        }*/
+        this.calculateBalance();
+        this.calculateHeight();
+        node.calculateDepth();
+        this.rebalanceTree();
     }
     public Node search(Node node){
         /*
@@ -145,8 +144,12 @@ public class Tree{
         }
         nodeToBeDeleted.setParent(null);
 
-        this.root.calculateBalance();
         // TODO:: Balance the whole tree
+
+        this.calculateBalance();
+        this.calculateHeight();
+        node.calculateDepth();
+        this.rebalanceTree();
     }
 
     //* AVL methods
@@ -225,6 +228,36 @@ public class Tree{
         leftRotate(n2, n3);
     }
 
+    public void rebalanceTree(){
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+
+        this.balance(this.getRoot());
+
+        if(this.getRoot().getLeft() != null){
+            currentLevelNodes.add(this.getRoot().getLeft());
+        }
+        if(this.getRoot().getRight() != null){
+            currentLevelNodes.add(this.getRoot().getRight());
+        }
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+
+            for(Node node : currentLevelNodes){ // For each node on current level
+                this.balance(node);
+
+                if(node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
+        }
+    }
+
     //? Is special one needed for insertion and deletion ?//
     public void balance(Node node){
         /*
@@ -240,6 +273,8 @@ public class Tree{
                 5.2 Else do right left rotation
             6. End
         */
+
+        // TODO:: Balancing or rotations might be wrong
 
         node.calculateBalance();
         while(node.getBalance() < -1 || node.getBalance() > 1){
@@ -259,6 +294,66 @@ public class Tree{
                     rightAndLeftRotate(node, node.getRight(), node.getParent());
                 }
             }
+        }
+    }
+
+    public void calculateHeight(){
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+
+        this.height = this.root.calculateHeight();
+
+        if(this.getRoot().getLeft() != null){
+            currentLevelNodes.add(this.getRoot().getLeft());
+        }
+        if(this.getRoot().getRight() != null){
+            currentLevelNodes.add(this.getRoot().getRight());
+        }
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+
+            for(Node node : currentLevelNodes){ // For each node on current level
+                node.calculateHeight();
+
+                if(node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
+        }
+    }
+
+    public void calculateBalance(){
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+
+        this.root.calculateBalance();
+
+        if(this.getRoot().getLeft() != null){
+            currentLevelNodes.add(this.getRoot().getLeft());
+        }
+        if(this.getRoot().getRight() != null){
+            currentLevelNodes.add(this.getRoot().getRight());
+        }
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+
+            for(Node node : currentLevelNodes){ // For each node on current level
+                node.calculateBalance();
+
+                if(node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
         }
     }
 

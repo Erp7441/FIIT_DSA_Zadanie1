@@ -58,6 +58,7 @@ public class Node{
             current = current.getParent();
             depth++;
         }
+        this.setDepth(depth);
         return depth;
     }
 
