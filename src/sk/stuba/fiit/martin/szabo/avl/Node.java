@@ -2,6 +2,8 @@ package sk.stuba.fiit.martin.szabo.avl;
 
 import sk.stuba.fiit.martin.szabo.tests.BinarySearchNode;
 
+import java.util.ArrayList;
+
 public class Node{
 
     //* Attributes
@@ -20,13 +22,33 @@ public class Node{
 
     //* Utility methods
     public Integer calculateBalance(){
-        Integer leftHeight = left != null ? left.getHeight() : 0;
-        Integer rightHeight = right != null ? right.getHeight() : 0;
+        Integer leftHeight = left != null ? left.getKey() : 0;
+        Integer rightHeight = right != null ? right.getKey() : 0;
         this.balance = leftHeight - rightHeight;
         return this.balance;
     }
 
     public Integer calculateHeight(){
+        Integer height = -1;
+
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+        currentLevelNodes.add(this); // Gets current level nodes
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+            for(Node node : currentLevelNodes){ // For each node on current level
+                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node != null && node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
+            height++;
+        }
+        this.setHeight(height);
         return height;
     }
     public Integer calculateDepth(){

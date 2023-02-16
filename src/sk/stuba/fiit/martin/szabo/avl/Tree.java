@@ -13,6 +13,8 @@ public class Tree{
     }
     public Tree(Node root){
         this.root = root;
+        this.root.setHeight(0);
+        this.height = 0;
     }
 
 
@@ -21,18 +23,64 @@ public class Tree{
         /*
             1. Start
             2. Loop through tree nodes until you find a leaf
-            3. If @node.value < @currentRoot.value then move left
-            4. Else if @node.value > @currentRoot.value then move right
+            3. If @node.key < @currentRoot.key then move left
+            4. Else if @node.key > @currentRoot.key then move right
             5. Else you found a leaf
 
 
-            4. Compare @node.value to @leaf.value
-            5. If @node.value < @leaf.value make @node left child of @leaf
+            4. Compare @node.key to @leaf.key
+            5. If @node.key < @leaf.key make @node left child of @leaf
             6. Else make @node right child of @leaf
 
             7. Update balance factor of whole tree
             8. Balance the whole tree
         */
+
+        if(root == null){
+            this.root = node;
+            this.root.setHeight(0);
+            this.height = 0;
+            return;
+        }
+
+        Node currentRoot = this.root;
+        while(currentRoot.getChildCount() == 0 || currentRoot.getChildCount() == 1){
+            if(node.getKey() < currentRoot.getKey()){
+
+                // If we have to move left but there is no left child
+                // We found leaf. Yay!
+                if(currentRoot.getLeft() == null){
+                    currentRoot.setLeft(node);
+                    node.setParent(currentRoot);
+                    break;
+                }
+                currentRoot = currentRoot.getLeft();
+            }
+            else if(node.getKey() > currentRoot.getKey()){
+
+                // If we have to move right but there is no right child
+                // We found leaf. Yay!
+                if(currentRoot.getRight() == null){
+                    currentRoot.setRight(node);
+                    node.setParent(currentRoot);
+                    break;
+                }
+                currentRoot = currentRoot.getRight();
+            }
+            else{
+                // Can't have duplicate keys
+                return;
+            }
+        }
+
+
+        // TODO:: Rebalance the whole treek,
+
+        /*this.root.calculateBalance();
+        this.root.calculateHeight(); //? Should I do this?
+        if(this.root.getBalance() < -1 || this.root.getBalance() > 1){
+            this.balance(this.root);
+        }*/
     }
     public Node search(Node node){
         /*
@@ -97,7 +145,8 @@ public class Tree{
         }
         nodeToBeDeleted.setParent(null);
 
-        // TODO:: Implement balancing
+        this.root.calculateBalance();
+        // TODO:: Balance the whole tree
     }
 
     //* AVL methods
@@ -113,6 +162,8 @@ public class Tree{
             6. Make @n2 parent of @n1
             7. End
         */
+
+        if(n1 == null || n2 == null) { return; }
 
         // TODO:: Improve inline comments
 
@@ -146,6 +197,8 @@ public class Tree{
             7. End
         */
 
+        if(n1 == null || n2 == null) { return; }
+
         // TODO:: Improve inline comments
 
         if(n1.getRight() != null){
@@ -178,15 +231,35 @@ public class Tree{
             1. Start
             2. If balance factor is > 1 it means the height of the left subtree is greater than the right subtree
             3. Use right rotation or left right rotation to fix the balance factor
-                3.1 If @node.value < @node.left.value then do right rotation
+                3.1 If @node.key < @node.left.key then do right rotation
                 3.2 Else do left right rotation
 
             4. If balance factor is < -1 it means the height of the right subtree is greater than left subtree
             5. Use left rotation or right left rotation to fix the balance factor
-                5.1 If @node.value > @node.right.value then do left rotation
+                5.1 If @node.key > @node.right.key then do left rotation
                 5.2 Else do right left rotation
             6. End
         */
+
+        node.calculateBalance();
+        while(node.getBalance() < -1 || node.getBalance() > 1){
+            if(node.getBalance() > 1){
+                if(node.getKey() < node.getLeft().getKey()){
+                    rightRotate(node, node.getLeft());
+                }
+                else{
+                    leftAndRightRotate(node, node.getRight(), node.getParent());
+                }
+            }
+            else if(node.getBalance() < -1){
+                if(node.getKey() > node.getRight().getKey()){
+                    leftRotate(node, node.getRight());
+                }
+                else{
+                    rightAndLeftRotate(node, node.getRight(), node.getParent());
+                }
+            }
+        }
     }
 
     @Override
