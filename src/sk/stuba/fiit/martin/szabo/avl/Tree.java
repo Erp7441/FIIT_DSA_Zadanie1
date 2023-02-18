@@ -17,7 +17,7 @@ public class Tree{
 
 
     //* Basic methods for binary tree
-    public void insert(Node node){
+    public boolean insert(Node node){
         /*
             1. Start
             2. Loop through tree nodes until you find a leaf
@@ -34,10 +34,14 @@ public class Tree{
             8. Balance the whole tree
         */
 
+        if(node == this.search(node.getKey())){
+            return false;
+        }
+
         if(root == null){
             this.root = node;
             this.root.setHeight(0);
-            return;
+            return false;
         }
 
         Node currentRoot = this.root;
@@ -66,17 +70,18 @@ public class Tree{
             }
             else{
                 // Can't have duplicate keys
-                return;
+                return false;
             }
         }
 
         this.calculateTreeHeight(node);
         node.calculateDepth();
         this.balance(node);
+        return true;
     }
-    public void insert(Integer value){
+    public boolean insert(Integer value){
         Node node = new Node(value);
-        insert(node);
+        return insert(node);
     }
     public Node search(Node node){
         /*
@@ -91,7 +96,11 @@ public class Tree{
 
         Node currentNode = root;
         while(currentNode != null){
-            if(currentNode.equals(node) || currentNode.getKey().equals(node.getKey())){ break; }
+            try{
+                if(currentNode.equals(node) || currentNode.getKey().equals(node.getKey())){ break; }
+            }
+            catch(Exception ignored){}
+
             if(node.getKey() < currentNode.getKey()){
                 // Move left
                 currentNode = currentNode.getLeft();
@@ -104,10 +113,25 @@ public class Tree{
         return currentNode;
     }
     public Node search(Integer value){
-        Node node = new Node(value);
-        return search(node);
+        Node currentNode = root;
+        while(currentNode != null){
+            try{
+                if(currentNode.getKey().equals(value)){ break; }
+            }
+            catch(Exception ignored){}
+
+            if(value < currentNode.getKey()){
+                // Move left
+                currentNode = currentNode.getLeft();
+            }
+            else{
+                // Move right
+                currentNode = currentNode.getRight();
+            }
+        }
+        return currentNode;
     }
-    public void delete(Node node){
+    public boolean delete(Node node){
         /*
             1. Start
             2. Use search to locate node to be deleted
@@ -120,8 +144,8 @@ public class Tree{
             7. Balance the whole tree
         */
 
-        Node nodeToBeDeleted = this.search(node);
-        if(nodeToBeDeleted == null) { return; }
+        Node nodeToBeDeleted = this.search(node.getKey());
+        if(nodeToBeDeleted == null) { return false; }
 
         Integer childCount = nodeToBeDeleted.getChildCount();
         Node child = null;
@@ -133,7 +157,7 @@ public class Tree{
             child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
         }
 
-        if(child != null && (childCount == 1 || childCount == 2)){
+        if(child != null){
             child.setParent(nodeToBeDeleted.getParent());
         }
 
@@ -148,10 +172,11 @@ public class Tree{
         this.calculateTreeHeight(node);
         this.calculateTreeDepth(node);
         this.balance(node);
+        return true;
     }
-    public void delete(Integer value){
+    public boolean delete(Integer value){
         Node node = new Node(value);
-        delete(node);
+        return delete(node);
     }
 
     //* AVL methods
@@ -169,8 +194,6 @@ public class Tree{
         */
 
         if(node == null) { return; }
-
-        // TODO:: Refactor to use less variables?
 
         if(node.getRight() != null && node == this.root){
             this.root = node.getRight();
@@ -293,29 +316,6 @@ public class Tree{
             }
             current = current.getParent();
         }
-
-        /*Node currentNode = node.getParent();
-        while(currentNode != null){
-            currentNode.calculateBalance();
-            if(currentNode.getBalance() > 1){
-                if(currentNode.getKey() < currentNode.getLeft().getKey()){
-                    rightRotate(currentNode);
-                }
-                else{
-                    leftAndRightRotate(currentNode);
-                }
-            }
-            else if(currentNode.getBalance() < -1){
-                if(currentNode.getKey() > currentNode.getRight().getKey()){
-                    leftRotate(currentNode);
-                }
-                else{
-                    rightAndLeftRotate(currentNode);
-                }
-            }
-            currentNode = currentNode.getParent();
-        }
-        */
     }
 
     public void calculateTreeHeight(Node node){

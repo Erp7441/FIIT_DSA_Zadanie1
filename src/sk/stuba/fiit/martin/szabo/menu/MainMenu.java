@@ -1,12 +1,13 @@
 package sk.stuba.fiit.martin.szabo.menu;
 
+import sk.stuba.fiit.martin.szabo.avl.Node;
 import sk.stuba.fiit.martin.szabo.avl.Tree;
 import sk.stuba.fiit.martin.szabo.utils.Parser;
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class MainMenu{
 
@@ -15,58 +16,80 @@ public class MainMenu{
 
         // TODO:: Fix invalid input on done
         // TODO:: Fix spacing
-        // TODO:: Add done to creating tree
+        // TODO:: Add functionality for moving between avl and redblack tree
 
         Parser parser = new Parser();
         Menu menu = new Menu();
         AtomicReference<Tree> avl = new AtomicReference<>();
 
         //* Enteries
-        Entry getData = new Entry("Get data", () -> {
-            Menu getDataMenu = new Menu();
-            Entry fromUser = new Entry("Get data from user", parser::getInputFromUser);
-            Entry fromFile = new Entry("Get data from file", () -> {
-                Scanner sc = new Scanner(System.in);
-                Menu.print("Enter path to file:\n");
-                String path = sc.next();
-                out.print("\n");
-                parser.getInputFromFile(path);
-                out.print("\n");
+        Entry dataset = new Entry("Dataset", () -> {
+            Menu datasetMenu = new Menu();
+            Entry showData = new Entry("Show data", () -> out.println("\n" + parser + "\n"));
+            Entry getData = new Entry("Get data", () -> {
+                Menu getDataMenu = new Menu();
+
+                Entry fromUser = new Entry("Get data from user", parser::getInputFromUser);
+                Entry fromFile = new Entry("Get data from file", () -> {
+                    Scanner sc = new Scanner(System.in);
+                    Menu.print("Enter path to file: ");
+                    String path = sc.next();
+                    out.print("\n");
+                    parser.getInputFromFile(path);
+                    out.print("\n");
+                });
+
+                // TODO:: Fix this option
+                Entry fromFileWithDelimiter = new Entry("Get data from delimited file", () -> {
+                    Scanner sc = new Scanner(System.in);
+
+                    Menu.print("Enter path to file: ");
+                    String path = sc.next();
+
+                    Menu.print("Enter file delimiter: ");
+                    String delimiter = sc.next();
+
+                    parser.getInputFromFile(path, delimiter);
+                    sc.close();
+                });
+
+                getDataMenu.addEntry(fromUser);
+                getDataMenu.addEntry(fromFile);
+                getDataMenu.addEntry(fromFileWithDelimiter);
+
+                getDataMenu.start();
             });
-            Entry fromFileWithDelimiter = new Entry("Get data from delimited file", () -> {
-                Scanner sc = new Scanner(System.in);
 
-                out.println("Enter path to file: ");
-                String path = sc.next();
+            datasetMenu.addEntry(showData);
+            datasetMenu.addEntry(getData);
 
-                out.println("Enter file delimiter: ");
-                String delimiter = sc.next();
-
-                parser.getInputFromFile(path, delimiter);
-                sc.close();
-            });
-
-            getDataMenu.addEntry(fromUser);
-            getDataMenu.addEntry(fromFile);
-            getDataMenu.addEntry(fromFileWithDelimiter);
-
-            getDataMenu.start();
-        });
-        Entry showData = new Entry("Show data", () -> {
-            out.println("\n" + parser + "\n");
+            datasetMenu.start();
         });
         Entry avlTree = new Entry("Avl tree", () -> {
             Menu avlMenu = new Menu();
 
-            Entry createTree = new Entry("Create tree", () -> {
-                avl.set(parser.createTree());
-            });
+            Entry createTree = new Entry("Create tree", () -> avl.set(parser.createTree()));
             Entry printTree = new Entry("Print tree", () -> {
-                out.println(avl.get());
+                if(avl.get() == null){
+                    Menu.print("You need to create the tree first!\n");
+                    return;
+                }
+                out.println("\n" + avl.get());
             });
             Entry deleteNode = new Entry("Delete node", () -> {
+                if(avl.get() == null){
+                    Menu.print("You need to create the tree first!\n");
+                    return;
+                }
                 try{
-                    avl.get().delete(Menu.scanInteger());
+                    out.print("Enter node value: ");
+                    boolean success = avl.get().delete(Menu.scanInteger());
+                    if(success){
+                        out.println("Node deleted successfully!");
+                    }
+                    else{
+                        out.println("Node couldn't be deleted!");
+                    }
                 }
                 catch(Exception e){
                     System.err.println("Cannot delete node");
@@ -74,8 +97,19 @@ public class MainMenu{
                 }
             });
             Entry insertNode = new Entry("Insert node", () -> {
+                if(avl.get() == null){
+                    Menu.print("You need to create the tree first!\n");
+                    return;
+                }
                 try{
-                    avl.get().insert(Menu.scanInteger());
+                    out.print("Enter node value: ");
+                    boolean success = avl.get().insert(Menu.scanInteger());
+                    if(success){
+                        out.println("Node inserted successfully!");
+                    }
+                    else{
+                        out.println("Couldn't insert node!");
+                    }
                 }
                 catch(Exception e){
                     System.err.println("Cannot insert node");
@@ -83,11 +117,22 @@ public class MainMenu{
                 }
             });
             Entry searchNode = new Entry("Search node", () -> {
+                if(avl.get() == null){
+                    Menu.print("You need to create the tree first!\n");
+                    return;
+                }
                 try{
-                    avl.get().search(Menu.scanInteger());
+                    out.print("Enter node value: ");
+                    Node found = avl.get().search(Menu.scanInteger());
+                    if(found != null){
+                        out.println("Node " + found.getKey() + " found!");
+                    }
+                    else{
+                        out.println("Node not found!");
+                    }
                 }
                 catch(Exception e){
-                    System.err.println("Cannot delete node");
+                    System.err.println("Cannot find node");
                     e.printStackTrace();
                 }
             });
@@ -100,10 +145,14 @@ public class MainMenu{
 
             avlMenu.start();
         });
+        Entry redblackTree = new Entry("Redblack tree", () -> {
+            err.println("--------------------\nNot yet implemented!\n--------------------");
+            out.println("--------------------");
+        });
 
-        menu.addEntry(getData);
-        menu.addEntry(showData);
+        menu.addEntry(dataset);
         menu.addEntry(avlTree);
+        menu.addEntry(redblackTree);
 
         //* Menu
         menu.start();

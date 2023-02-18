@@ -417,6 +417,7 @@ public class Parser{
         for(int i = 1; i < dataset.size(); i++){
             tree.insert(new Node(dataset.get(i)));
         }
+        out.println("Tree successfully created!");
         return tree;
     }
 

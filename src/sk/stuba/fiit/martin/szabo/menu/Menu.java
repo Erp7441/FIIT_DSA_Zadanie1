@@ -18,7 +18,7 @@ public class Menu{
 
     private boolean getInput(){
         Scanner sc = new Scanner(in);
-        out.println("Enter number:");
+        out.print("Enter number: ");
         try{
             this.setSelection(sc.nextInt());
 
