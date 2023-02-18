@@ -4,6 +4,7 @@ import sk.stuba.fiit.martin.szabo.avl.Node;
 import sk.stuba.fiit.martin.szabo.avl.Tree;
 import sk.stuba.fiit.martin.szabo.utils.Parser;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -18,12 +19,13 @@ public class MainMenu{
         // TODO:: Fix spacing
         // TODO:: Add functionality for moving between avl and redblack tree
 
+        //* Variables
         Parser parser = new Parser();
-        Menu menu = new Menu();
         AtomicReference<Tree> avl = new AtomicReference<>();
 
-        //* Enteries
-        Entry dataset = new Entry("Dataset", () -> {
+        //* Entries
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry("Dataset", () -> {
             Menu datasetMenu = new Menu();
             Entry showData = new Entry("Show data", () -> out.println("\n" + parser + "\n"));
             Entry getData = new Entry("Get data", () -> {
@@ -64,8 +66,8 @@ public class MainMenu{
             datasetMenu.addEntry(getData);
 
             datasetMenu.start();
-        });
-        Entry avlTree = new Entry("Avl tree", () -> {
+        }));
+        entries.add(new Entry("Avl tree", () -> {
             Menu avlMenu = new Menu();
 
             Entry createTree = new Entry("Create tree", () -> avl.set(parser.createTree()));
@@ -126,6 +128,7 @@ public class MainMenu{
                     Node found = avl.get().search(Menu.scanInteger());
                     if(found != null){
                         out.println("Node " + found.getKey() + " found!");
+                        out.println(found);
                     }
                     else{
                         out.println("Node not found!");
@@ -144,17 +147,14 @@ public class MainMenu{
             avlMenu.addEntry(searchNode);
 
             avlMenu.start();
-        });
-        Entry redblackTree = new Entry("Redblack tree", () -> {
+        }));
+        entries.add(new Entry("Redblack tree", () -> {
             err.println("--------------------\nNot yet implemented!\n--------------------");
             out.println("--------------------");
-        });
-
-        menu.addEntry(dataset);
-        menu.addEntry(avlTree);
-        menu.addEntry(redblackTree);
+        }));
 
         //* Menu
+        Menu menu = new Menu(entries);
         menu.start();
     }
 

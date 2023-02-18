@@ -18,16 +18,5 @@ public class Main{
         // Test case for right tree 5, 1, 9, 7, 8
 
         MainMenu menu = MainMenu.getInstance();
-
-        /*Parser parser = new Parser();
-
-
-        parser.getInputFromFile("data.txt", " ");
-        out.println("\n" + parser);
-        Tree avl = parser.createTree();
-        out.println("\nTree:\n" + avl);
-        avl.delete(1);
-        out.println("\nTree after deletion:\n" + avl);*/
-
     }
 }
