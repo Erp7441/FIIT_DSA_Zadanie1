@@ -1,32 +1,29 @@
 package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.avl.Tree;
-import sk.stuba.fiit.martin.szabo.avl.Node;
+import sk.stuba.fiit.martin.szabo.utils.Parser;
 
-//import sk.stuba.fiit.martin.szabo.tests.AvlNode;
-//import sk.stuba.fiit.martin.szabo.tests.AvlTree;
+import java.io.IOException;
 
 import static java.lang.System.out;
 
-// TODO refactor placments in classes
+// TODO:: Check avl tree deletion
+
+// TODO:: refactor placments in classes
+// TODO:: create menus and file opening system
 
 public class Main{
     public static void main(String[] args){
 
-        Node root = new Node(3);
-        Node value1 = new Node(1);
-        Node value0 = new Node(0);
-        Node value2 = new Node(2);
-        Node value5 = new Node(5);
+        // Test case for left tree: 3, 5, 0, 2, 1
+        // Test case for right tree 5, 1, 9, 7, 8
 
-        Tree avl = new Tree(root);
-        avl.insert(value5);
-        avl.insert(value0);
-        avl.insert(value2);
-        avl.insert(value1);
-        avl.rightRotate(value2);
-        avl.leftRotate(value0);
+        Parser parser = new Parser();
 
-        out.println(avl);
+
+        parser.getInputFromFile("data.txt", " ");
+        out.println("\n" + parser);
+        Tree avl = parser.createTree();
+        out.println("\nTree:\n" + avl);
     }
 }
