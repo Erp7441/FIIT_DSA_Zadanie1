@@ -1,0 +1,13 @@
+
+s	java:S135"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆÿÿÿÿÿ
+|
+java:S1319"gThe type of "dataset" should be an interface such as "List" rather than the implementation "ArrayList".(ã†–u
+†
+java:S13193"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Âá˜í
+€
+java:S13196"eThe type of "input" should be an interface such as "List" rather than the implementation "ArrayList".(™úú™üÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(ˆŸ
+S	java:S106""9Replace this use of System.out or System.err by a logger.(®ëÎ§úÿÿÿÿ
+Q	java:S125("<This block of commented-out lines of code should be removed.(É›à•
+M
+java:S1135+"2Complete the task associated to this TODO comment.(‚§­€şÿÿÿÿ

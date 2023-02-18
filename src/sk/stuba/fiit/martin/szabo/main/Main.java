@@ -14,18 +14,18 @@ public class Main{
     public static void main(String[] args){
 
         Node root = new Node(3);
-        Node lChild1 = new Node(1);
-        Node lChild2 = new Node(2);
-        Node rChild1 = new Node(4);
-        Node rChild2 = new Node(5);
-        Node rChild3 = new Node(6);
+        Node value1 = new Node(1);
+        Node value0 = new Node(0);
+        Node value2 = new Node(2);
+        Node value5 = new Node(5);
 
         Tree avl = new Tree(root);
-        avl.insert(lChild1);
-        avl.insert(lChild2);
-        avl.insert(rChild1);
-        avl.insert(rChild2);
-        avl.insert(rChild3);
+        avl.insert(value5);
+        avl.insert(value0);
+        avl.insert(value2);
+        avl.insert(value1);
+        avl.rightRotate(value2);
+        avl.leftRotate(value0);
 
         out.println(avl);
     }

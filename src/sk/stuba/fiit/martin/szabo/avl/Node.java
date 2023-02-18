@@ -21,9 +21,10 @@ public class Node{
     }
 
     //* Utility methods
+
     public Integer calculateBalance(){
-        Integer leftHeight = left != null ? left.getKey() : 0;
-        Integer rightHeight = right != null ? right.getKey() : 0;
+        Integer leftHeight = left != null ? left.getHeight() : 0;
+        Integer rightHeight = right != null ? right.getHeight() : 0;
         this.balance = leftHeight - rightHeight;
         return this.balance;
     }
@@ -61,6 +62,8 @@ public class Node{
         this.setDepth(depth);
         return depth;
     }
+
+
 
     public Integer getChildCount(){
         if (this.getLeft() == null && this.getRight() == null){

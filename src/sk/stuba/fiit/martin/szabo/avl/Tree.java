@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Tree{
 
     //* Attributes
-    private Integer height = 0; //? TODO:: Is this needed when you can do root.getHeight()?
     private Node root = null;
 
     //* Constructors
@@ -14,7 +13,6 @@ public class Tree{
     public Tree(Node root){
         this.root = root;
         this.root.setHeight(0);
-        this.height = 0;
     }
 
 
@@ -39,7 +37,6 @@ public class Tree{
         if(root == null){
             this.root = node;
             this.root.setHeight(0);
-            this.height = 0;
             return;
         }
 
@@ -74,12 +71,11 @@ public class Tree{
         }
 
 
-        // TODO:: Rebalance the whole three,
+        // TODO:: Rebalance the three,
 
-        this.calculateBalance();
-        this.calculateHeight();
+        this.calculateTreeHeight(node);
         node.calculateDepth();
-        this.rebalanceTree();
+        //this.balance(node);
     }
     public Node search(Node node){
         /*
@@ -146,48 +142,61 @@ public class Tree{
 
         // TODO:: Balance the whole tree
 
-        this.calculateBalance();
+        /*this.calculateBalance();
         this.calculateHeight();
         node.calculateDepth();
-        this.rebalanceTree();
+        this.rebalanceTree();*/
     }
 
     //* AVL methods
-    public void leftRotate(Node n1, Node n2){
+    public void leftRotate(Node node){
         /*
             1. Start
             2. If @n2 has left child. Assign @n1 as new parent (Utility method)
 
-            3. If @n1 parent is NULL then assign @n2 as root
-            4. Else if @n1 is the left child of a parent. Set new parent left child as @n2
-            5. Else Assign @n2 as right child of parent
+            3. If @n2 parent is NULL then assign @n1 as root
+            4. Else if @n2 is the left child of a parent. Set new parent's left child as @n1
+            5. Else Assign @n1 as right child of parent
 
             6. Make @n2 parent of @n1
             7. End
         */
 
-        if(n1 == null || n2 == null) { return; }
+        if(node == null) { return; }
 
-        // TODO:: Improve inline comments
+        // TODO:: Refactor to use less variables?
 
-        // Taking left child of n2 and assigning as right child of n1
-        if(n2.getLeft() != null){
-            n2.getLeft().setParent(n1);
-            n1.setRight(n2.getLeft());
+        try{
+            System.out.println("DEBUG: Left rotating " + node.getKey());
+
+            Node right = node.getRight();
+            Node temp = right.getLeft();
+
+            right.setLeft(node);
+            node.setRight(temp);
+
+            temp = node.getParent();
+            right.setParent(temp);
+            node.setParent(right);
+            temp.setLeft(right);
+
+            node.calculateHeight();
+            right.calculateHeight();
+
+            node.calculateDepth();
+            right.calculateDepth();
+
+            temp = right.getParent();
+            while(temp != null){
+                temp.calculateHeight();
+                temp = temp.getParent();
+            }
         }
-
-        // Check if we need to modify root of the tests
-        if(n1 == this.getRoot()){
-            this.setRoot(n2);
+        catch (Exception e){
+            e.printStackTrace();
         }
-
-
-        // Now that n2 left child is empty we need to move n1 there
-        n2.setParent(n1.getParent()); // We "copy" old top node parent and assigning it to the new top node
-        n1.setParent(n2); // We set old top node parent to the new top node
-        n2.setLeft(n1); // Same thing as above from new top node perspective
     }
-    public void rightRotate(Node n1, Node n2){
+    public void rightRotate(Node node){
         /*
             1. Start
             2. If @n1 has right child. Assign @n2 as new parent (Utility method)
@@ -200,65 +209,40 @@ public class Tree{
             7. End
         */
 
-        if(n1 == null || n2 == null) { return; }
+        if(node == null) { return; }
 
-        // TODO:: Improve inline comments
+        try{
 
-        if(n1.getRight() != null){
-            n1.getRight().setParent(n2);
-            n2.setLeft(n1.getRight());
+
+            System.out.println("DEBUG: Right rotating " + node.getKey());
+
+            Node left = node.getLeft();
+            Node temp = left.getRight();
+
+            left.setRight(node);
+            node.setLeft(temp);
+
+            temp = node.getParent();
+            left.setParent(temp);
+            node.setParent(left);
+            temp.setRight(left);
+
+            node.calculateHeight();
+            left.calculateHeight();
         }
-
-        // Check if we need to modify root of the tests
-        if(n2 == this.getRoot()){
-            this.setRoot(n1);
-        }
-
-        // Now that n1 right child is empty we need to move n2 there
-        n1.setParent(n2.getParent()); // We "copy" old top node parent and assigning it to the new top node
-        n2.setParent(n1); // We set old top node parent to the new top node
-        n1.setRight(n2); // Same thing as above from new top node perspective
-    }
-    public void leftAndRightRotate(Node n1, Node n2, Node n3){
-        leftRotate(n1, n2);
-        rightRotate(n2, n3);
-    }
-    public void rightAndLeftRotate(Node n1, Node n2, Node n3){
-        rightRotate(n1, n2);
-        leftRotate(n2, n3);
-    }
-
-    public void rebalanceTree(){
-        ArrayList<Node> currentLevelNodes = new ArrayList<>();
-
-        this.balance(this.getRoot());
-
-        if(this.getRoot().getLeft() != null){
-            currentLevelNodes.add(this.getRoot().getLeft());
-        }
-        if(this.getRoot().getRight() != null){
-            currentLevelNodes.add(this.getRoot().getRight());
-        }
-
-        while(!currentLevelNodes.isEmpty()){
-
-            ArrayList<Node> nextLevelNodes = new ArrayList<>();
-
-            for(Node node : currentLevelNodes){ // For each node on current level
-                this.balance(node);
-
-                if(node.getLeft() != null){ // And append it to the list of next level nodes.
-                    nextLevelNodes.add(node.getLeft());
-                }
-                if(node.getRight() != null){
-                    nextLevelNodes.add(node.getRight());
-                }
-            }
-            currentLevelNodes = nextLevelNodes;
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
+    public void leftAndRightRotate(Node node){
+        leftRotate(node);
+        rightRotate(node);
+    }
+    public void rightAndLeftRotate(Node node){
+        rightRotate(node);
+        leftRotate(node);
+    }
 
-    //? Is special one needed for insertion and deletion ?//
     public void balance(Node node){
         /*
             1. Start
@@ -274,38 +258,54 @@ public class Tree{
             6. End
         */
 
+        // TODO:: use parent
         // TODO:: Balancing or rotations might be wrong
 
+        // Somehow get to one before root
+        // start calculating balance
+
+        Node currentNode = node;
+        while(currentNode != null){
+            currentNode.calculateBalance();
+            if(currentNode.getBalance() > 1){
+                if(currentNode.getKey() < currentNode.getLeft().getKey()){
+                    rightRotate(currentNode);
+                }
+                else{
+                    leftAndRightRotate(currentNode);
+                }
+            }
+            else if(currentNode.getBalance() < -1){
+                if(currentNode.getKey() > currentNode.getRight().getKey()){
+                    leftRotate(currentNode);
+                }
+                else{
+                    rightAndLeftRotate(currentNode);
+                }
+            }
+            currentNode = currentNode.getParent();
+        }
+
+    }
+
+    public void calculateTreeHeight(Node node){
+        Node current = node.getParent();
+        while(current != null){
+            current.calculateHeight();
+            current = current.getParent();
+        }
+    }
+
+    public void calculateTreeBalance(Node node){
+        // TODO:: Redo to do only one side
+        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+
         node.calculateBalance();
-        while(node.getBalance() < -1 || node.getBalance() > 1){
-            if(node.getBalance() > 1){
-                if(node.getKey() < node.getLeft().getKey()){
-                    rightRotate(node, node.getLeft());
-                }
-                else{
-                    leftAndRightRotate(node, node.getRight(), node.getParent());
-                }
-            }
-            else if(node.getBalance() < -1){
-                if(node.getKey() > node.getRight().getKey()){
-                    leftRotate(node, node.getRight());
-                }
-                else{
-                    rightAndLeftRotate(node, node.getRight(), node.getParent());
-                }
-            }
-        }
-    }
 
-    public void calculateHeight(){
-        ArrayList<Node> currentLevelNodes = new ArrayList<>();
-
-        this.height = this.root.calculateHeight();
-
-        if(this.getRoot().getLeft() != null){
+        if(node.getLeft() != null){
             currentLevelNodes.add(this.getRoot().getLeft());
         }
-        if(this.getRoot().getRight() != null){
+        if(node.getRight() != null){
             currentLevelNodes.add(this.getRoot().getRight());
         }
 
@@ -313,44 +313,14 @@ public class Tree{
 
             ArrayList<Node> nextLevelNodes = new ArrayList<>();
 
-            for(Node node : currentLevelNodes){ // For each node on current level
-                node.calculateHeight();
+            for(Node current : currentLevelNodes){ // For each node on current level
+                current.calculateBalance();
 
-                if(node.getLeft() != null){ // And append it to the list of next level nodes.
-                    nextLevelNodes.add(node.getLeft());
+                if(current.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(current.getLeft());
                 }
-                if(node.getRight() != null){
-                    nextLevelNodes.add(node.getRight());
-                }
-            }
-            currentLevelNodes = nextLevelNodes;
-        }
-    }
-
-    public void calculateBalance(){
-        ArrayList<Node> currentLevelNodes = new ArrayList<>();
-
-        this.root.calculateBalance();
-
-        if(this.getRoot().getLeft() != null){
-            currentLevelNodes.add(this.getRoot().getLeft());
-        }
-        if(this.getRoot().getRight() != null){
-            currentLevelNodes.add(this.getRoot().getRight());
-        }
-
-        while(!currentLevelNodes.isEmpty()){
-
-            ArrayList<Node> nextLevelNodes = new ArrayList<>();
-
-            for(Node node : currentLevelNodes){ // For each node on current level
-                node.calculateBalance();
-
-                if(node.getLeft() != null){ // And append it to the list of next level nodes.
-                    nextLevelNodes.add(node.getLeft());
-                }
-                if(node.getRight() != null){
-                    nextLevelNodes.add(node.getRight());
+                if(current.getRight() != null){
+                    nextLevelNodes.add(current.getRight());
                 }
             }
             currentLevelNodes = nextLevelNodes;
@@ -384,15 +354,13 @@ public class Tree{
         return sb.toString();
     }
 
-
-
     //* Getters and setters
     public Integer getHeight(){
-        return height;
+        return this.getRoot().getHeight();
     }
 
     public void setHeight(Integer height){
-        this.height = height;
+        this.getRoot().setHeight(height);
     }
 
     public Node getRoot(){

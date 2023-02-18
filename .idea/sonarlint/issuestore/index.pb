@@ -1,5 +1,13 @@
 
 K
 docs/DSA-2023-cvičenie.pdf,8\2\828c361cfa85b6316f76f45a62b1d14ad5125084
-]
--src/sk/stuba/fiit/martin/szabo/main/Main.java,e/1/e12dee458edd67339ebf24f473b64764911e733c
+j
+:src/sk/stuba/fiit/martin/szabo/tests/BinarySearchNode.java,f\b\fb59f10a9ec62966a4b2703262ac2e1375d9dbbb
+j
+:src/sk/stuba/fiit/martin/szabo/tests/BinarySearchTree.java,5\7\578b0feae8dcf99f3ebeb5d6d1947e5de59e1d47
+a
+1src/sk/stuba/fiit/martin/szabo/tests/AvlNode.java,0\f\0f734645ac5d7e586320cae1e0195ff3253e55cc
+a
+1src/sk/stuba/fiit/martin/szabo/tests/AvlTree.java,9\d\9d2962474383a57bef040a216b31ddd53f0a5306
+`
+0src/sk/stuba/fiit/martin/szabo/utils/Parser.java,c\2\c25d5ff8fe9c83300784407b3ac00fc681b3a178
