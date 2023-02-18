@@ -26,23 +26,23 @@ public class MainMenu{
         //* Entries
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry("Dataset", () -> {
-            Menu datasetMenu = new Menu();
-            Entry showData = new Entry("Show data", () -> out.println("\n" + parser + "\n"));
-            Entry getData = new Entry("Get data", () -> {
-                Menu getDataMenu = new Menu();
+            ArrayList<Entry> subEntries = new ArrayList<>();
+            subEntries.add(new Entry("Show data", () -> out.println("\n" + parser + "\n")));
+            subEntries.add(new Entry("Get data", () -> {
 
-                Entry fromUser = new Entry("Get data from user", parser::getInputFromUser);
-                Entry fromFile = new Entry("Get data from file", () -> {
+                ArrayList<Entry> subSubEntries = new ArrayList<>();
+                subSubEntries.add(new Entry("Get data from user", parser::getInputFromUser));
+                subSubEntries.add(new Entry("Get data from file", () -> {
                     Scanner sc = new Scanner(System.in);
                     Menu.print("Enter path to file: ");
                     String path = sc.next();
                     out.print("\n");
                     parser.getInputFromFile(path);
                     out.print("\n");
-                });
+                }));
 
                 // TODO:: Fix this option
-                Entry fromFileWithDelimiter = new Entry("Get data from delimited file", () -> {
+                subSubEntries.add(new Entry("Get data from delimited file", () -> {
                     Scanner sc = new Scanner(System.in);
 
                     Menu.print("Enter path to file: ");
@@ -53,32 +53,27 @@ public class MainMenu{
 
                     parser.getInputFromFile(path, delimiter);
                     sc.close();
-                });
+                }));
 
-                getDataMenu.addEntry(fromUser);
-                getDataMenu.addEntry(fromFile);
-                getDataMenu.addEntry(fromFileWithDelimiter);
-
+                Menu getDataMenu = new Menu(subSubEntries);
                 getDataMenu.start();
-            });
+            }));
 
-            datasetMenu.addEntry(showData);
-            datasetMenu.addEntry(getData);
-
+            Menu datasetMenu = new Menu(subEntries);
             datasetMenu.start();
         }));
         entries.add(new Entry("Avl tree", () -> {
-            Menu avlMenu = new Menu();
 
-            Entry createTree = new Entry("Create tree", () -> avl.set(parser.createTree()));
-            Entry printTree = new Entry("Print tree", () -> {
+            ArrayList<Entry> subEntries = new ArrayList<>();
+            subEntries.add(new Entry("Create tree", () -> avl.set(parser.createTree())));
+            subEntries.add(new Entry("Print tree", () -> {
                 if(avl.get() == null){
                     Menu.print("You need to create the tree first!\n");
                     return;
                 }
                 out.println("\n" + avl.get());
-            });
-            Entry deleteNode = new Entry("Delete node", () -> {
+            }));
+            subEntries.add(new Entry("Delete node", () -> {
                 if(avl.get() == null){
                     Menu.print("You need to create the tree first!\n");
                     return;
@@ -97,8 +92,8 @@ public class MainMenu{
                     System.err.println("Cannot delete node");
                     e.printStackTrace();
                 }
-            });
-            Entry insertNode = new Entry("Insert node", () -> {
+            }));
+            subEntries.add(new Entry("Insert node", () -> {
                 if(avl.get() == null){
                     Menu.print("You need to create the tree first!\n");
                     return;
@@ -117,8 +112,8 @@ public class MainMenu{
                     System.err.println("Cannot insert node");
                     e.printStackTrace();
                 }
-            });
-            Entry searchNode = new Entry("Search node", () -> {
+            }));
+            subEntries.add(new Entry("Search node", () -> {
                 if(avl.get() == null){
                     Menu.print("You need to create the tree first!\n");
                     return;
@@ -138,14 +133,9 @@ public class MainMenu{
                     System.err.println("Cannot find node");
                     e.printStackTrace();
                 }
-            });
+            }));
 
-            avlMenu.addEntry(createTree);
-            avlMenu.addEntry(printTree);
-            avlMenu.addEntry(deleteNode);
-            avlMenu.addEntry(insertNode);
-            avlMenu.addEntry(searchNode);
-
+            Menu avlMenu = new Menu(subEntries);
             avlMenu.start();
         }));
         entries.add(new Entry("Redblack tree", () -> {
