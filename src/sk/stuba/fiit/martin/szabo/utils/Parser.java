@@ -4,7 +4,6 @@ import sk.stuba.fiit.martin.szabo.avl.Node;
 import sk.stuba.fiit.martin.szabo.avl.Tree;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -400,5 +399,20 @@ public class Parser{
             return ("Dataset is: " + dataset);
         }
         return "No dataset were found";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof Parser)) return false;
+
+        Parser parser = (Parser) o;
+
+        return getDataset().equals(parser.getDataset());
+    }
+
+    @Override
+    public int hashCode(){
+        return getDataset().hashCode();
     }
 }

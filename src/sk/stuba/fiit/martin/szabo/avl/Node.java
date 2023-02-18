@@ -1,7 +1,5 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
-import sk.stuba.fiit.martin.szabo.tests.BinarySearchNode;
-
 import java.util.ArrayList;
 
 public class Node{
@@ -62,8 +60,6 @@ public class Node{
         this.setDepth(depth);
         return depth;
     }
-
-
 
     public Integer getChildCount(){
         if (this.getLeft() == null && this.getRight() == null){
@@ -129,7 +125,33 @@ public class Node{
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof Node)) return false;
 
+        Node node = (Node) o;
+
+        if(!getKey().equals(node.getKey())) return false;
+        if(!getLeft().equals(node.getLeft())) return false;
+        if(!getRight().equals(node.getRight())) return false;
+        if(!getParent().equals(node.getParent())) return false;
+        if(!getHeight().equals(node.getHeight())) return false;
+        if(!getDepth().equals(node.getDepth())) return false;
+        return getBalance().equals(node.getBalance());
+    }
+
+    @Override
+    public int hashCode(){
+        int result = getKey().hashCode();
+        result = 31 * result + getLeft().hashCode();
+        result = 31 * result + getRight().hashCode();
+        result = 31 * result + getParent().hashCode();
+        result = 31 * result + getHeight().hashCode();
+        result = 31 * result + getDepth().hashCode();
+        result = 31 * result + getBalance().hashCode();
+        return result;
+    }
 
     //* Getters and setters
     public Node getLeft(){

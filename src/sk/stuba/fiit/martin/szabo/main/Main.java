@@ -3,8 +3,6 @@ package sk.stuba.fiit.martin.szabo.main;
 import sk.stuba.fiit.martin.szabo.avl.Tree;
 import sk.stuba.fiit.martin.szabo.utils.Parser;
 
-import java.io.IOException;
-
 import static java.lang.System.out;
 
 // TODO:: Check avl tree deletion
@@ -25,5 +23,8 @@ public class Main{
         out.println("\n" + parser);
         Tree avl = parser.createTree();
         out.println("\nTree:\n" + avl);
+        avl.delete(1);
+        out.println("\nTree after deletion:\n" + avl);
+
     }
 }

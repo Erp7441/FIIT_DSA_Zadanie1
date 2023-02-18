@@ -141,6 +141,10 @@ public class Tree{
         this.calculateTreeDepth(node);
         this.balance(node);
     }
+    public void delete(Integer value){
+        Node node = new Node(value);
+        delete(node);
+    }
 
     //* AVL methods
     public void leftRotate(Node node){
@@ -321,6 +325,7 @@ public class Tree{
         }
     }
 
+    //* Utility methods
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -348,6 +353,21 @@ public class Tree{
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof Tree)) return false;
+
+        Tree tree = (Tree) o;
+
+        return getRoot().equals(tree.getRoot());
+    }
+
+    @Override
+    public int hashCode(){
+        return getRoot().hashCode();
+    }
+
     //* Getters and setters
     public Integer getHeight(){
         return this.getRoot().getHeight();
@@ -364,4 +384,5 @@ public class Tree{
     public void setRoot(Node root){
         this.root = root;
     }
+
 }
