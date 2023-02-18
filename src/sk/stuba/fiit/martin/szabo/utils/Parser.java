@@ -59,6 +59,7 @@ public class Parser{
             }
             dataFound = this.addInput(input);
         }
+        out.println("Done!");
 
         if(dataset != null && !dataset.isEmpty()){
             out.println("\nDataset is: " + dataset);
@@ -100,6 +101,11 @@ public class Parser{
             }
             dataFound = this.addInput(input);
         }
+        out.println("Done!");
+
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
 
     public void getInputFromFile(Path path){
@@ -136,7 +142,11 @@ public class Parser{
             }
             dataFound = this.addInput(input);
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
 
     public void getInputFromFile(File file, String delimiter){
@@ -165,7 +175,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
     public void getInputFromFile(String path, String delimiter){
         Scanner in;
@@ -204,7 +218,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
     public void getInputFromFile(Path path, String delimiter){
         Scanner in;
@@ -243,7 +261,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
 
     public void getInputFromFile(File file, Character delimiter){
@@ -272,7 +294,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
     public void getInputFromFile(String path, Character delimiter) {
         Scanner in;
@@ -311,7 +337,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
     public void getInputFromFile(Path path, Character delimiter){
         Scanner in;
@@ -350,7 +380,11 @@ public class Parser{
                 dataFound = this.addInput(input);
             }
         }
+        out.println("Done!");
 
+        if(dataset != null && !dataset.isEmpty()){
+            out.println("\nDataset is: " + dataset);
+        }
     }
 
     private boolean addInput(String input){
@@ -398,7 +432,7 @@ public class Parser{
         if(dataset != null && !dataset.isEmpty()){
             return ("Dataset is: " + dataset);
         }
-        return "No dataset were found";
+        return "No dataset was found";
     }
 
     @Override

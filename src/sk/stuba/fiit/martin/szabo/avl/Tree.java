@@ -74,6 +74,10 @@ public class Tree{
         node.calculateDepth();
         this.balance(node);
     }
+    public void insert(Integer value){
+        Node node = new Node(value);
+        insert(node);
+    }
     public Node search(Node node){
         /*
             1. Start
@@ -98,6 +102,10 @@ public class Tree{
             }
         }
         return currentNode;
+    }
+    public Node search(Integer value){
+        Node node = new Node(value);
+        return search(node);
     }
     public void delete(Node node){
         /*

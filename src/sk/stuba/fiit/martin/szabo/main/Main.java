@@ -1,6 +1,7 @@
 package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.avl.Tree;
+import sk.stuba.fiit.martin.szabo.menu.MainMenu;
 import sk.stuba.fiit.martin.szabo.utils.Parser;
 
 import static java.lang.System.out;
@@ -16,7 +17,9 @@ public class Main{
         // Test case for left tree: 3, 5, 0, 2, 1
         // Test case for right tree 5, 1, 9, 7, 8
 
-        Parser parser = new Parser();
+        MainMenu menu = MainMenu.getInstance();
+
+        /*Parser parser = new Parser();
 
 
         parser.getInputFromFile("data.txt", " ");
@@ -24,7 +27,7 @@ public class Main{
         Tree avl = parser.createTree();
         out.println("\nTree:\n" + avl);
         avl.delete(1);
-        out.println("\nTree after deletion:\n" + avl);
+        out.println("\nTree after deletion:\n" + avl);*/
 
     }
 }
