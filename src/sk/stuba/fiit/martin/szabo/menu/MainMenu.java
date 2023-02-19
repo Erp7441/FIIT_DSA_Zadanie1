@@ -15,7 +15,7 @@ public class MainMenu{
     private static MainMenu instance = null;
     private MainMenu(){
 
-        // TODO:: Fix invalid input on done
+        // TODO:: Multi node delete insert and search?
         // TODO:: Fix spacing
         // TODO:: Add functionality for moving between avl and redblack tree
 
@@ -52,7 +52,6 @@ public class MainMenu{
                     String delimiter = sc.next();
 
                     parser.getInputFromFile(path, delimiter);
-                    sc.close();
                 }));
 
                 Menu getDataMenu = new Menu(subSubEntries);
@@ -123,7 +122,7 @@ public class MainMenu{
                     Node found = avl.get().search(Menu.scanInteger());
                     if(found != null){
                         out.println("Node " + found.getKey() + " found!");
-                        out.println(found);
+                        out.println("\n" + found + "\n");
                     }
                     else{
                         out.println("Node not found!");

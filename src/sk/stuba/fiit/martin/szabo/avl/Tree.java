@@ -14,6 +14,10 @@ public class Tree{
         this.root = root;
         this.root.setHeight(0);
     }
+    public Tree(Integer root){
+        this.root = new Node(root);
+        this.root.setHeight(0);
+    }
 
 
     //* Basic methods for binary tree

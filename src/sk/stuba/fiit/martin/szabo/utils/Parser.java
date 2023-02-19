@@ -32,7 +32,7 @@ public class Parser{
         boolean dataFound = true;
         while(dataFound){
             String input = in.next();
-            dataFound = this.addInput(input);
+            dataFound = this.addInput(input, false);
         }
     }
 
@@ -57,7 +57,7 @@ public class Parser{
             catch(NoSuchElementException e){
                 break;
             }
-            dataFound = this.addInput(input);
+            dataFound = this.addInput(input, true);
         }
         out.println("Done!");
 
@@ -99,7 +99,7 @@ public class Parser{
             catch(NoSuchElementException e){
                 break;
             }
-            dataFound = this.addInput(input);
+            dataFound = this.addInput(input, true);
         }
         out.println("Done!");
 
@@ -140,7 +140,7 @@ public class Parser{
             catch(NoSuchElementException e){
                 break;
             }
-            dataFound = this.addInput(input);
+            dataFound = this.addInput(input, true);
         }
         out.println("Done!");
 
@@ -172,7 +172,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter);
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input, true);
             }
         }
         out.println("Done!");
@@ -215,7 +215,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter);
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input, true);
             }
         }
         out.println("Done!");
@@ -258,7 +258,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter);
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input,true);
             }
         }
         out.println("Done!");
@@ -291,7 +291,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter.toString());
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input, true);
             }
         }
         out.println("Done!");
@@ -334,7 +334,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter.toString());
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input, true);
             }
         }
         out.println("Done!");
@@ -377,7 +377,7 @@ public class Parser{
             }
             String[] split = line.split(delimiter.toString());
             for(String input : split){
-                dataFound = this.addInput(input);
+                dataFound = this.addInput(input, true);
             }
         }
         out.println("Done!");
@@ -387,7 +387,7 @@ public class Parser{
         }
     }
 
-    private boolean addInput(String input){
+    private boolean addInput(String input, boolean verbose){
         if(input == null || input.equals("") || input.equals("\n")){
             if(dataset.isEmpty()){
                 out.println("No data were found");
@@ -396,8 +396,15 @@ public class Parser{
         }
 
         try{
+            if(input.equals("done")){
+                return false;
+            }
+
             dataset.add(Integer.parseInt(input));
-            out.println("Found data: " + input);
+
+            if(verbose){
+                out.println("Found data: " + input);
+            }
             return true;
         }
         catch(Exception e){
@@ -412,10 +419,9 @@ public class Parser{
             return null;
         }
 
-        Node root = new Node(dataset.get(0));
-        Tree tree = new Tree(root);
+        Tree tree = new Tree(dataset.get(0));
         for(int i = 1; i < dataset.size(); i++){
-            tree.insert(new Node(dataset.get(i)));
+            tree.insert(dataset.get(i));
         }
         out.println("Tree successfully created!");
         return tree;

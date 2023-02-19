@@ -11,6 +11,8 @@ import static java.lang.System.out;
 // TODO:: refactor placments in classes
 // TODO:: create menus and file opening system
 
+// TODO:: Add interface for Tree and implement it on AVL and RedBlack Tree
+
 public class Main{
     public static void main(String[] args){
 
