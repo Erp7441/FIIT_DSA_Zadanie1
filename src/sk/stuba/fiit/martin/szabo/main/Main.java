@@ -32,15 +32,24 @@ public class Main{
         Tree tree = new Tree();
 
         tree.insert(158);
+        System.out.println("158 inserted\n" + tree);
         tree.insert(131);
+        System.out.println("131 inserted\n" + tree);
         tree.insert(424);
+        System.out.println("424 inserted\n" + tree);
         tree.insert(172);
+        System.out.println("172 inserted\n" + tree);
         tree.insert(117);
-        tree.insert(408);
+        System.out.println("117 inserted\n" + tree); //* Good so far
+        tree.insert(408); //! BAD (?because right child is gone? OR because ?SUS else?)
+        System.out.println("408 inserted\n" + tree);
         tree.insert(444);
+        System.out.println("444 inserted\n" + tree);
         tree.insert(234);
 
-        System.out.println(tree);
+        System.out.println("234 inserted\n" + tree);
+
+        System.out.println("Final:\n" + tree);
 
 
         /*

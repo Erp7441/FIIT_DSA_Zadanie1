@@ -78,6 +78,7 @@ public class Tree{
             }
         }
 
+
         // Recalculating balance and height
         Node current = node;
         while(current != null){
@@ -95,7 +96,6 @@ public class Tree{
             else if(current.getBalance() > 1){
                 if(node.getKey() < current.getKey() && Objects.requireNonNull(position).equals('l')){
                     rightRotate(current);
-                    continue;
                 }
                 else{
                     leftRightRotate(current);
@@ -212,6 +212,9 @@ public class Tree{
 
     // RR rotation
     public void leftRotate(Node node){
+
+        System.out.println("DEBUG: Doing left rotation");
+
         /*
             1. Start
             2. If @n2 has left child. Assign @n1 as new parent (Utility method)
@@ -230,17 +233,23 @@ public class Tree{
             this.root = right;
         }
         else{
-            this.root.setLeft(right);
+            this.root.setLeft(right); //? SUS
         }
         right.setParent(node.getParent());
         node.setParent(right);
 
         node.setRight(null);
         right.setLeft(node);
+
+        node.calculateHeight();
+        right.calculateHeight();
     }
 
     // LL rotation
     public void rightRotate(Node node){
+
+        System.out.println("DEBUG: Doing right rotation");
+
         /*
             1. Start
             2. If @n1 has right child. Assign @n2 as new parent (Utility method)
@@ -259,16 +268,22 @@ public class Tree{
             this.root = left;
         }
         else{
-            this.root.setRight(left);
+            this.root.setRight(left); //? SUS
         }
         left.setParent(node.getParent());
         node.setParent(left);
 
         node.setLeft(null);
         left.setRight(node);
+
+        node.calculateHeight();
+        left.calculateHeight();
     }
 
     public void leftRightRotate(Node node){
+
+        System.out.println("DEBUG: Doing left right rotation");
+
         Node left = node.getLeft();
         Node leftRight = left.getRight();
 
@@ -277,6 +292,9 @@ public class Tree{
     }
 
     public void rightLeftRotate(Node node){
+
+        System.out.println("DEBUG: Doing right left rotation");
+
         Node right = node.getRight();
         Node rightLeft = right.getLeft();
 
