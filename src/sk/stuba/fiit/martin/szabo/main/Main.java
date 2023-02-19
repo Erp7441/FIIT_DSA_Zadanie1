@@ -25,7 +25,7 @@ public class Main{
         // Data4 is large dataset #2
         // Data5 is dataset that creates bug
 
-        ArrayList<Integer> data = Main.dataFromFile("data/data1.txt", ",");
+        ArrayList<Integer> data = Main.dataFromFile("data/data5.txt", ",");
 
         Tree tree = Main.createTree(data);
         System.out.println(tree);

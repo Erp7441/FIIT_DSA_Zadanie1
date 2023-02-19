@@ -10,7 +10,6 @@ public class Node{
     private Node right = null;
     private Node parent = null;
     private Integer height = 0;
-    private Integer depth = 0;
     private Integer balance = 0;
 
     //* Constructors
@@ -21,44 +20,17 @@ public class Node{
     //* Utility methods
 
     public Integer calculateBalance(){
-        Integer leftHeight = left != null ? left.getHeight() : 0;
-        Integer rightHeight = right != null ? right.getHeight() : 0;
+        Integer leftHeight = left != null ? left.calculateHeight() : 0;
+        Integer rightHeight = right != null ? right.calculateHeight() : 0;
         this.balance = leftHeight - rightHeight;
         return this.balance;
     }
 
     public Integer calculateHeight(){
-        Integer height = -1;
-
-        ArrayList<Node> currentLevelNodes = new ArrayList<>();
-        currentLevelNodes.add(this); // Gets current level nodes
-
-        while(!currentLevelNodes.isEmpty()){
-
-            ArrayList<Node> nextLevelNodes = new ArrayList<>();
-            for(Node node : currentLevelNodes){ // For each node on current level
-                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
-                    nextLevelNodes.add(node.getLeft());
-                }
-                if(node != null && node.getRight() != null){
-                    nextLevelNodes.add(node.getRight());
-                }
-            }
-            currentLevelNodes = nextLevelNodes;
-            height++;
-        }
-        this.setHeight(height);
-        return height;
-    }
-    public Integer calculateDepth(){
-        Integer depth = 0;
-        Node current = this;
-        while(current.getParent() != null){
-            current = current.getParent();
-            depth++;
-        }
-        this.setDepth(depth);
-        return depth;
+        Integer leftHeight = left != null ? left.calculateHeight() : 0;
+        Integer rightHeight = right != null ? right.calculateHeight() : 0;
+        this.setHeight((leftHeight < rightHeight ? rightHeight : leftHeight) + 1);
+        return this.getHeight();
     }
 
     public Integer getChildCount(){
@@ -76,15 +48,6 @@ public class Node{
         Node current = root;
         while (current.getLeft() != null){
             current = current.getLeft();
-        }
-        return current;
-    }
-
-    // Gets maximum of tree
-    public static Node maximum(Node root){
-        Node current = root;
-        while (current.getRight() != null){
-            current = current.getRight();
         }
         return current;
     }
@@ -125,34 +88,6 @@ public class Node{
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(!(o instanceof Node)) return false;
-
-        Node node = (Node) o;
-
-        if(!getKey().equals(node.getKey())) return false;
-        if(!getLeft().equals(node.getLeft())) return false;
-        if(!getRight().equals(node.getRight())) return false;
-        if(!getParent().equals(node.getParent())) return false;
-        if(!getHeight().equals(node.getHeight())) return false;
-        if(!getDepth().equals(node.getDepth())) return false;
-        return getBalance().equals(node.getBalance());
-    }
-
-    @Override
-    public int hashCode(){
-        int result = getKey().hashCode();
-        result = 31 * result + getLeft().hashCode();
-        result = 31 * result + getRight().hashCode();
-        result = 31 * result + getParent().hashCode();
-        result = 31 * result + getHeight().hashCode();
-        result = 31 * result + getDepth().hashCode();
-        result = 31 * result + getBalance().hashCode();
-        return result;
-    }
-
     //* Getters and setters
     public Node getLeft(){
         return left;
@@ -184,14 +119,6 @@ public class Node{
 
     public void setHeight(Integer height){
         this.height = height;
-    }
-
-    public Integer getDepth(){
-        return depth;
-    }
-
-    public void setDepth(Integer depth){
-        this.depth = depth;
     }
 
     public Integer getBalance(){

@@ -74,8 +74,6 @@ public class Tree{
             }
         }
 
-        this.calculateTreeHeight(node);
-        node.calculateDepth();
         this.balance(node);
         return true;
     }
@@ -169,8 +167,6 @@ public class Tree{
         }
         nodeToBeDeleted.setParent(null);
 
-        this.calculateTreeHeight(node);
-        this.calculateTreeDepth(node);
         this.balance(node);
         return true;
     }
@@ -215,9 +211,6 @@ public class Tree{
 
             node.calculateHeight();
             right.calculateHeight();
-
-            node.calculateDepth();
-            right.calculateDepth();
 
             temp = right.getParent();
             while(temp != null){
@@ -318,21 +311,6 @@ public class Tree{
         }
     }
 
-    public void calculateTreeHeight(Node node){
-        Node current = node.getParent();
-        while(current != null){
-            current.calculateHeight();
-            current = current.getParent();
-        }
-    }
-    public void calculateTreeDepth(Node node){
-        Node current = node.getParent();
-        while(current != null){
-            current.calculateDepth();
-            current = current.getParent();
-        }
-    }
-
     //* Utility methods
     @Override
     public String toString(){
@@ -359,21 +337,6 @@ public class Tree{
             currentLevelNodes = nextLevelNodes;
         }
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(!(o instanceof Tree)) return false;
-
-        Tree tree = (Tree) o;
-
-        return getRoot().equals(tree.getRoot());
-    }
-
-    @Override
-    public int hashCode(){
-        return getRoot().hashCode();
     }
 
     //* Getters and setters
