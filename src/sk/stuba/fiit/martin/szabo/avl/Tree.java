@@ -1,6 +1,7 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Tree{
 
@@ -45,6 +46,7 @@ public class Tree{
         }
 
         Node currentRoot = this.root;
+        Character position = null; // TODO:: Needed?
         while(currentRoot != null){
             if(node.getKey() < currentRoot.getKey()){
 
@@ -53,6 +55,7 @@ public class Tree{
                 if(currentRoot.getLeft() == null){
                     currentRoot.setLeft(node);
                     node.setParent(currentRoot);
+                    position = 'l';
                     break;
                 }
                 currentRoot = currentRoot.getLeft();
@@ -64,6 +67,7 @@ public class Tree{
                 if(currentRoot.getRight() == null){
                     currentRoot.setRight(node);
                     node.setParent(currentRoot);
+                    position = 'r';
                     break;
                 }
                 currentRoot = currentRoot.getRight();
@@ -74,7 +78,34 @@ public class Tree{
             }
         }
 
-        this.balance(node);
+        // Recalculating balance and height
+        Node current = node;
+        while(current != null){
+            current.calculateHeight();
+            current.calculateBalance();
+
+            if(current.getBalance() < -1){
+                if(node.getKey() > current.getKey() && Objects.requireNonNull(position).equals('r')){
+                    leftRotate(current);
+                }
+                else{
+                    rightLeftRotate(current);
+                }
+            }
+            else if(current.getBalance() > 1){
+                if(node.getKey() < current.getKey() && Objects.requireNonNull(position).equals('l')){
+                    rightRotate(current);
+                    continue;
+                }
+                else{
+                    leftRightRotate(current);
+                }
+            }
+
+            current = current.getParent();
+        }
+
+        //? Up to this point it looks okay
         return true;
     }
     public boolean insert(Integer value){
@@ -116,7 +147,9 @@ public class Tree{
             try{
                 if(currentNode.getKey().equals(value)){ break; }
             }
-            catch(Exception ignored){}
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
             if(value < currentNode.getKey()){
                 // Move left
@@ -176,6 +209,8 @@ public class Tree{
     }
 
     //* AVL methods
+
+    // RR rotation
     public void leftRotate(Node node){
         /*
             1. Start
@@ -189,37 +224,22 @@ public class Tree{
             7. End
         */
 
-        if(node == null) { return; }
+        Node right = node.getRight();
 
-        if(node.getRight() != null && node == this.root){
-            this.root = node.getRight();
+        if(node == root){
+            this.root = right;
         }
-
-        try{
-            Node right = node.getRight();
-            Node temp = right.getLeft();
-
-            right.setLeft(node);
-            node.setRight(temp);
-
-            temp = node.getParent();
-            right.setParent(temp);
-            node.setParent(right);
-            if(temp != null){
-                temp.setLeft(right);
-            }
-
-            node.calculateHeight();
-            right.calculateHeight();
-
-            temp = right.getParent();
-            while(temp != null){
-                temp.calculateHeight();
-                temp = temp.getParent();
-            }
+        else{
+            this.root.setLeft(right);
         }
-        catch (Exception ignored){}
+        right.setParent(node.getParent());
+        node.setParent(right);
+
+        node.setRight(null);
+        right.setLeft(node);
     }
+
+    // LL rotation
     public void rightRotate(Node node){
         /*
             1. Start
@@ -233,37 +253,37 @@ public class Tree{
             7. End
         */
 
-        if(node == null) { return; }
+        Node left = node.getLeft();
 
-        if(node.getLeft() != null && node == this.root){
-            this.root = node.getLeft();
+        if(node == root){
+            this.root = left;
         }
-
-        try{
-            Node left = node.getLeft();
-            Node temp = left.getRight();
-
-            left.setRight(node);
-            node.setLeft(temp);
-
-            temp = node.getParent();
-            left.setParent(temp);
-            node.setParent(left);
-            if(temp != null){
-                temp.setRight(left);
-            }
-
-            node.calculateHeight();
-            left.calculateHeight();
-
-            temp = left.getParent();
-            while(temp != null){
-                temp.calculateHeight();
-                temp = temp.getParent();
-            }
+        else{
+            this.root.setRight(left);
         }
-        catch (Exception ignored){}
+        left.setParent(node.getParent());
+        node.setParent(left);
+
+        node.setLeft(null);
+        left.setRight(node);
     }
+
+    public void leftRightRotate(Node node){
+        Node left = node.getLeft();
+        Node leftRight = left.getRight();
+
+        leftRotate(left);
+        rightRotate(leftRight.getParent());
+    }
+
+    public void rightLeftRotate(Node node){
+        Node right = node.getRight();
+        Node rightLeft = right.getLeft();
+
+        rightRotate(right);
+        leftRotate(rightLeft.getParent());
+    }
+
 
     public void balance(Node node){
         /*

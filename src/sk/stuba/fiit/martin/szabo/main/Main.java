@@ -25,10 +25,55 @@ public class Main{
         // Data4 is large dataset #2
         // Data5 is dataset that creates bug
 
-        ArrayList<Integer> data = Main.dataFromFile("data/data5.txt", ",");
+        //? Loading from file
+        /*ArrayList<Integer> data = Main.dataFromFile("data/data5.txt", ",");
+        Tree tree = Main.createTree(data);*/
 
-        Tree tree = Main.createTree(data);
+        Tree tree = new Tree();
+
+        tree.insert(158);
+        tree.insert(131);
+        tree.insert(424);
+        tree.insert(172);
+        tree.insert(117);
+        tree.insert(408);
+        tree.insert(444);
+        tree.insert(234);
+
         System.out.println(tree);
+
+
+        /*
+        Tree treeRL = new Tree();
+        Tree treeLR = new Tree();
+        Tree treeL = new Tree();
+        Tree treeR = new Tree();
+
+        // Right left rotate
+        treeRL.insert(new Node(1));
+        treeRL.insert(new Node(3));
+        treeRL.insert(new Node(2));
+
+        // Left right rotate
+        treeLR.insert(new Node(3));
+        treeLR.insert(new Node(1));
+        treeLR.insert(new Node(2));
+
+        // Left rotate
+        treeL.insert(new Node(1));
+        treeL.insert(new Node(2));
+        treeL.insert(new Node(3));
+
+        // Right rotate
+        treeR.insert(new Node(3));
+        treeR.insert(new Node(2));
+        treeR.insert(new Node(1));
+
+        System.out.println("Right left rotate test tree:\n" + treeRL);
+        System.out.println("Left right rotate test tree:\n" + treeLR);
+        System.out.println("Left rotate test tree:\n" + treeL);
+        System.out.println("Right rotate test tree:\n" + treeR);
+        */
     }
 
     static ArrayList<Integer> dataFromFile(String path, String delimiter){
