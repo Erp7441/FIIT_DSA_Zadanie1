@@ -23,6 +23,7 @@ public class Main{
         // Data2 is testing case for right tree 5, 1, 9, 7, 8
         // Data3 is large dataset #1
         // Data4 is large dataset #2
+        // Data5 is dataset that creates bug
 
         ArrayList<Integer> data = Main.dataFromFile("data/data1.txt", ",");
 
@@ -61,7 +62,6 @@ public class Main{
         }
         return data;
     }
-
     static Tree createTree(ArrayList<Integer> data){
         Tree tree = new Tree(new Node(data.get(0)));
         for(int i=1; i<data.size(); i++){
