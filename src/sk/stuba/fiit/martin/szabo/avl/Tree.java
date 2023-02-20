@@ -233,6 +233,9 @@ public class Tree{
         if(node == root){
             this.root = right;
         }
+        else{
+            node.getParent().setLeft(right);
+        }
 
         right.setParent(node.getParent());
         node.setParent(right);
@@ -240,7 +243,7 @@ public class Tree{
         node.setRight(rightLeft);
         right.setLeft(node);
 
-        //? PARENT HAS NO KNOWLAGE THAT HIS CHILD WAS CHANGED
+        //? PARENT HAS NO KNOWLAGE THAT HIS CHILD WAS CHANGED // TODO:: Delete
 
         node.calculateHeight();
         right.calculateHeight();
@@ -268,6 +271,9 @@ public class Tree{
 
         if(node == root){
             this.root = left;
+        }
+        else{
+            node.getParent().setRight(left);
         }
 
         left.setParent(node.getParent());
