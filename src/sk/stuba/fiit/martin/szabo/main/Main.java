@@ -26,7 +26,121 @@ public class Main{
         // Data5 is dataset that creates bug
 
         //? Loading from file
-        Tree tree = Main.createTreeFromFile("data/data6.txt", ",");
+        Tree tree = Main.createTreeFromFile("data/data3.txt", ",");
+
+
+        /*Tree tree = new Tree();
+        tree.insert(50);
+        tree.insert(209);
+        tree.insert(210); //! This did not get rotated on insertions of 464
+        tree.insert(464);
+        tree.insert(506); //! Issue, this ended up in left subtree instead of right
+        /*tree.insert(994);
+        /*tree.insert(1100);
+        /*tree.insert(1104);
+        /*tree.insert(1160);
+        /*tree.insert(1282);
+        /*tree.insert(1358);
+        /*tree.insert(1459);
+        /*tree.insert(1726);
+        /*tree.insert(1999);
+        /*tree.insert(2044);
+        /*tree.insert(2287);
+        /*tree.insert(2309);
+        /*tree.insert(2437);
+        /*tree.insert(2735);
+        /*tree.insert(3072);
+        /*tree.insert(3111);
+        /*tree.insert(3308);
+        /*tree.insert(3545);
+        /*tree.insert(3608);
+        /*tree.insert(3740);
+        /*tree.insert(3788);
+        /*tree.insert(3793);
+        /*tree.insert(3985);
+        /*tree.insert(4346);
+        /*tree.insert(4387);
+        /*tree.insert(4476);
+        /*tree.insert(4954);
+        /*tree.insert(5007);
+        /*tree.insert(5119);
+        /*tree.insert(5193);
+        /*tree.insert(5247);
+        /*tree.insert(5351);
+        /*tree.insert(5782);
+        /*tree.insert(6329);
+        /*tree.insert(6410);
+        /*tree.insert(6486);
+        /*tree.insert(6536);
+        /*tree.insert(6578);
+        /*tree.insert(6794);
+        /*tree.insert(6865);
+        /*tree.insert(6979);
+        /*tree.insert(7089);
+        /*tree.insert(7209);
+        /*tree.insert(7378);
+        /*tree.insert(7391);
+        /*tree.insert(7552);
+        /*tree.insert(7883);
+        /*tree.insert(8160);
+        /*tree.insert(8307);
+        /*tree.insert(8755);
+        /*tree.insert(8857);
+        /*tree.insert(8927);
+        /*tree.insert(9073);
+        /*tree.insert(9138);
+        /*tree.insert(9180);*/
+
+
+
+        System.out.println("Tree:\n" + tree);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /*Tree tree = new Tree();
 
@@ -47,7 +161,7 @@ public class Main{
 
 
 
-        System.out.println("Tree:\n" + tree);
+
 
 
 

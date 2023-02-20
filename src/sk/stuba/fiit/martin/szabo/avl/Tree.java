@@ -170,8 +170,11 @@ public class Tree{
             this.root = right;
         }
         // Else we want to tell parent of our node that his right child is changing to node's right child.
-        else{
+        else if(node.getParent().getLeft() == node){
             node.getParent().setLeft(right);
+        }
+        else if(node.getParent().getRight() == node){
+            node.getParent().setRight(right);
         }
 
         // We tell right child that his parent will change to node's parent (same as operation in else statement but from right child's perspective).
@@ -179,10 +182,11 @@ public class Tree{
         // And tell node that his new child will be right child. Since we are swapping them.
         node.setParent(right);
 
+        // And move the right's left child as the right child of rotated node. I had to draw this step in MS Paint :)
+        node.setRight(rightLeft); //! Here it gets stuck in debugger
         // Now we rotate the node to the left
         right.setLeft(node);
-        // And move the right's left child as the right child of rotated node. I had to draw this step in MS Paint :)
-        node.setRight(rightLeft);
+
 
         // And we recalculate the height's and balance's
         node.calculateHeight();
@@ -202,8 +206,11 @@ public class Tree{
             this.root = left;
         }
         // Else we want to tell parent of our node that his right child is changing to node's right child.
-        else{
+        else if(node.getParent().getRight() == node){
             node.getParent().setRight(left);
+        }
+        else if(node.getParent().getLeft() == node){
+            node.getParent().setLeft(left);
         }
 
         // We tell left child that his parent will change to node's parent (same as operation in else statement but from left child's perspective).
@@ -211,10 +218,10 @@ public class Tree{
         // And tell node that his new child will be left child. Since we are swapping them.
         node.setParent(left);
 
-        // Now we rotate the node to the right
-        left.setRight(node);
         // And move the left's right child as the left child of rotated node. I had to draw this step in MS Paint :)
         node.setLeft(leftRight);
+        // Now we rotate the node to the right
+        left.setRight(node);
 
         // And we recalculate the height's and balance's
         node.calculateHeight();

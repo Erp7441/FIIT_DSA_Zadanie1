@@ -6,6 +6,6 @@ H
 E
 docs/DSA_zadanie1.pdf,9\2\9290506f90820ee350979a2564ceddea54883757
 >
-data/data2.txt,5\7\57fbb4d8ec0af1d163877f7be9765709852d2646
->
 data/data5.txt,e\a\ea790f2785d3bd550c0e57d7eb6e4ed35c42375c
+>
+data/data6.txt,2\1\21406f15ec389c6fbbdd3abce995284f0110474a

@@ -102,7 +102,12 @@ public class Node{
     }
 
     public void setRight(Node right){
-        this.right = right;
+        if(right != null){
+            this.right = right;
+        }
+        else{
+            this.right = null;
+        }
     }
 
     public Node getParent(){
