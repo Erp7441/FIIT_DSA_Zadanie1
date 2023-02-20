@@ -80,6 +80,7 @@ public class Tree{
         return insert(node);
     }
 
+    // TODO:: fix bug with linear tree
     public Node search(Node node){
         // We transverse the tree
         Node currentNode = root;

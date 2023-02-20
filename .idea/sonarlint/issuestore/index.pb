@@ -8,6 +8,4 @@ E
 >
 data/data2.txt,5\7\57fbb4d8ec0af1d163877f7be9765709852d2646
 >
-data/data3.txt,6\c\6c7374ed61c96a548ec256c9b32aa8780b80aa9c
->
 data/data5.txt,e\a\ea790f2785d3bd550c0e57d7eb6e4ed35c42375c

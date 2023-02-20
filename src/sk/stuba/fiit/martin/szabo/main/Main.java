@@ -26,10 +26,9 @@ public class Main{
         // Data5 is dataset that creates bug
 
         //? Loading from file
-        /*ArrayList<Integer> data = Main.dataFromFile("data/data5.txt", ",");
-        Tree tree = Main.createTree(data);*/
+        Tree tree = Main.createTreeFromFile("data/data6.txt", ",");
 
-        Tree tree = new Tree();
+        /*Tree tree = new Tree();
 
         tree.insert(214);
         tree.insert(475);
@@ -44,11 +43,40 @@ public class Main{
         tree.insert(166);
         tree.insert(465);
         tree.insert(113);
-        tree.insert(291);
+        tree.insert(291);*/
 
 
 
         System.out.println("Tree:\n" + tree);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87,7 +115,8 @@ public class Main{
 
     }
 
-    static ArrayList<Integer> dataFromFile(String path, String delimiter){
+    static Tree createTreeFromFile(String path, String delimiter){
+        Tree tree = new Tree();
         File file = new File(path);
 
         Scanner sc = null;
@@ -98,14 +127,13 @@ public class Main{
             throw new RuntimeException(e);
         }
 
-        ArrayList<Integer> data = new ArrayList<>();
         while(sc.hasNext()){
             String line = sc.next();
             if(delimiter != null){
                 String[] split = line.split(delimiter);
                 for(String input : split){
                     try{
-                        data.add(Integer.parseInt(input));
+                        tree.insert(Integer.parseInt(input));
                     }
                     catch(Exception e){
                         e.printStackTrace();
@@ -113,16 +141,10 @@ public class Main{
                 }
             }
             else{
-                data.add(Integer.parseInt(line));
+                tree.insert(Integer.parseInt(line));
             }
         }
-        return data;
-    }
-    static Tree createTree(ArrayList<Integer> data){
-        Tree tree = new Tree(new Node(data.get(0)));
-        for(int i=1; i<data.size(); i++){
-            tree.insert(data.get(i));
-        }
+
         return tree;
     }
 }
