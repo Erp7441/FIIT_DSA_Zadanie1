@@ -19,26 +19,13 @@ public class Tree{
 
     //* Basic methods for binary tree
     public boolean insert(Node node){
-        /*
-            1. Start
-            2. Loop through tree nodes until you find a leaf
-            3. If @node.key < @currentRoot.key then move left
-            4. Else if @node.key > @currentRoot.key then move right
-            5. Else you found a leaf
 
-
-            4. Compare @node.key to @leaf.key
-            5. If @node.key < @leaf.key make @node left child of @leaf
-            6. Else make @node right child of @leaf
-
-            7. Update balance factor of whole tree
-            8. Balance the whole tree
-        */
-
+        // If node we are inserting is already present in the tree then we should return as no duplicates are allowed.
         if(node == this.search(node.getKey())){
             return false;
         }
 
+        // If node we are inserting is root then we should just insert it as head of the tree and return.
         if(root == null){
             this.root = node;
             this.root.setHeight(0);
@@ -46,123 +33,82 @@ public class Tree{
         }
 
         Node currentRoot = this.root;
-        Character position = null; // TODO:: Needed?
-        while(currentRoot != null){
-            if(node.getKey() < currentRoot.getKey()){
+        char position = '\0';
 
-                // If we have to move left but there is no left child
+        // Loop through tree nodes until you find a leaf.
+        while(currentRoot != null){
+            // If value of node to be inserted is lesser than current one. We move left.
+            if(node.getKey() < currentRoot.getKey()){
+                // If we have to move left but there is no left child.
                 // We found leaf. Yay!
                 if(currentRoot.getLeft() == null){
-                    currentRoot.setLeft(node);
-                    node.setParent(currentRoot);
-                    position = 'l';
-                    break;
+                    currentRoot.setLeft(node); // We insert the node on the left of current.
+                    node.setParent(currentRoot); // Set it's parent as current.
+                    position = 'l'; // And save the subtree position where we putted the new node.
+                    break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getLeft();
             }
+            // If value of node to be inserted is greater than current one. We move right.
             else if(node.getKey() > currentRoot.getKey()){
 
-                // If we have to move right but there is no right child
+                // If we have to move right but there is no right child.
                 // We found leaf. Yay!
                 if(currentRoot.getRight() == null){
-                    currentRoot.setRight(node);
-                    node.setParent(currentRoot);
-                    position = 'r';
-                    break;
+                    currentRoot.setRight(node); // We insert the node on the right of current.
+                    node.setParent(currentRoot); // Set it's parent as current.
+                    position = 'r'; // And save the subtree position where we putted the new node.
+                    break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getRight();
             }
+            // We should not get here but just in case we somehow do. We just jump out immediately.
             else{
-                // Can't have duplicate keys
+                // Can't have duplicate keys.
                 return false;
             }
         }
 
-
-        // Recalculating balance and height
-        Node current = node;
-        while(current != null){
-            current.calculateHeight();
-            current.calculateBalance();
-
-            if(current.getBalance() < -1){
-                if(node.getKey() > current.getKey() && Objects.requireNonNull(position).equals('r')){
-                    leftRotate(current);
-                }
-                else{
-                    rightLeftRotate(current);
-                }
-            }
-            else if(current.getBalance() > 1){
-                if(node.getKey() < current.getKey() && Objects.requireNonNull(position).equals('l')){
-                    rightRotate(current);
-                }
-                else{
-                    leftRightRotate(current);
-                }
-            }
-
-            current = current.getParent();
-        }
-
-        //? Up to this point it looks okay
+        // Then we rebalance the tree.
+        this.balance(node, position);
         return true;
     }
+
     public boolean insert(Integer value){
+        // This overloaded method makes life a bit easier :)
         Node node = new Node(value);
         return insert(node);
     }
-    public Node search(Node node){
-        /*
-            1. Start
-            2. Set @currentNode to @root
-            3. Loop through nodes of the tree until @currentNode is NULL
-            4. If @currentNode equals @node then break loop
-            5. If @node.key < @currentNode.key move left
-            6. Else move right
-            7. Return @currentNode
-        */
 
+    public Node search(Node node){
+        // We transverse the tree
         Node currentNode = root;
         while(currentNode != null){
-            try{
-                if(currentNode.equals(node) || currentNode.getKey().equals(node.getKey())){ break; }
-            }
-            catch(Exception ignored){}
-
+            // If key of node we are looking for is less than key of current node then we move left.
             if(node.getKey() < currentNode.getKey()){
                 // Move left
                 currentNode = currentNode.getLeft();
             }
-            else{
+            // If key of node we are looking for is greater than key of current node then we move right.
+            else if(node.getKey() > currentNode.getKey()){
                 // Move right
                 currentNode = currentNode.getRight();
             }
+            // Else we found our node.
+            else{
+                return currentNode;
+            }
         }
-        return currentNode;
+        return null;
     }
     public Node search(Integer value){
-        Node currentNode = root;
-        while(currentNode != null){
-            try{
-                if(currentNode.getKey().equals(value)){ break; }
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-            if(value < currentNode.getKey()){
-                // Move left
-                currentNode = currentNode.getLeft();
-            }
-            else{
-                // Move right
-                currentNode = currentNode.getRight();
-            }
-        }
-        return currentNode;
+        // This overloaded method makes life a bit easier :)
+        Node node = new Node(value);
+        return search(node);
     }
     public boolean delete(Node node){
+
+        // TODO:: finish this method
         /*
             1. Start
             2. Use search to locate node to be deleted
@@ -200,159 +146,143 @@ public class Tree{
         }
         nodeToBeDeleted.setParent(null);
 
-        this.balance(node);
+        // TODO:: How to do this? Should I save posiiton of the deleted node?
+        //this.balance(node);
         return true;
     }
     public boolean delete(Integer value){
+        // This overloaded method makes life a bit easier :)
         Node node = new Node(value);
         return delete(node);
     }
 
     //* AVL methods
 
-    // RR rotation
     public void leftRotate(Node node){
+        // RR rotation
 
-        System.out.println("DEBUG: Doing left rotation");
+        Node right = node.getRight(); // Get right child of node we want to rotate
+        Node rightLeft = right.getLeft(); // Get left child of the right child
 
-        /*
-            1. Start
-            2. If @n2 has left child. Assign @n1 as new parent (Utility method)
-
-            3. If @n2 parent is NULL then assign @n1 as root
-            4. Else if @n2 is the left child of a parent. Set new parent's left child as @n1
-            5. Else Assign @n1 as right child of parent
-
-            6. Make @n2 parent of @n1
-            7. End
-        */
-
-        Node right = node.getRight();
-        Node rightLeft = right.getLeft();
-
+        // If current node is root. We just set the right child as root
         if(node == root){
             this.root = right;
         }
+        // Else we want to tell parent of our node that his right child is changing to node's right child.
         else{
             node.getParent().setLeft(right);
         }
 
+        // We tell right child that his parent will change to node's parent (same as operation in else statement but from right child's perspective).
         right.setParent(node.getParent());
+        // And tell node that his new child will be right child. Since we are swapping them.
         node.setParent(right);
 
-        node.setRight(rightLeft);
+        // Now we rotate the node to the left
         right.setLeft(node);
+        // And move the right's left child as the right child of rotated node. I had to draw this step in MS Paint :)
+        node.setRight(rightLeft);
 
-        //? PARENT HAS NO KNOWLAGE THAT HIS CHILD WAS CHANGED // TODO:: Delete
-
+        // And we recalculate the height's and balance's
         node.calculateHeight();
         right.calculateHeight();
+        node.calculateBalance();
+        right.calculateBalance();
     }
 
-    // LL rotation
     public void rightRotate(Node node){
+        // LL rotation
 
-        System.out.println("DEBUG: Doing right rotation");
+        Node left = node.getLeft(); // Get left child of node we want to rotate
+        Node leftRight = left.getRight(); // Get right child of the left child
 
-        /*
-            1. Start
-            2. If @n1 has right child. Assign @n2 as new parent (Utility method)
-
-            3. If @n2 parent is NULL then assign @n1 as root
-            4. Else if @n2 is the right child of a parent. Set new parent right child as @n1
-            5. Else Assign @n1 as left child of parent
-
-            6. Make @n1 parent of @n2
-            7. End
-        */
-
-        Node left = node.getLeft();
-        Node leftRight = left.getRight();
-
+        // If current node is root. We just set the right child as root
         if(node == root){
             this.root = left;
         }
+        // Else we want to tell parent of our node that his right child is changing to node's right child.
         else{
             node.getParent().setRight(left);
         }
 
+        // We tell left child that his parent will change to node's parent (same as operation in else statement but from left child's perspective).
         left.setParent(node.getParent());
+        // And tell node that his new child will be left child. Since we are swapping them.
         node.setParent(left);
 
-        node.setLeft(leftRight);
+        // Now we rotate the node to the right
         left.setRight(node);
+        // And move the left's right child as the left child of rotated node. I had to draw this step in MS Paint :)
+        node.setLeft(leftRight);
 
+        // And we recalculate the height's and balance's
         node.calculateHeight();
         left.calculateHeight();
+        node.calculateBalance();
+        left.calculateBalance();
     }
 
     public void leftRightRotate(Node node){
+        // LR rotation
 
-        System.out.println("DEBUG: Doing left right rotation");
+        // First we get left child of node
+        Node left = node.getLeft();
+        // Then that left child's right child
+        Node leftRight = left.getRight();
 
-        //? Here when I have 424 from dataset
-
-        Node left = node.getLeft(); //? This becomes 172
-        Node leftRight = left.getRight(); //? This becomes 408
-
-        leftRotate(left); //? This will somehow cut off the 408
-        rightRotate(leftRight.getParent()); //? ...
+        // First we rotate the left child to the left. This will "straighten" the left subtree.
+        leftRotate(left);
+        // Since during the left rotation the left-right child's parent changed. We want to get the new parent and rebalance the tree with right rotation.
+        rightRotate(leftRight.getParent());
     }
 
     public void rightLeftRotate(Node node){
+        // RL rotation
 
-        System.out.println("DEBUG: Doing right left rotation");
-
+        // First we get right child of node
         Node right = node.getRight();
+        // Then that right child's left child
         Node rightLeft = right.getLeft();
 
+        // First we rotate the right child to the right. This will "straighten" the right subtree.
         rightRotate(right);
+        // Since during the right rotation the right-left child's parent changed. We want to get the new parent and rebalance the tree with left rotation.
         leftRotate(rightLeft.getParent());
     }
 
+    public void balance(Node node, char position){
+        // Recalculating balance and height.
+        Node current = node;
 
-    public void balance(Node node){
-        /*
-            1. Start
-            2. If balance factor is > 1 it means the height of the left subtree is greater than the right subtree
-            3. Use right rotation or left right rotation to fix the balance factor
-                3.1 If @node.key < @node.left.key then do right rotation
-                3.2 Else do left right rotation
-
-            4. If balance factor is < -1 it means the height of the right subtree is greater than left subtree
-            5. Use left rotation or right left rotation to fix the balance factor
-                5.1 If @node.key > @node.right.key then do left rotation
-                5.2 Else do right left rotation
-            6. End
-        */
-
-        Node current = node.getParent();
-        while (current != null) {
+        // We transverse up the tree.
+        while(current != null){
+            // Recalculating balance and height of each node we go through.
+            current.calculateHeight();
             current.calculateBalance();
 
-            if(current.getBalance() > 1){
-                if(node.getKey() < current.getLeft().getKey()){
-                    // Do right rotation
-                    rightRotate(node.getParent());
+            // If current node balance is less than -1 then we have use either left or right-left rotation to rebalance the tree.
+            if(current.getBalance() < -1){
+                // If inserted key is bigger than current key, and we inserted the new node to the right subtree. We need to just rotate left.
+                if(node.getKey() > current.getKey() && position == 'r'){
+                    leftRotate(current);
                 }
+                // Else we want to first do right rotation on the current node and then left rotation on the parent node of left subtree after rotation.
                 else{
-                    // Do right left rotation
-                    rightRotate(node.getParent());
-                    leftRotate(node.getParent());
-
+                    rightLeftRotate(current);
                 }
             }
-            else if(current.getBalance() < -1){
-                if(node.getKey() > current.getRight().getKey()){
-                    // Do left rotation
-                    leftRotate(node.getParent());
+            // If current node balance is greater than 1 then we have use either right or left-right rotation to rebalance the tree.
+            else if(current.getBalance() > 1){
+                // If inserted key is smaller than current key, and we inserted the new node to the left subtree. We need to just rotate right.
+                if(node.getKey() < current.getKey() && position == 'l'){
+                    rightRotate(current);
                 }
+                // Else we want to first do left rotation on the current node and then right rotation on the parent node of right subtree after rotation.
                 else{
-                    // Do left right rotation
-                    leftRotate(node.getParent());
-                    rightRotate(node.getParent());
+                    leftRightRotate(current);
                 }
             }
+            // Advance upwards to another node.
             current = current.getParent();
         }
     }
