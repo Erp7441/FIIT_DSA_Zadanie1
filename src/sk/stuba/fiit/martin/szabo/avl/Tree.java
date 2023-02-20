@@ -228,18 +228,19 @@ public class Tree{
         */
 
         Node right = node.getRight();
+        Node rightLeft = right.getLeft();
 
         if(node == root){
             this.root = right;
         }
-        else{
-            this.root.setLeft(right); //? SUS
-        }
+
         right.setParent(node.getParent());
         node.setParent(right);
 
-        node.setRight(null);
+        node.setRight(rightLeft);
         right.setLeft(node);
+
+        //? PARENT HAS NO KNOWLAGE THAT HIS CHILD WAS CHANGED
 
         node.calculateHeight();
         right.calculateHeight();
@@ -263,17 +264,16 @@ public class Tree{
         */
 
         Node left = node.getLeft();
+        Node leftRight = left.getRight();
 
         if(node == root){
             this.root = left;
         }
-        else{
-            this.root.setRight(left); //? SUS
-        }
+
         left.setParent(node.getParent());
         node.setParent(left);
 
-        node.setLeft(null);
+        node.setLeft(leftRight);
         left.setRight(node);
 
         node.calculateHeight();
@@ -284,11 +284,13 @@ public class Tree{
 
         System.out.println("DEBUG: Doing left right rotation");
 
-        Node left = node.getLeft();
-        Node leftRight = left.getRight();
+        //? Here when I have 424 from dataset
 
-        leftRotate(left);
-        rightRotate(leftRight.getParent());
+        Node left = node.getLeft(); //? This becomes 172
+        Node leftRight = left.getRight(); //? This becomes 408
+
+        leftRotate(left); //? This will somehow cut off the 408
+        rightRotate(leftRight.getParent()); //? ...
     }
 
     public void rightLeftRotate(Node node){

@@ -27,9 +27,9 @@ public class Node{
     }
 
     public Integer calculateHeight(){
-        Integer leftHeight = left != null ? left.calculateHeight() : 0;
-        Integer rightHeight = right != null ? right.calculateHeight() : 0;
-        this.setHeight((leftHeight < rightHeight ? rightHeight : leftHeight) + 1);
+        int leftHeight = left != null ? left.calculateHeight() : 0;
+        int rightHeight = right != null ? right.calculateHeight() : 0;
+        this.setHeight((Math.max(leftHeight, rightHeight)) + 1);
         return this.getHeight();
     }
 

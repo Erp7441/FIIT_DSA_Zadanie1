@@ -52,8 +52,8 @@ public class Main{
         System.out.println("Final:\n" + tree);
 
 
-        /*
-        Tree treeRL = new Tree();
+
+        /*Tree treeRL = new Tree();
         Tree treeLR = new Tree();
         Tree treeL = new Tree();
         Tree treeR = new Tree();
@@ -62,6 +62,9 @@ public class Main{
         treeRL.insert(new Node(1));
         treeRL.insert(new Node(3));
         treeRL.insert(new Node(2));
+
+        /*treeRL.insert(new Node(4));
+        treeRL.insert(new Node(5));
 
         // Left right rotate
         treeLR.insert(new Node(3));
@@ -81,8 +84,8 @@ public class Main{
         System.out.println("Right left rotate test tree:\n" + treeRL);
         System.out.println("Left right rotate test tree:\n" + treeLR);
         System.out.println("Left rotate test tree:\n" + treeL);
-        System.out.println("Right rotate test tree:\n" + treeR);
-        */
+        System.out.println("Right rotate test tree:\n" + treeR);*/
+
     }
 
     static ArrayList<Integer> dataFromFile(String path, String delimiter){
