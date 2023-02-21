@@ -26,7 +26,7 @@ public class Main{
         // Data5 is dataset that creates bug
 
         //? Loading from file
-        Tree tree = Main.createTreeFromFile("data/data3.txt", ",");
+        Tree tree = Main.createTreeFromFile("data/data4.txt", ",");
 
 
         /*Tree tree = new Tree();
