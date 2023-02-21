@@ -33,7 +33,6 @@ public class Tree{
         }
 
         Node currentRoot = this.root;
-        char position = '\0';
 
         // Loop through tree nodes until you find a leaf.
         while(currentRoot != null){
@@ -44,7 +43,6 @@ public class Tree{
                 if(currentRoot.getLeft() == null){
                     currentRoot.setLeft(node); // We insert the node on the left of current.
                     node.setParent(currentRoot); // Set it's parent as current.
-                    position = 'l'; // And save the subtree position where we putted the new node.
                     break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getLeft();
@@ -57,7 +55,6 @@ public class Tree{
                 if(currentRoot.getRight() == null){
                     currentRoot.setRight(node); // We insert the node on the right of current.
                     node.setParent(currentRoot); // Set it's parent as current.
-                    position = 'r'; // And save the subtree position where we putted the new node.
                     break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getRight();
@@ -70,7 +67,7 @@ public class Tree{
         }
 
         // Then we rebalance the tree.
-        this.balance(node, position);
+        this.balance(node);
         return true;
     }
 
@@ -183,7 +180,7 @@ public class Tree{
         node.setParent(right);
 
         // And move the right's left child as the right child of rotated node. I had to draw this step in MS Paint :)
-        node.setRight(rightLeft); //! Here it gets stuck in debugger
+        node.setRight(rightLeft);
         // Now we rotate the node to the left
         right.setLeft(node);
 
@@ -258,7 +255,7 @@ public class Tree{
         leftRotate(rightLeft.getParent());
     }
 
-    public void balance(Node node, char position){
+    public void balance(Node node){
         // Recalculating balance and height.
         Node current = node;
 
@@ -271,7 +268,7 @@ public class Tree{
             // If current node balance is less than -1 then we have use either left or right-left rotation to rebalance the tree.
             if(current.getBalance() < -1){
                 // If inserted key is bigger than current key, and we inserted the new node to the right subtree. We need to just rotate left.
-                if(node.getKey() > current.getKey() && position == 'r'){
+                if(node.getKey() > current.getRight().getKey()){
                     leftRotate(current);
                 }
                 // Else we want to first do right rotation on the current node and then left rotation on the parent node of left subtree after rotation.
@@ -282,7 +279,7 @@ public class Tree{
             // If current node balance is greater than 1 then we have use either right or left-right rotation to rebalance the tree.
             else if(current.getBalance() > 1){
                 // If inserted key is smaller than current key, and we inserted the new node to the left subtree. We need to just rotate right.
-                if(node.getKey() < current.getKey() && position == 'l'){
+                if(node.getKey() < current.getLeft().getKey()){
                     rightRotate(current);
                 }
                 // Else we want to first do left rotation on the current node and then right rotation on the parent node of right subtree after rotation.

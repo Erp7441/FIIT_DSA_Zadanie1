@@ -13,6 +13,8 @@ import sk.stuba.fiit.martin.szabo.avl.Tree;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,7 +28,107 @@ public class Main{
         // Data5 is dataset that creates bug
 
         //? Loading from file
-        Tree tree = Main.createTreeFromFile("data/data7.txt", ",");
+
+        String path = "data/data3.txt";
+        //Main.generateRandomDataset(path, 0, 1000000, 30000);
+        Tree tree = Main.createTreeFromFile(path, ",");
+
+
+        System.out.println("Tree:\n" + tree);
+
+
+        //? Gets stuck on vlaue 913466
+        //? Right child of that value is 935946
+        //? Parent is 913466
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /*Tree tree = new Tree();
@@ -91,9 +193,6 @@ public class Main{
         /*tree.insert(9138);
         /*tree.insert(9180);*/
 
-
-
-        System.out.println("Tree:\n" + tree);
 
 
 
@@ -260,5 +359,34 @@ public class Main{
         }
 
         return tree;
+    }
+
+    static void generateRandomDataset(String path, Integer min, Integer max, Integer count){
+        File file = new File(path);
+
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        }
+        catch(IOException e){
+            throw new RuntimeException("Error creating file " + path);
+        }
+
+        try{
+            FileWriter write = new FileWriter(path);
+            for(int i=0; i<count; i++){
+                int number = (int) Math.floor((Math.random() * (max - min + 1)) + min);
+                write.append(String.valueOf(number));
+                if(i != count-1){
+                    write.append("\n");
+                }
+            }
+            write.close();
+        }
+        catch(IOException e){
+            throw new RuntimeException("Error generating dataset");
+        }
+
     }
 }
