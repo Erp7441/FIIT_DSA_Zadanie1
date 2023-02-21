@@ -1,7 +1,6 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Tree{
 
@@ -42,7 +41,6 @@ public class Tree{
                 // We found leaf. Yay!
                 if(currentRoot.getLeft() == null){
                     currentRoot.setLeft(node); // We insert the node on the left of current.
-                    node.setParent(currentRoot); // Set it's parent as current.
                     break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getLeft();
@@ -54,7 +52,6 @@ public class Tree{
                 // We found leaf. Yay!
                 if(currentRoot.getRight() == null){
                     currentRoot.setRight(node); // We insert the node on the right of current.
-                    node.setParent(currentRoot); // Set it's parent as current.
                     break; // We can end the loop here.
                 }
                 currentRoot = currentRoot.getRight();
@@ -77,7 +74,6 @@ public class Tree{
         return insert(node);
     }
 
-    // TODO:: fix bug with linear tree
     public Node search(Node node){
         // We transverse the tree
         Node currentNode = root;
@@ -144,8 +140,8 @@ public class Tree{
         }
         nodeToBeDeleted.setParent(null);
 
-        // TODO:: How to do this? Should I save posiiton of the deleted node?
-        //this.balance(node);
+        // TODO:: Rebalance
+
         return true;
     }
     public boolean delete(Integer value){
@@ -155,7 +151,6 @@ public class Tree{
     }
 
     //* AVL methods
-
     public void leftRotate(Node node){
         // RR rotation
 
@@ -163,8 +158,8 @@ public class Tree{
         Node rightLeft = right.getLeft(); // Get left child of the right child
 
         // If current node is root. We just set the right child as root
-        if(node == root){
-            this.root = right;
+        if(node == this.getRoot()){
+            this.setRoot(right);
         }
         // Else we want to tell parent of our node that his right child is changing to node's right child.
         else if(node.getParent().getLeft() == node){
@@ -174,22 +169,18 @@ public class Tree{
             node.getParent().setRight(right);
         }
 
-        // We tell right child that his parent will change to node's parent (same as operation in else statement but from right child's perspective).
-        right.setParent(node.getParent());
-        // And tell node that his new child will be right child. Since we are swapping them.
-        node.setParent(right);
-
         // And move the right's left child as the right child of rotated node. I had to draw this step in MS Paint :)
         node.setRight(rightLeft);
+
         // Now we rotate the node to the left
         right.setLeft(node);
-
 
         // And we recalculate the height's and balance's
         node.calculateHeight();
         right.calculateHeight();
         node.calculateBalance();
         right.calculateBalance();
+
     }
 
     public void rightRotate(Node node){
@@ -199,8 +190,8 @@ public class Tree{
         Node leftRight = left.getRight(); // Get right child of the left child
 
         // If current node is root. We just set the right child as root
-        if(node == root){
-            this.root = left;
+        if(node == this.getRoot()){
+            this.setRoot(left);
         }
         // Else we want to tell parent of our node that his right child is changing to node's right child.
         else if(node.getParent().getRight() == node){
@@ -210,13 +201,9 @@ public class Tree{
             node.getParent().setLeft(left);
         }
 
-        // We tell left child that his parent will change to node's parent (same as operation in else statement but from left child's perspective).
-        left.setParent(node.getParent());
-        // And tell node that his new child will be left child. Since we are swapping them.
-        node.setParent(left);
-
         // And move the left's right child as the left child of rotated node. I had to draw this step in MS Paint :)
         node.setLeft(leftRight);
+
         // Now we rotate the node to the right
         left.setRight(node);
 
@@ -232,13 +219,16 @@ public class Tree{
 
         // First we get left child of node
         Node left = node.getLeft();
+
         // Then that left child's right child
         Node leftRight = left.getRight();
 
         // First we rotate the left child to the left. This will "straighten" the left subtree.
         leftRotate(left);
+
         // Since during the left rotation the left-right child's parent changed. We want to get the new parent and rebalance the tree with right rotation.
         rightRotate(leftRight.getParent());
+
     }
 
     public void rightLeftRotate(Node node){
@@ -246,13 +236,16 @@ public class Tree{
 
         // First we get right child of node
         Node right = node.getRight();
+
         // Then that right child's left child
         Node rightLeft = right.getLeft();
 
         // First we rotate the right child to the right. This will "straighten" the right subtree.
         rightRotate(right);
+
         // Since during the right rotation the right-left child's parent changed. We want to get the new parent and rebalance the tree with left rotation.
         leftRotate(rightLeft.getParent());
+
     }
 
     public void balance(Node node){
@@ -335,6 +328,9 @@ public class Tree{
 
     public void setRoot(Node root){
         this.root = root;
+        if(root != null){
+            root.setParent(null);
+        }
     }
 
 }

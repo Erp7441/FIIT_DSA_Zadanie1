@@ -1,7 +1,5 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
-import java.util.ArrayList;
-
 public class Node{
 
     //* Attributes
@@ -62,7 +60,7 @@ public class Node{
         Node parent = root.getParent();
         Node current = root;
         // While we are the right child of a parent
-        while(current != null && current == parent.getRight()){
+        while(current == parent.getRight()){
             current = parent;
             parent = parent.getParent(); // Move up a parent
         }
@@ -95,6 +93,9 @@ public class Node{
 
     public void setLeft(Node left){
         this.left = left;
+        if(left != null){
+            left.setParent(this);
+        }
     }
 
     public Node getRight(){
@@ -103,6 +104,9 @@ public class Node{
 
     public void setRight(Node right){
         this.right = right;
+        if(right != null){
+            right.setParent(this);
+        }
     }
 
     public Node getParent(){
