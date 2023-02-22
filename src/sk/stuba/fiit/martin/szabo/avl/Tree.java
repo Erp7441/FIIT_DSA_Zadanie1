@@ -115,17 +115,26 @@ public class Tree{
             7. Balance the whole tree
         */
 
-        Node nodeToBeDeleted = this.search(node.getKey());
-        if(nodeToBeDeleted == null) { return false; }
+        System.out.println("DEBUG: Delete method called");
 
-        // TODO:: Refactor this to not need getChildCount
-        Integer childCount = nodeToBeDeleted.getChildCount();
+        Node nodeToBeDeleted = this.search(node);
+        if(nodeToBeDeleted == null) {
+            System.out.println("DEBUG: Node not found");
+            return false;
+        }
         Node child = null;
 
-        if (childCount == 2){
-            child = Node.getInOrderSuccessor(nodeToBeDeleted);
+        if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight()!= null) {
+            if(nodeToBeDeleted.getParent() != null) {
+                if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
+                    child = Node.getInOrderSuccessor(nodeToBeDeleted.getRight());
+                }
+                else{
+                    child = Node.getInOrderSuccessor(nodeToBeDeleted.getLeft());
+                }
+            }
         }
-        else if(childCount == 1){
+        else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight()!= null){
             child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
         }
 
@@ -139,9 +148,10 @@ public class Tree{
         else{
             nodeToBeDeleted.getParent().setRight(child);
         }
+        this.balance(nodeToBeDeleted.getParent());
         nodeToBeDeleted.setParent(null);
 
-        // TODO:: Rebalance
+        System.out.println("DEBUG: Delete method finished");
 
         return true;
     }

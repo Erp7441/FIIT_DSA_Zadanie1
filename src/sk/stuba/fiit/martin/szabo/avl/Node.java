@@ -32,17 +32,6 @@ public class Node{
         return this.getHeight();
     }
 
-    // TODO:: Remove this
-    public Integer getChildCount(){
-        if (this.getLeft() == null && this.getRight() == null){
-            return 0;
-        }
-        else if(this.getLeft() != null && this.getRight() != null){
-            return 2;
-        }
-        return 1;
-    }
-
     // Gets minimum of tree
     public static Node minimum(Node root){
         Node current = root;

@@ -23,20 +23,22 @@ import static java.lang.System.*;
 public class Main{
     public static void main(String[] args){
 
-        //? Loading from file
-        /*String path = "data/data7.txt";
-        Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
-        Tree tree = Main.createTreeFromFile(path, null);*/
-
         //* Tree creation
         long startTime = System.nanoTime();
 
-        Tree tree = new Tree();
-        Main.generateRandomDatasetToTree(tree, 0, 1000000000, 20000);
+        //? Loading from file
+        String path = "data/data8.txt";
+        //Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
+        Tree tree = Main.createTreeFromFile(path, null);
+
+
+        //Tree tree = new Tree();
+        //Main.generateRandomDatasetToTree(tree, 0, 20, 6000);
 
         long endTime = System.nanoTime();
         long durationMilliseconds = (endTime - startTime) / 1000000;
         long durationSeconds = durationMilliseconds / 1000;
+
 
 
         //* Tree output
@@ -59,9 +61,13 @@ public class Main{
         ) + outputMiliseconds + (
                 outputMiliseconds != 1 ? " milliseconds)." : " millisecond)."
         ));
+
+        out.println("\nDEBUG: Deleting node");
+        tree.delete(15);
+        out.println("\n" + tree);
     }
 
-    static Tree createTreeFromFile(String path, String delimiter) throws FileNotFoundException{
+    static Tree createTreeFromFile(String path, String delimiter){
         Tree tree = new Tree();
         File file = new File(path);
 
@@ -72,7 +78,7 @@ public class Main{
             }
         }
         catch(FileNotFoundException e){
-            throw new FileNotFoundException();
+            e.printStackTrace();
         }
 
         return tree;
@@ -95,16 +101,17 @@ public class Main{
         }
     }
 
-    static void generateRandomDatasetToFile(String path, Integer min, Integer max, Integer count) throws IOException{
+    static void generateRandomDatasetToFile(String path, Integer min, Integer max, Integer count){
         File file = new File(path);
 
         try{
             if(!file.exists() && !file.createNewFile()){
-                throw new IOException("Error creating file " + path);
+                err.println("Error creating file " + path);
             }
         }
         catch(IOException e){
-            throw new IOException("Error creating file " + path);
+            err.println("Error creating file " + path);
+            e.printStackTrace();
         }
 
         try(FileWriter write = new FileWriter(path)){
@@ -117,7 +124,8 @@ public class Main{
             }
         }
         catch(IOException e){
-            throw new IOException("Error generating dataset");
+            err.println("Error generating dataset");
+            e.printStackTrace();
         }
 
     }
