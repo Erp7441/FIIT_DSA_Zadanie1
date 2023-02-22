@@ -28,22 +28,37 @@ public class Main{
         Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
         Tree tree = Main.createTreeFromFile(path, null);*/
 
-        Tree tree = new Tree();
-
+        //* Tree creation
         long startTime = System.nanoTime();
+
+        Tree tree = new Tree();
         Main.generateRandomDatasetToTree(tree, 0, 1000000000, 20000);
+
         long endTime = System.nanoTime();
         long durationMilliseconds = (endTime - startTime) / 1000000;
         long durationSeconds = durationMilliseconds / 1000;
 
+
+        //* Tree output
+        startTime = System.nanoTime();
+
         out.println("Tree:\n" + tree);
 
+        endTime = System.nanoTime();
+        long outputMiliseconds = (endTime - startTime) / 1000000;
+        long outputSeconds = outputMiliseconds / 1000;
+
         out.println("Tree created in " + durationSeconds + (
-            durationSeconds > 1 ? " seconds (" : " second ("
+            durationSeconds != 1 ? " seconds (" : " second ("
         ) + durationMilliseconds + (
-            durationMilliseconds > 1 ? " milliseconds)." : " millisecond)."
+            durationMilliseconds != 1 ? " milliseconds)." : " millisecond)."
         ));
 
+        out.println("Tree output took " + outputSeconds + (
+                outputSeconds != 1 ? " seconds (" : " second ("
+        ) + outputMiliseconds + (
+                outputMiliseconds != 1 ? " milliseconds)." : " millisecond)."
+        ));
     }
 
     static Tree createTreeFromFile(String path, String delimiter) throws FileNotFoundException{
