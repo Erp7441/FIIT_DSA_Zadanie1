@@ -118,6 +118,7 @@ public class Tree{
         Node nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) { return false; }
 
+        // TODO:: Refactor this to not need getChildCount
         Integer childCount = nodeToBeDeleted.getChildCount();
         Node child = null;
 

@@ -24,6 +24,7 @@ public class Node{
         return this.balance;
     }
 
+    // TODO:: Refactor to avoid recursion. This is killing your performance
     public Integer calculateHeight(){
         int leftHeight = left != null ? left.calculateHeight() : 0;
         int rightHeight = right != null ? right.calculateHeight() : 0;
@@ -31,6 +32,7 @@ public class Node{
         return this.getHeight();
     }
 
+    // TODO:: Remove this
     public Integer getChildCount(){
         if (this.getLeft() == null && this.getRight() == null){
             return 0;

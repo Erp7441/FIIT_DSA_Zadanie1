@@ -8,6 +8,8 @@ package sk.stuba.fiit.martin.szabo.main;
 
 // TODO:: Add interface for Tree and implement it on AVL and RedBlack Tree
 
+// TODO:: Remove redundant calculations
+
 import sk.stuba.fiit.martin.szabo.avl.Tree;
 
 import java.io.File;
@@ -27,9 +29,20 @@ public class Main{
         Tree tree = Main.createTreeFromFile(path, null);*/
 
         Tree tree = new Tree();
-        Main.generateRandomDatasetToTree(tree, 0, 1000000000, 10000);
+
+        long startTime = System.nanoTime();
+        Main.generateRandomDatasetToTree(tree, 0, 1000000000, 20000);
+        long endTime = System.nanoTime();
+        long durationMilliseconds = (endTime - startTime) / 1000000;
+        long durationSeconds = durationMilliseconds / 1000;
 
         out.println("Tree:\n" + tree);
+
+        out.println("Tree created in " + durationSeconds + (
+            durationSeconds > 1 ? " seconds (" : " second ("
+        ) + durationMilliseconds + (
+            durationMilliseconds > 1 ? " milliseconds)." : " millisecond)."
+        ));
 
     }
 
