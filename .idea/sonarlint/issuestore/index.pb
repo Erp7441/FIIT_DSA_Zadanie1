@@ -5,8 +5,6 @@ H
 docs/DSA_Stromy.pptx.pdf,7\e\7e16f4a82f2d4389b1d36076635b0d7c825ca35e
 E
 docs/DSA_zadanie1.pdf,9\2\9290506f90820ee350979a2564ceddea54883757
-i
-9src/sk/stuba/fiit/martin/szabo/redblack/RedblackTree.java,8\b\8b379cb5b400bb8ee08ccb3c7d29348359a5a1b8
 b
 2src/sk/stuba/fiit/martin/szabo/redblack/Color.java,7\8\78d7c8f5796158c2a10da5b0f75f3d40705ecb78
 >

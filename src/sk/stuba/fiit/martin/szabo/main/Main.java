@@ -8,6 +8,7 @@ package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
+import sk.stuba.fiit.martin.szabo.redblack.RedBlackTree;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,7 +18,15 @@ import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
-        avlTreeExecute();
+        //avlTreeExecute();
+        redBlackTreeExecute();
+    }
+
+    static void redBlackTreeExecute(){
+        RedBlackTree redBlackTree = new RedBlackTree();
+        ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 10, 5);
+
+        redBlackTree.insert(11);
     }
 
     static void avlTreeExecute(){
