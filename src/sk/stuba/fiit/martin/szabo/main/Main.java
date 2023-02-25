@@ -13,86 +13,90 @@ package sk.stuba.fiit.martin.szabo.main;
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
+        avlTreeExecute();
+    }
 
-        //* AvlTree creation
+    static void avlTreeExecute(){
+
+        //* ----------------------------- AvlTree creation -----------------------------
         long startTime = System.nanoTime();
 
-        //? Loading from file
-        String path = "data/data3.txt";
-        //Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
-        AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, ",");
+            //? Loading from file
+            //String path = "data/data8.txt";
+            //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
+            //AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, ",");
 
-
-        //? Generating random dataset
-        //AvlTree avlTree = new AvlTree();
-        //Main.generateRandomDatasetToTree(avlTree, 0, 10000, 10000);
+            //? Generating random dataset
+            AvlTree avlTree = new AvlTree();
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 10000);
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
 
-        out.println("AvlTree created in " + durationNanoseconds + (
+        //* ----------------------------- AvlTree insert -----------------------------
+        startTime = System.nanoTime();
+
+            avlTree.insert(605022365);
+
+        endTime = System.nanoTime();
+        long insertNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- AvlTree search -----------------------------
+        startTime = System.nanoTime();
+
+            avlTree.search(605022365);
+
+        endTime = System.nanoTime();
+        long searchNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- AvlTree output -----------------------------
+        startTime = System.nanoTime();
+
+            out.println(avlTree);
+
+        endTime = System.nanoTime();
+        long outputNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- AvlTree deletion -----------------------------
+        startTime = System.nanoTime();
+
+            for(int nodeToDelete : randomDataset){
+                avlTree.delete(nodeToDelete);
+            }
+
+        endTime = System.nanoTime();
+        long deletionNanoSeconds = endTime - startTime;
+        //* --------------------------------------------------------------------------
+
+        //*  ----------------------------- Staistics  -----------------------------
+        out.println("AvlTree creation took " + durationNanoseconds + (
                 durationNanoseconds != 1 ? " nano seconds " : " nano second"
         ));
-
-        //* AvlTree output
-        /*startTime = System.nanoTime();
-
-        out.println("AvlTree:\n" + avlTree);
-
-        endTime = System.nanoTime();
-        long outputNanoseconds = (endTime - startTime);
-
-        out.println("AvlTree output took " + outputNanoseconds + (
-                outputNanoseconds != 1 ? " nanoseconds " : " nanosecond "
-        ));*/
-
-        //* AvlTree insert
-        /*startTime = System.nanoTime();
-
-        avlTree.insert(605022365);
-
-        endTime = System.nanoTime();
-        long insertNanoseconds = (endTime - startTime);
-
-        out.println("AvlTree insertion took " + insertNanoseconds + (
-                insertNanoseconds != 1 ? " nanoseconds (" : " nanosecond ("
-        ));*/
-
-        //* AvlTree search
-        /*startTime = System.nanoTime();
-
-        avlTree.search(605022365);
-
-        endTime = System.nanoTime();
-        long nanoSeconds = (endTime - startTime);
-
-        out.println("AvlTree search took " + nanoSeconds + (
-                nanoSeconds != 1 ? " nanoseconds (" : " nanosecond ("
-        ));*/
-
-        int[] nodesToDelete = {
-                1160, 1282, 2437, 2735, 3072, 5007, 6979, 7089, 7209
-                //15, 9, 14, 13
-                //475, 296, 428, 329
-        };
-
-
-        for(int nodeToDelete : nodesToDelete){
-            out.println("\nDEBUG: Deleting node " + nodeToDelete);
-            avlTree.delete(nodeToDelete);
-        }
-
-        out.println("Final tree:\n" + avlTree);
+        out.println("AvlTree insertion took " + insertNanoSeconds + (
+                insertNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("AvlTree search took " + searchNanoSeconds + (
+                searchNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("AvlTree output took " + outputNanoSeconds + (
+                outputNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("AvlTree deletion took " + deletionNanoSeconds + (
+                deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        //* --------------------------------------------------------------------------
     }
 
     static BstTree createTreeFromFile(String path, String delimiter){
@@ -158,10 +162,14 @@ public class Main{
 
     }
 
-    static void generateRandomDatasetToTree(BstTree tree, Integer min, Integer max, Integer count){
-            for(int i=0; i<count; i++){
-                tree.insert((int) Math.floor((Math.random() * (max - min + 1)) + min));
-            }
+    static ArrayList<Integer> generateRandomDatasetToTree(BstTree tree, Integer min, Integer max, Integer count){
+        ArrayList<Integer> randomDataset = new ArrayList<>();
+        for(int i=0; i<count; i++){
+            Integer number = (int) Math.floor((Math.random() * (max - min + 1)) + min);
+            randomDataset.add(number);
+            tree.insert(number);
+        }
+        return randomDataset;
     }
 
 }

@@ -35,7 +35,7 @@ public class AvlTree extends BstTree{
         AvlNode replacement = (AvlNode) super.delete(node);
         if(replacement != null){
             this.balanceDeletionSubTree(replacement);
-            out.println("DEBUG: Delete method balanced");
+            //out.println("DEBUG: Delete method balanced");
             return true;
         }
         return false;

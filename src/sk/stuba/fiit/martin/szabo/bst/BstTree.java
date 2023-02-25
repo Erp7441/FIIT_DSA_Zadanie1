@@ -98,11 +98,11 @@ public class BstTree{
 
     public BstNode delete(BstNode node){
 
-        out.println("DEBUG: Delete method called");
+        //out.println("DEBUG: Delete method called");
 
         BstNode nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) {
-            out.println("DEBUG: Node not found");
+            //out.println("DEBUG: Node not found");
             return null;
         }
 
@@ -146,7 +146,7 @@ public class BstTree{
             nodeToBeDeleted.getParent().setRight(child);
         }
 
-        out.println("DEBUG: Delete method finished");
+        //out.println("DEBUG: Delete method finished");
 
         //? We should either return the child we replaced nodeTobeDeleted with or if we just yet out the nodeToBeDeleted
         //? then we need parent node of the nodeToBeDeleted
