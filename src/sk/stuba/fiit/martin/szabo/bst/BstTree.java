@@ -98,28 +98,29 @@ public class BstTree{
 
     public BstNode delete(BstNode node){
 
-        //out.println("DEBUG: Delete method called");
-
+        // Find node that needs to be deleted
         BstNode nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) {
-            //out.println("DEBUG: Node not found");
             return null;
         }
 
         BstNode child = null;
         BstNode childsParent;
 
+        // If node to be deleted has two children we need to find in order predecessor
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
             child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
         }
+        // If node to be deleted has one child use that child as replacement
         else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){
             child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
         }
 
+        // If we have child that will be replacing the node to be deleted
         if(child != null){
             childsParent = child.getParent();
 
-            // Ripping away "child" from its parent
+            // Ripping away child from its parent
             if(childsParent != null && childsParent.getLeft() == child){
                 childsParent.setLeft(null);
             }
@@ -127,6 +128,7 @@ public class BstTree{
                 childsParent.setRight(null);
             }
 
+            // If node to be deleted has children where child does not. Move them to the replacement node.
             if(nodeToBeDeleted.getLeft() != null && child.getLeft() == null){
                 child.setLeft(nodeToBeDeleted.getLeft());
             }
@@ -139,6 +141,7 @@ public class BstTree{
             //* Root case
             this.setRoot(child);
         }
+        // Replacing node to be deleted with replacment node
         else if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
             nodeToBeDeleted.getParent().setLeft(child);
         }
@@ -146,10 +149,8 @@ public class BstTree{
             nodeToBeDeleted.getParent().setRight(child);
         }
 
-        //out.println("DEBUG: Delete method finished");
-
-        //? We should either return the child we replaced nodeTobeDeleted with or if we just yet out the nodeToBeDeleted
-        //? then we need parent node of the nodeToBeDeleted
+        // We should either return the child we replaced nodeTobeDeleted with or if we just yet out the nodeToBeDeleted
+        // then we need parent node of the nodeToBeDeleted
         return child != null ? child : nodeToBeDeleted.getParent();
     }
 

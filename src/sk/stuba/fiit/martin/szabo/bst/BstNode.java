@@ -25,16 +25,19 @@ public class BstNode{
         return this.getHeight();
     }
 
-    // Gets minimum of tree
     public static BstNode minimum(BstNode root){
 
         if(root == null){ return null; }
 
         BstNode current = root;
+
+        // We go through all the left nodes of subtree.
         while (current.getLeft() != null){
+            // If left node has smaller key than right node then we want to move left
             if(current.getKey() > current.getLeft().getKey()){
                 current = current.getLeft();
             }
+            // Else we found the minimal node
             else{
                 break;
             }
@@ -42,16 +45,18 @@ public class BstNode{
         return current;
     }
 
-    // Gets maximum of tree
     public static BstNode maximum(BstNode root){
 
         if(root == null){ return null; }
 
+        // We go through all the right nodes of subtree.
         BstNode current = root;
         while (current.getRight() != null){
+            // If right node has bigger key than current node then we want to move right
             if(current.getKey() < current.getRight().getKey()){
                 current = current.getRight();
             }
+            // Else we found the maximum node
             else{
                 break;
             }
@@ -59,16 +64,9 @@ public class BstNode{
         return current;
     }
 
-    public static BstNode getInOrderSuccessor(BstNode root){
-        if(root.getRight() != null){
-            // In order successor
-            return BstNode.minimum(root.getRight());
-        }
-        return null;
-    }
-
     public static BstNode getInOrderPredeecesor(BstNode root){
         if(root.getLeft() != null){
+            // Gets max node value from left subtree
             return BstNode.maximum(root.getLeft());
         }
         return null;

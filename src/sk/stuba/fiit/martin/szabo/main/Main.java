@@ -4,6 +4,7 @@ package sk.stuba.fiit.martin.szabo.main;
 // TODO:: create menus and file opening system
 // TODO:: Add interface for AvlTree and implement it on AVL and RedBlack AvlTree
 // TODO:: !!! Remove redundant calculations !!!
+// TODO:: Remove debug outputs
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;

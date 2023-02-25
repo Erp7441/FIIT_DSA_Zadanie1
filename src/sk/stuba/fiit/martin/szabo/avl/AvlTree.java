@@ -18,7 +18,9 @@ public class AvlTree extends BstTree{
 
     public boolean insert(AvlNode node){
 
+        // Do classic BST insertion
         super.insert(node);
+
         // Then we rebalance the tree.
         this.balanceInsertion(node);
         return true;
@@ -32,10 +34,12 @@ public class AvlTree extends BstTree{
     }
 
     public boolean delete(AvlNode node){
+        // Default BST deletion
         AvlNode replacement = (AvlNode) super.delete(node);
+
+        // Rebalancing subtree where root is the replacement node
         if(replacement != null){
             this.balanceDeletionSubTree(replacement);
-            //out.println("DEBUG: Delete method balanced");
             return true;
         }
         return false;
