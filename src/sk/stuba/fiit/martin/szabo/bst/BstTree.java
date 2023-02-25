@@ -2,6 +2,8 @@ package sk.stuba.fiit.martin.szabo.bst;
 
 import java.util.ArrayList;
 
+import static java.lang.System.*;
+
 public class BstTree{
 
     //* Attributes
@@ -96,50 +98,34 @@ public class BstTree{
 
     public BstNode delete(BstNode node){
 
-        // TODO:: finish this method
-        /*
-            1. Start
-            2. Use search to locate node to be deleted
+        out.println("DEBUG: Delete method called");
 
-            3. If @noteToBeDeleted has two children. Set child as inorder successor of @noteToBeDeleted and replace @noteToBeDeleted with @child
-            4. Else if @noteToBeDeleted has one child. Replace it with the @child
-            5. Else @noteToBeDeleted is a leaf. Then remove it
-
-            6. Update balance factor of whole tree
-            7. Balance the whole tree
-        */
-
-        //? Notes
-        /*
-         * There are two options how to approach this.
-         * I can either get in order successor or in order predecessor.
-         * Check with algorithms and other visualisators what version do they use.
-         * Worst case follow programiz.
-         */
-
-        System.out.println("DEBUG: Delete method called");
+        // TODO:: Delete
+        if(node.getKey() == 329){
+            out.println();
+        }
 
         BstNode nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) {
-            System.out.println("DEBUG: BstNode not found");
+            out.println("DEBUG: Node not found");
             return null;
         }
 
         BstNode child = null;
-        BstNode childsParent = null;
+        BstNode childsParent;
 
-        if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight()!= null) {
+        if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
             if(nodeToBeDeleted.getParent() != null) {
                 if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
-                    child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getRight());
+                    child = BstNode.getInOrderSuccessor(nodeToBeDeleted);
                 }
                 else{
-                    child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getLeft());
+                    child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
                 }
             }
             else{
                 //* Root case
-                child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getLeft());
+                child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
             }
         }
         else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){
@@ -157,8 +143,12 @@ public class BstTree{
                 childsParent.setRight(null);
             }
 
-            child.setLeft(nodeToBeDeleted.getLeft());
-            child.setRight(nodeToBeDeleted.getRight());
+            if(nodeToBeDeleted.getLeft() != null && child.getLeft() == null){
+                child.setLeft(nodeToBeDeleted.getLeft());
+            }
+            if(nodeToBeDeleted.getRight() != null && child.getRight() == null){
+                child.setRight(nodeToBeDeleted.getRight());
+            }
         }
 
         if(nodeToBeDeleted == this.getRoot()){
@@ -172,9 +162,11 @@ public class BstTree{
             nodeToBeDeleted.getParent().setRight(child);
         }
 
-        System.out.println("DEBUG: Delete method finished");
+        out.println("DEBUG: Delete method finished");
 
-        return child;
+        //? We should either return the child we replaced nodeTobeDeleted with or if we just yet out the nodeToBeDeleted
+        //? then we need parent node of the nodeToBeDeleted
+        return child != null ? child : nodeToBeDeleted.getParent();
     }
 
     public boolean delete(Integer value){
@@ -183,7 +175,7 @@ public class BstTree{
         return delete(node) != null;
     }
 
-    //* AVL methods
+    //* BST methods
     public void leftRotate(BstNode node){
         // RR rotation
 
@@ -254,7 +246,7 @@ public class BstTree{
         // First we rotate the left child to the left. This will "straighten" the left subtree.
         leftRotate(left);
 
-        // Since during the left rotation the left-right child's parent changed. We want to get the new parent and rebalance the tree with right rotation.
+        // Since during the left rotation the left-right child's parent changed. We want to get the new parent tree with right rotation.
         rightRotate(leftRight.getParent());
 
     }
@@ -271,7 +263,7 @@ public class BstTree{
         // First we rotate the right child to the right. This will "straighten" the right subtree.
         rightRotate(right);
 
-        // Since during the right rotation the right-left child's parent changed. We want to get the new parent and rebalance the tree with left rotation.
+        // Since during the right rotation the right-left child's parent changed. We want to get the new parent and the tree with left rotation.
         leftRotate(rightLeft.getParent());
 
     }

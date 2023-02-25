@@ -3,6 +3,10 @@ package sk.stuba.fiit.martin.szabo.avl;
 import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
+import java.util.ArrayList;
+
+import static java.lang.System.*;
+
 public class AvlTree extends BstTree{
 
     //* Constructors
@@ -13,12 +17,11 @@ public class AvlTree extends BstTree{
         this.getRoot().setHeight(0);
     }
 
-    //* Basic methods for binary tree
     public boolean insert(AvlNode node){
 
         super.insert(node);
         // Then we rebalance the tree.
-        this.balance(node);
+        this.balanceInsertion(node);
         return true;
     }
 
@@ -31,15 +34,25 @@ public class AvlTree extends BstTree{
 
     public boolean delete(AvlNode node){
 
-        BstNode childsParent = super.delete(node).getParent();
-        if(childsParent instanceof AvlNode){
-            this.balance((AvlNode) childsParent);
-        }
-        else{
-            return false;
+        BstNode replacementNode = super.delete(node);
+
+        //? Here it poorly rebalances the tree
+        if(replacementNode != null){
+            if(replacementNode.getRight() != null){
+                this.balanceDeletion((AvlNode) replacementNode.getRight());
+            }
+            if(replacementNode.getLeft() != null){
+                this.balanceDeletion((AvlNode) replacementNode.getLeft());
+            }
+
+            AvlNode current = (AvlNode) replacementNode;
+            while(current != null){
+                this.balanceDeletion(current);
+                current = (AvlNode) current.getParent();
+            }
         }
 
-        System.out.println("DEBUG: Delete method balanced");
+        out.println("DEBUG: Delete method balanced");
 
         return true;
     }
@@ -51,7 +64,7 @@ public class AvlTree extends BstTree{
         return delete(node);
     }
 
-    public void balance(AvlNode node){
+    public void balanceInsertion(AvlNode node){
         // Recalculating balance and height.
         AvlNode current = node;
 
@@ -83,16 +96,47 @@ public class AvlTree extends BstTree{
                     leftRightRotate(current);
                 }
             }
-            current = (AvlNode) current.getParent();
+
             // Advance upwards to another node.
-            /*if(current.getParent() instanceof AvlNode){
-                current = (AvlNode) current.getParent();
-            }
-            else{
-                System.err.println("Failed to cast at AVL balance method");
-                return;
-            }*/
+            current = (AvlNode) current.getParent();
         }
     }
 
+    public void balanceDeletion(AvlNode node){
+        // Recalculating balance and height.
+        AvlNode current = node;
+
+        // We transverse up the tree.
+        while(current != null){
+            // Recalculating balance and height of each node we go through.
+            current.calculateHeight();
+            current.calculateBalance();
+
+            // If current node balance is less than -1 then we have use either left or right-left rotation to rebalance the tree.
+            if(current.getBalance() < -1){
+                // If inserted key is bigger than current key, and we inserted the new node to the right subtree. We need to just rotate left.
+                if(((AvlNode) current.getRight()).calculateBalance() <= 0){
+                    leftRotate(current);
+                }
+                // Else we want to first do right rotation on the current node and then left rotation on the parent node of left subtree after rotation.
+                else{
+                    rightLeftRotate(current);
+                }
+            }
+            // If current node balance is greater than 1 then we have use either right or left-right rotation to rebalance the tree.
+            else if(current.getBalance() > 1){
+                // If inserted key is smaller than current key, and we inserted the new node to the left subtree. We need to just rotate right.
+                if(((AvlNode) current.getLeft()).calculateBalance() >= 0){
+                    rightRotate(current);
+                }
+                // Else we want to first do left rotation on the current node and then right rotation on the parent node of right subtree after rotation.
+                else{
+                    leftRightRotate(current);
+                }
+            }
+
+            // Advance upwards to another node.
+            current = (AvlNode) current.getParent();
+        }
+    }
 }

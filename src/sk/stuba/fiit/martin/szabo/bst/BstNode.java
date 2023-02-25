@@ -3,12 +3,14 @@ package sk.stuba.fiit.martin.szabo.bst;
 public class BstNode{
 
     //* Attributes
-    private Integer key;
+    private Integer key = null;
     private BstNode left = null;
     private BstNode right = null;
     private BstNode parent = null;
     private Integer height = 0;
     //* Constructors
+
+    public BstNode(){}
     public BstNode(Integer key){
         this.key = key;
     }
@@ -25,33 +27,53 @@ public class BstNode{
 
     // Gets minimum of tree
     public static BstNode minimum(BstNode root){
+
+        if(root == null){ return null; }
+
         BstNode current = root;
         while (current.getLeft() != null){
-            current = current.getLeft();
+            if(current.getKey() > current.getLeft().getKey()){
+                current = current.getLeft();
+            }
+            else{
+                break;
+            }
         }
         return current;
     }
 
     // Gets maximum of tree
     public static BstNode maximum(BstNode root){
+
+        if(root == null){ return null; }
+
         BstNode current = root;
         while (current.getRight() != null){
-            current = current.getRight();
+            if(current.getKey() < current.getRight().getKey()){
+                current = current.getRight();
+            }
+            else{
+                break;
+            }
         }
         return current;
     }
 
-    // Gets the next node with minimal value in order of a tree
-    public static BstNode getInOrderSuccessorOrPredeecesor(BstNode root){
+    public static BstNode getInOrderSuccessor(BstNode root){
         if(root.getRight() != null){
             // In order successor
             return BstNode.minimum(root.getRight());
         }
-        else if(root.getLeft() != null){
+        return null;
+    }
+
+    public static BstNode getInOrderPredeecesor(BstNode root){
+        if(root.getLeft() != null){
             return BstNode.maximum(root.getLeft());
         }
         return null;
     }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

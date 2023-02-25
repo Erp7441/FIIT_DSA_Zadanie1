@@ -10,7 +10,6 @@ package sk.stuba.fiit.martin.szabo.main;
 
 // TODO:: !!! Remove redundant calculations !!!
 
-
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
@@ -29,23 +28,20 @@ public class Main{
         long startTime = System.nanoTime();
 
         //? Loading from file
-        String path = "data/data8.txt";
+        String path = "data/data6.txt";
         //Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
-        AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, null);
+        AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, ",");
 
 
         //? Generating random dataset
         //AvlTree avlTree = new AvlTree();
-        //Main.generateRandomDatasetToTree(avlTree, 0, 30000, 10000);
+        //Main.generateRandomDatasetToTree(avlTree, 0, 10000, 10000);
 
         long endTime = System.nanoTime();
-        long durationMilliseconds = (endTime - startTime) / 1000000;
-        long durationSeconds = durationMilliseconds / 1000;
+        long durationNanoseconds = (endTime - startTime);
 
-        out.println("AvlTree created in " + durationSeconds + (
-                durationSeconds != 1 ? " seconds (" : " second ("
-        ) + durationMilliseconds + (
-                durationMilliseconds != 1 ? " milliseconds)." : " millisecond)."
+        out.println("AvlTree created in " + durationNanoseconds + (
+                durationNanoseconds != 1 ? " nano seconds " : " nano second"
         ));
 
         //* AvlTree output
@@ -54,13 +50,10 @@ public class Main{
         out.println("AvlTree:\n" + avlTree);
 
         endTime = System.nanoTime();
-        long outputMiliseconds = (endTime - startTime) / 1000000;
-        long outputSeconds = outputMiliseconds / 1000;
+        long outputNanoseconds = (endTime - startTime);
 
-        out.println("AvlTree output took " + outputSeconds + (
-                outputSeconds != 1 ? " seconds (" : " second ("
-        ) + outputMiliseconds + (
-                outputMiliseconds != 1 ? " milliseconds)." : " millisecond)."
+        out.println("AvlTree output took " + outputNanoseconds + (
+                outputNanoseconds != 1 ? " nanoseconds " : " nanosecond "
         ));*/
 
         //* AvlTree insert
@@ -72,7 +65,7 @@ public class Main{
         long insertNanoseconds = (endTime - startTime);
 
         out.println("AvlTree insertion took " + insertNanoseconds + (
-                insertNanoseconds != 1 ? " nano seconds (" : " nano second ("
+                insertNanoseconds != 1 ? " nanoseconds (" : " nanosecond ("
         ));*/
 
         //* AvlTree search
@@ -84,13 +77,21 @@ public class Main{
         long nanoSeconds = (endTime - startTime);
 
         out.println("AvlTree search took " + nanoSeconds + (
-                nanoSeconds != 1 ? " nano seconds (" : " nano second ("
+                nanoSeconds != 1 ? " nanoseconds (" : " nanosecond ("
         ));*/
 
-        int nodeToDelete = 15;
-        out.println("\nDEBUG: Deleting node " + nodeToDelete);
-        avlTree.delete(nodeToDelete);
-        out.println("\n" + avlTree);
+        int[] nodesToDelete = {
+                475, 296, 428, 329
+        };
+
+
+        for(int nodeToDelete : nodesToDelete){
+            out.println("\nDEBUG: Deleting node " + nodeToDelete);
+            avlTree.delete(nodeToDelete);
+            out.println("\n" + avlTree);
+        }
+
+        out.println("Final tree:\n" + avlTree);
     }
 
     static BstTree createTreeFromFile(String path, String delimiter){
