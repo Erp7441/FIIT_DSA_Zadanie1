@@ -1,28 +1,19 @@
-package sk.stuba.fiit.martin.szabo.avl;
+package sk.stuba.fiit.martin.szabo.bst;
 
-public class Node{
+public class BstNode{
 
     //* Attributes
     private Integer key;
-    private Node left = null;
-    private Node right = null;
-    private Node parent = null;
+    private BstNode left = null;
+    private BstNode right = null;
+    private BstNode parent = null;
     private Integer height = 0;
-    private Integer balance = 0;
-
     //* Constructors
-    public Node(Integer key){
+    public BstNode(Integer key){
         this.key = key;
     }
 
     //* Utility methods
-
-    public Integer calculateBalance(){
-        Integer leftHeight = left != null ? left.calculateHeight() : 0;
-        Integer rightHeight = right != null ? right.calculateHeight() : 0;
-        this.balance = leftHeight - rightHeight;
-        return this.balance;
-    }
 
     // TODO:: Refactor to avoid recursion. This is killing your performance
     public Integer calculateHeight(){
@@ -33,31 +24,34 @@ public class Node{
     }
 
     // Gets minimum of tree
-    public static Node minimum(Node root){
-        Node current = root;
+    public static BstNode minimum(BstNode root){
+        BstNode current = root;
         while (current.getLeft() != null){
             current = current.getLeft();
         }
         return current;
     }
 
-    // Gets the next node with minimal value in order of a tree
-    public static Node getInOrderSuccessor(Node root){
-        // If right tests exits look for minimal value of the tests
-        if(root.getRight() != null){
-            return Node.minimum(root.getRight());
+    // Gets maximum of tree
+    public static BstNode maximum(BstNode root){
+        BstNode current = root;
+        while (current.getRight() != null){
+            current = current.getRight();
         }
-
-        Node parent = root.getParent();
-        Node current = root;
-        // While we are the right child of a parent
-        while(current == parent.getRight()){
-            current = parent;
-            parent = parent.getParent(); // Move up a parent
-        }
-        return parent; // If we are the left child. We return parent as the inorder successor
+        return current;
     }
 
+    // Gets the next node with minimal value in order of a tree
+    public static BstNode getInOrderSuccessorOrPredeecesor(BstNode root){
+        if(root.getRight() != null){
+            // In order successor
+            return BstNode.minimum(root.getRight());
+        }
+        else if(root.getLeft() != null){
+            return BstNode.maximum(root.getLeft());
+        }
+        return null;
+    }
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -78,33 +72,33 @@ public class Node{
     }
 
     //* Getters and setters
-    public Node getLeft(){
+    public BstNode getLeft(){
         return left;
     }
 
-    public void setLeft(Node left){
+    public void setLeft(BstNode left){
         this.left = left;
         if(left != null){
             left.setParent(this);
         }
     }
 
-    public Node getRight(){
+    public BstNode getRight(){
         return right;
     }
 
-    public void setRight(Node right){
+    public void setRight(BstNode right){
         this.right = right;
         if(right != null){
             right.setParent(this);
         }
     }
 
-    public Node getParent(){
+    public BstNode getParent(){
         return parent;
     }
 
-    public void setParent(Node parent){
+    public void setParent(BstNode parent){
         this.parent = parent;
     }
 
@@ -114,10 +108,6 @@ public class Node{
 
     public void setHeight(Integer height){
         this.height = height;
-    }
-
-    public Integer getBalance(){
-        return balance;
     }
 
     public Integer getKey(){

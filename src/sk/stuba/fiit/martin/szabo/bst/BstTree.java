@@ -1,23 +1,23 @@
-package sk.stuba.fiit.martin.szabo.avl;
+package sk.stuba.fiit.martin.szabo.bst;
 
 import java.util.ArrayList;
 
-public class Tree{
+public class BstTree{
 
     //* Attributes
-    private Node root = null;
+    private BstNode root = null;
 
     //* Constructors
-    public Tree(){
+    public BstTree(){
     }
-    public Tree(Node root){
+    public BstTree(BstNode root){
         this.root = root;
         this.root.setHeight(0);
     }
 
 
     //* Basic methods for binary tree
-    public boolean insert(Node node){
+    public boolean insert(BstNode node){
 
         // If node we are inserting is already present in the tree then we should return as no duplicates are allowed.
         if(node == this.search(node.getKey())){
@@ -31,7 +31,7 @@ public class Tree{
             return false;
         }
 
-        Node currentRoot = this.root;
+        BstNode currentRoot = this.root;
 
         // Loop through tree nodes until you find a leaf.
         while(currentRoot != null){
@@ -63,28 +63,26 @@ public class Tree{
             }
         }
 
-        // Then we rebalance the tree.
-        this.balance(node);
         return true;
     }
 
     public boolean insert(Integer value){
         // This overloaded method makes life a bit easier :)
-        Node node = new Node(value);
+        BstNode node = new BstNode(value);
         return insert(node);
     }
 
-    public Node search(Node node){
+    public BstNode search(Integer value){
         // We transverse the tree
-        Node currentNode = root;
+        BstNode currentNode = root;
         while(currentNode != null){
             // If key of node we are looking for is less than key of current node then we move left.
-            if(node.getKey() < currentNode.getKey()){
+            if(value < currentNode.getKey()){
                 // Move left
                 currentNode = currentNode.getLeft();
             }
             // If key of node we are looking for is greater than key of current node then we move right.
-            else if(node.getKey() > currentNode.getKey()){
+            else if(value > currentNode.getKey()){
                 // Move right
                 currentNode = currentNode.getRight();
             }
@@ -95,12 +93,8 @@ public class Tree{
         }
         return null;
     }
-    public Node search(Integer value){
-        // This overloaded method makes life a bit easier :)
-        Node node = new Node(value);
-        return search(node);
-    }
-    public boolean delete(Node node){
+
+    public BstNode delete(BstNode node){
 
         // TODO:: finish this method
         /*
@@ -115,58 +109,86 @@ public class Tree{
             7. Balance the whole tree
         */
 
+        //? Notes
+        /*
+         * There are two options how to approach this.
+         * I can either get in order successor or in order predecessor.
+         * Check with algorithms and other visualisators what version do they use.
+         * Worst case follow programiz.
+         */
+
         System.out.println("DEBUG: Delete method called");
 
-        Node nodeToBeDeleted = this.search(node);
+        BstNode nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) {
-            System.out.println("DEBUG: Node not found");
-            return false;
+            System.out.println("DEBUG: BstNode not found");
+            return null;
         }
-        Node child = null;
+
+        BstNode child = null;
+        BstNode childsParent = null;
 
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight()!= null) {
             if(nodeToBeDeleted.getParent() != null) {
                 if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
-                    child = Node.getInOrderSuccessor(nodeToBeDeleted.getRight());
+                    child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getRight());
                 }
                 else{
-                    child = Node.getInOrderSuccessor(nodeToBeDeleted.getLeft());
+                    child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getLeft());
                 }
             }
+            else{
+                //* Root case
+                child = BstNode.getInOrderSuccessorOrPredeecesor(nodeToBeDeleted.getLeft());
+            }
         }
-        else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight()!= null){
+        else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){
             child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
         }
 
         if(child != null){
-            child.setParent(nodeToBeDeleted.getParent());
+            childsParent = child.getParent();
+
+            // Ripping away "child" from its parent
+            if(childsParent != null && childsParent.getLeft() == child){
+                childsParent.setLeft(null);
+            }
+            else if(childsParent != null && childsParent.getRight() == child){
+                childsParent.setRight(null);
+            }
+
+            child.setLeft(nodeToBeDeleted.getLeft());
+            child.setRight(nodeToBeDeleted.getRight());
         }
 
-        if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
+        if(nodeToBeDeleted == this.getRoot()){
+            //* Root case
+            this.setRoot(child);
+        }
+        else if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
             nodeToBeDeleted.getParent().setLeft(child);
         }
         else{
             nodeToBeDeleted.getParent().setRight(child);
         }
-        this.balance(nodeToBeDeleted.getParent());
-        nodeToBeDeleted.setParent(null);
 
         System.out.println("DEBUG: Delete method finished");
 
-        return true;
+        return child;
     }
+
     public boolean delete(Integer value){
         // This overloaded method makes life a bit easier :)
-        Node node = new Node(value);
-        return delete(node);
+        BstNode node = new BstNode(value);
+        return delete(node) != null;
     }
 
     //* AVL methods
-    public void leftRotate(Node node){
+    public void leftRotate(BstNode node){
         // RR rotation
 
-        Node right = node.getRight(); // Get right child of node we want to rotate
-        Node rightLeft = right.getLeft(); // Get left child of the right child
+        BstNode right = node.getRight(); // Get right child of node we want to rotate
+        BstNode rightLeft = right.getLeft(); // Get left child of the right child
 
         // If current node is root. We just set the right child as root
         if(node == this.getRoot()){
@@ -186,19 +208,16 @@ public class Tree{
         // Now we rotate the node to the left
         right.setLeft(node);
 
-        // And we recalculate the height's and balance's
+        // And we recalculate the height's
         node.calculateHeight();
         right.calculateHeight();
-        node.calculateBalance();
-        right.calculateBalance();
-
     }
 
-    public void rightRotate(Node node){
+    public void rightRotate(BstNode node){
         // LL rotation
 
-        Node left = node.getLeft(); // Get left child of node we want to rotate
-        Node leftRight = left.getRight(); // Get right child of the left child
+        BstNode left = node.getLeft(); // Get left child of node we want to rotate
+        BstNode leftRight = left.getRight(); // Get right child of the left child
 
         // If current node is root. We just set the right child as root
         if(node == this.getRoot()){
@@ -218,21 +237,19 @@ public class Tree{
         // Now we rotate the node to the right
         left.setRight(node);
 
-        // And we recalculate the height's and balance's
+        // And we recalculate the height's
         node.calculateHeight();
         left.calculateHeight();
-        node.calculateBalance();
-        left.calculateBalance();
     }
 
-    public void leftRightRotate(Node node){
+    public void leftRightRotate(BstNode node){
         // LR rotation
 
         // First we get left child of node
-        Node left = node.getLeft();
+        BstNode left = node.getLeft();
 
         // Then that left child's right child
-        Node leftRight = left.getRight();
+        BstNode leftRight = left.getRight();
 
         // First we rotate the left child to the left. This will "straighten" the left subtree.
         leftRotate(left);
@@ -242,14 +259,14 @@ public class Tree{
 
     }
 
-    public void rightLeftRotate(Node node){
+    public void rightLeftRotate(BstNode node){
         // RL rotation
 
         // First we get right child of node
-        Node right = node.getRight();
+        BstNode right = node.getRight();
 
         // Then that right child's left child
-        Node rightLeft = right.getLeft();
+        BstNode rightLeft = right.getLeft();
 
         // First we rotate the right child to the right. This will "straighten" the right subtree.
         rightRotate(right);
@@ -259,56 +276,19 @@ public class Tree{
 
     }
 
-    public void balance(Node node){
-        // Recalculating balance and height.
-        Node current = node;
-
-        // We transverse up the tree.
-        while(current != null){
-            // Recalculating balance and height of each node we go through.
-            current.calculateHeight();
-            current.calculateBalance();
-
-            // If current node balance is less than -1 then we have use either left or right-left rotation to rebalance the tree.
-            if(current.getBalance() < -1){
-                // If inserted key is bigger than current key, and we inserted the new node to the right subtree. We need to just rotate left.
-                if(node.getKey() > current.getRight().getKey()){
-                    leftRotate(current);
-                }
-                // Else we want to first do right rotation on the current node and then left rotation on the parent node of left subtree after rotation.
-                else{
-                    rightLeftRotate(current);
-                }
-            }
-            // If current node balance is greater than 1 then we have use either right or left-right rotation to rebalance the tree.
-            else if(current.getBalance() > 1){
-                // If inserted key is smaller than current key, and we inserted the new node to the left subtree. We need to just rotate right.
-                if(node.getKey() < current.getLeft().getKey()){
-                    rightRotate(current);
-                }
-                // Else we want to first do left rotation on the current node and then right rotation on the parent node of right subtree after rotation.
-                else{
-                    leftRightRotate(current);
-                }
-            }
-            // Advance upwards to another node.
-            current = current.getParent();
-        }
-    }
-
     //* Utility methods
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
 
-        ArrayList<Node> currentLevelNodes = new ArrayList<>();
+        ArrayList<BstNode> currentLevelNodes = new ArrayList<>();
         currentLevelNodes.add(this.getRoot()); // Gets current level nodes
 
         while(!currentLevelNodes.isEmpty()){
 
-            ArrayList<Node> nextLevelNodes = new ArrayList<>();
+            ArrayList<BstNode> nextLevelNodes = new ArrayList<>();
 
-            for(Node node : currentLevelNodes){ // For each node on current level
+            for(BstNode node : currentLevelNodes){ // For each node on current level
 
                 sb.append(node).append("\n"); // Append it to the final output
 
@@ -333,11 +313,11 @@ public class Tree{
         this.getRoot().setHeight(height);
     }
 
-    public Node getRoot(){
+    public BstNode getRoot(){
         return root;
     }
 
-    public void setRoot(Node root){
+    public void setRoot(BstNode root){
         this.root = root;
         if(root != null){
             root.setParent(null);
