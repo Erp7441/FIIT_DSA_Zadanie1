@@ -82,17 +82,14 @@ public class Main{
 
         int[] nodesToDelete = {
                 1160, 1282, 2437, 2735, 3072, 5007, 6979, 7089, 7209
-
                 //15, 9, 14, 13
                 //475, 296, 428, 329
-
         };
 
 
         for(int nodeToDelete : nodesToDelete){
             out.println("\nDEBUG: Deleting node " + nodeToDelete);
             avlTree.delete(nodeToDelete);
-            out.println("\n" + avlTree);
         }
 
         out.println("Final tree:\n" + avlTree);

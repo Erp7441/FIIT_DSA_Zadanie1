@@ -100,11 +100,6 @@ public class BstTree{
 
         out.println("DEBUG: Delete method called");
 
-        // TODO:: Delete
-        if(node.getKey() == 7209){
-            out.println();
-        }
-
         BstNode nodeToBeDeleted = this.search(node.getKey());
         if(nodeToBeDeleted == null) {
             out.println("DEBUG: Node not found");
@@ -115,23 +110,6 @@ public class BstTree{
         BstNode childsParent;
 
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
-
-            // TODO:: Remove this commented chunk of code
-            /*if(nodeToBeDeleted.getParent() != null) {
-                if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
-                    child = BstNode.getInOrderSuccessor(nodeToBeDeleted);
-                }
-                else{
-                    child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
-                }
-            }
-            else{
-                //* Root case
-                child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
-
-
-            }*/
-
             child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
         }
         else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){

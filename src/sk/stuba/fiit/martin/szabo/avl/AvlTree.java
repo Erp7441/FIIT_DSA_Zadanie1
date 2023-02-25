@@ -1,6 +1,5 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
-import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
 import java.util.ArrayList;
@@ -33,28 +32,13 @@ public class AvlTree extends BstTree{
     }
 
     public boolean delete(AvlNode node){
-
-        BstNode replacementNode = super.delete(node);
-
-        //? Here it poorly rebalances the tree
-        if(replacementNode != null){
-            if(replacementNode.getRight() != null){
-                this.balanceDeletionSubTree((AvlNode) replacementNode.getRight());
-            }
-            if(replacementNode.getLeft() != null){
-                this.balanceDeletionSubTree((AvlNode) replacementNode.getLeft());
-            }
-
-            AvlNode current = (AvlNode) replacementNode;
-            while(current != null){
-                this.balanceDeletionSubTree(current);
-                current = (AvlNode) current.getParent();
-            }
+        AvlNode replacement = (AvlNode) super.delete(node);
+        if(replacement != null){
+            this.balanceDeletionSubTree(replacement);
+            out.println("DEBUG: Delete method balanced");
+            return true;
         }
-
-        out.println("DEBUG: Delete method balanced");
-
-        return true;
+        return false;
     }
 
     @Override
@@ -142,7 +126,7 @@ public class AvlTree extends BstTree{
 
     public void balanceDeletionSubTree(AvlNode root){
         ArrayList<AvlNode> currentLevelNodes = new ArrayList<>();
-        currentLevelNodes.add((AvlNode) this.getRoot()); // Gets current level nodes
+        currentLevelNodes.add(root); // Gets current level nodes
 
         while(!currentLevelNodes.isEmpty()){
 
