@@ -39,15 +39,15 @@ public class AvlTree extends BstTree{
         //? Here it poorly rebalances the tree
         if(replacementNode != null){
             if(replacementNode.getRight() != null){
-                this.balanceDeletion((AvlNode) replacementNode.getRight());
+                this.balanceDeletionSubTree((AvlNode) replacementNode.getRight());
             }
             if(replacementNode.getLeft() != null){
-                this.balanceDeletion((AvlNode) replacementNode.getLeft());
+                this.balanceDeletionSubTree((AvlNode) replacementNode.getLeft());
             }
 
             AvlNode current = (AvlNode) replacementNode;
             while(current != null){
-                this.balanceDeletion(current);
+                this.balanceDeletionSubTree(current);
                 current = (AvlNode) current.getParent();
             }
         }
@@ -137,6 +137,29 @@ public class AvlTree extends BstTree{
 
             // Advance upwards to another node.
             current = (AvlNode) current.getParent();
+        }
+    }
+
+    public void balanceDeletionSubTree(AvlNode root){
+        ArrayList<AvlNode> currentLevelNodes = new ArrayList<>();
+        currentLevelNodes.add((AvlNode) this.getRoot()); // Gets current level nodes
+
+        while(!currentLevelNodes.isEmpty()){
+
+            ArrayList<AvlNode> nextLevelNodes = new ArrayList<>();
+
+            for(AvlNode node : currentLevelNodes){ // For each node on current level
+
+                this.balanceDeletion(node);
+
+                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add((AvlNode) node.getLeft());
+                }
+                if(node != null && node.getRight() != null){
+                    nextLevelNodes.add((AvlNode) node.getRight());
+                }
+            }
+            currentLevelNodes = nextLevelNodes;
         }
     }
 }

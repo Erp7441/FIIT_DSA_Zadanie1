@@ -28,7 +28,7 @@ public class Main{
         long startTime = System.nanoTime();
 
         //? Loading from file
-        String path = "data/data6.txt";
+        String path = "data/data3.txt";
         //Main.generateRandomDatasetToFile(path, 0, 100000, 30000);
         AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, ",");
 
@@ -81,7 +81,11 @@ public class Main{
         ));*/
 
         int[] nodesToDelete = {
-                475, 296, 428, 329
+                1160, 1282, 2437, 2735, 3072, 5007, 6979, 7089, 7209
+
+                //15, 9, 14, 13
+                //475, 296, 428, 329
+
         };
 
 

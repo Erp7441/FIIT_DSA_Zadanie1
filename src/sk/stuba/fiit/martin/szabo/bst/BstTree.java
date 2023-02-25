@@ -101,7 +101,7 @@ public class BstTree{
         out.println("DEBUG: Delete method called");
 
         // TODO:: Delete
-        if(node.getKey() == 329){
+        if(node.getKey() == 7209){
             out.println();
         }
 
@@ -115,7 +115,9 @@ public class BstTree{
         BstNode childsParent;
 
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
-            if(nodeToBeDeleted.getParent() != null) {
+
+            // TODO:: Remove this commented chunk of code
+            /*if(nodeToBeDeleted.getParent() != null) {
                 if(nodeToBeDeleted.getParent().getLeft() == nodeToBeDeleted){
                     child = BstNode.getInOrderSuccessor(nodeToBeDeleted);
                 }
@@ -126,7 +128,11 @@ public class BstTree{
             else{
                 //* Root case
                 child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
-            }
+
+
+            }*/
+
+            child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
         }
         else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){
             child = nodeToBeDeleted.getLeft() != null ? nodeToBeDeleted.getLeft() : nodeToBeDeleted.getRight();
