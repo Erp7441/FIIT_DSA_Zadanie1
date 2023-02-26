@@ -23,24 +23,57 @@ public class Main{
     }
 
     static void redBlackTreeExecute(){
-        RedBlackTree redBlackTree = new RedBlackTree();
-        ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 10, 5);
 
+        RedBlackTree redBlackTree = new RedBlackTree();
+
+            //? Loading from file
+            //String path = "data/data8.txt";
+            //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
+            //Main.createTreeFromFile(redBlackTree, path, null);
+
+            //? Generating random dataset
+            //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 10, 5);
+
+        redBlackTree.insert(10);
+        redBlackTree.insert(7);
+        redBlackTree.insert(15);
+        redBlackTree.insert(3);
+        redBlackTree.insert(9);
+        redBlackTree.insert(13);
+        redBlackTree.insert(18);
+        redBlackTree.insert(1);
+        redBlackTree.insert(5);
+        redBlackTree.insert(8);
         redBlackTree.insert(11);
+        redBlackTree.insert(14);
+        redBlackTree.insert(17);
+        redBlackTree.insert(20);
+        redBlackTree.insert(0);
+        redBlackTree.insert(2);
+        redBlackTree.insert(4);
+        redBlackTree.insert(6);
+        redBlackTree.insert(12); //? All good here
+
+        //! Here it fails because 18 and 13 should be RED
+        /*redBlackTree.insert(16);
+        /*redBlackTree.insert(19);*/
+
+
+        out.println(redBlackTree);
     }
 
     static void avlTreeExecute(){
 
         //* ----------------------------- AvlTree creation -----------------------------
         long startTime = System.nanoTime();
+        AvlTree avlTree = new AvlTree();
 
             //? Loading from file
             //String path = "data/data8.txt";
             //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            //AvlTree avlTree = (AvlTree) Main.createTreeFromFile(path, ",");
+            //Main.createTreeFromFile(avlTree, path, ",");
 
             //? Generating random dataset
-            AvlTree avlTree = new AvlTree();
             ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 10000);
 
         long endTime = System.nanoTime();
@@ -104,21 +137,18 @@ public class Main{
         //* --------------------------------------------------------------------------
     }
 
-    static BstTree createTreeFromFile(String path, String delimiter){
-        AvlTree avlTree = new AvlTree();
+    static void createTreeFromFile(BstTree tree, String path, String delimiter){
         File file = new File(path);
 
         try(Scanner sc = new Scanner(file)){
             while(sc.hasNext()){
                 String line = sc.next();
-                insertLine(avlTree, line, delimiter);
+                insertLine(tree, line, delimiter);
             }
         }
         catch(FileNotFoundException e){
             e.printStackTrace();
         }
-
-        return avlTree;
     }
 
     private static void insertLine(BstTree tree, String line, String delimiter){
