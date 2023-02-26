@@ -44,7 +44,8 @@ public class RedBlackTree extends BstTree{
 
     public void balanceInsertion(RedBlackNode node){
 
-        RedBlackNode parent = node.getParent();
+        RedBlackNode current = node;
+        RedBlackNode parent = current.getParent();
         while(parent != null && parent.getColor() == Color.RED){
 
             RedBlackNode grandParent = parent.getParent();
@@ -65,12 +66,12 @@ public class RedBlackTree extends BstTree{
 
                 // Node inserted is inner grand child
                 if(
-                    (grandParent.getRight() != null && grandParent.getRight().getLeft() == node) ||
-                    (grandParent.getLeft() != null && grandParent.getLeft().getRight() == node)
+                    (grandParent.getRight() != null && grandParent.getRight().getLeft() ==  current) ||
+                    (grandParent.getLeft() != null && grandParent.getLeft().getRight() == current)
                 ){
 
                     // If node we inserted is on the left
-                    if(parent.getLeft() == node){
+                    if(parent.getLeft() == current){
                         // We do right left rotation
 
                         // First we straighten the node order
@@ -80,10 +81,10 @@ public class RedBlackTree extends BstTree{
                         this.leftRotate(grandParent);
 
                         // We recolor the nodes
-                        node.setColor(Color.BLACK); // The node we just inserted is at top so we color it black
+                        current.setColor(Color.BLACK); // The node we just inserted is at top so we color it black
                         grandParent.setColor(Color.RED); // We moved grandparent to one of the sides so we color it red
                     }
-                    else if(parent.getRight() == node){
+                    else if(parent.getRight() == current){
                         // We do left right rotation
 
                         // First we straighten the node order
@@ -93,7 +94,7 @@ public class RedBlackTree extends BstTree{
                         this.rightRotate(grandParent);
 
                         // We recolor the nodes
-                        node.setColor(Color.BLACK); // The node we just inserted is at top so we color it black
+                        current.setColor(Color.BLACK); // The node we just inserted is at top so we color it black
                         grandParent.setColor(Color.RED); // We moved grandparent to one of the sides so we color it red
                     }
                 }
@@ -103,7 +104,7 @@ public class RedBlackTree extends BstTree{
                     // We just need to rotate them in proper direction to form a triangle
 
                     // If node we inserted is on the left
-                    if(parent.getLeft() == node){
+                    if(parent.getLeft() == current){
                         // We rotate to the oposite direction
                         this.rightRotate(grandParent);
 
@@ -112,7 +113,7 @@ public class RedBlackTree extends BstTree{
                         grandParent.setColor(Color.RED); // Grandparent is on one of the sides so color it red
                     }
                     // If node we inserted is on the right
-                    else if(parent.getRight() == node){
+                    else if(parent.getRight() == current){
                         // We rotate to the oposite direction
                         this.leftRotate(grandParent);
 
@@ -124,7 +125,8 @@ public class RedBlackTree extends BstTree{
             }
 
             // We move up one grandparent node
-            parent = parent.getParent().getParent();
+            current = parent.getParent();
+            parent = parent.getGrandParent();
 
             // Root is always black // TODO:: Needed when you check if parent is not root?
             ((RedBlackNode) this.getRoot()).setColor(Color.BLACK);

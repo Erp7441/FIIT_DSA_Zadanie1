@@ -54,7 +54,10 @@ public class RedBlackNode extends BstNode{
     }
 
     public RedBlackNode getGrandParent(){
-        return (RedBlackNode) super.getParent().getParent();
+        if(super.getParent() != null){
+            return (RedBlackNode) super.getParent().getParent();
+        }
+        return null;
     }
 
     public RedBlackNode getUncle(){

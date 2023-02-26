@@ -8,15 +8,9 @@ E
 b
 2src/sk/stuba/fiit/martin/szabo/redblack/Color.java,7\8\78d7c8f5796158c2a10da5b0f75f3d40705ecb78
 >
-data/data7.txt,c\9\c936e60e7e9a83da0aa198337027f5bb9defe36e
->
-data/data6.txt,2\1\21406f15ec389c6fbbdd3abce995284f0110474a
->
 data/data5.txt,e\a\ea790f2785d3bd550c0e57d7eb6e4ed35c42375c
 >
 data/data4.txt,4\1\4142e26c2428f84aaa58613ac6e7b7a00c3d8763
->
-data/data3.txt,6\c\6c7374ed61c96a548ec256c9b32aa8780b80aa9c
 _
 /src/sk/stuba/fiit/martin/szabo/avl/AvlNode.java,3\6\36d1c66cd472b89f0b7a07bf4c32e734c3e7f766
 _

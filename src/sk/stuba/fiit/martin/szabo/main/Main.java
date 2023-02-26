@@ -27,13 +27,75 @@ public class Main{
         RedBlackTree redBlackTree = new RedBlackTree();
 
             //? Loading from file
-            String path = "data/data8.txt";
+            //String path = "data/data8.txt";
             //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            Main.createTreeFromFile(redBlackTree, path, null);
+            //Main.createTreeFromFile(redBlackTree, path, null);
 
             //? Generating random dataset
             //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 10, 5);
 
+        redBlackTree.insert(50);
+        redBlackTree.insert(209);
+        redBlackTree.insert(210);
+        redBlackTree.insert(464);
+        redBlackTree.insert(506);
+        redBlackTree.insert(994);
+        redBlackTree.insert(1100);
+        redBlackTree.insert(1104); //? Here it now works
+
+        // Untested
+        /*redBlackTree.insert(1160);
+        /*redBlackTree.insert(1282);
+        /*redBlackTree.insert(1358);
+        /*redBlackTree.insert(1459);
+        /*redBlackTree.insert(1726);
+        /*redBlackTree.insert(1999);
+        /*redBlackTree.insert(2044);
+        /*redBlackTree.insert(2287);
+        /*redBlackTree.insert(2309);
+        /*redBlackTree.insert(2437);
+        /*redBlackTree.insert(2735);
+        /*redBlackTree.insert(3072);
+        /*redBlackTree.insert(3111);
+        /*redBlackTree.insert(3308);
+        /*redBlackTree.insert(3545);
+        /*redBlackTree.insert(3608);
+        /*redBlackTree.insert(3740);
+        /*redBlackTree.insert(3788);
+        /*redBlackTree.insert(3793);
+        /*redBlackTree.insert(3985);
+        /*redBlackTree.insert(4346);
+        /*redBlackTree.insert(4387);
+        /*redBlackTree.insert(4476);
+        /*redBlackTree.insert(4954);
+        /*redBlackTree.insert(5007);
+        /*redBlackTree.insert(5119);
+        /*redBlackTree.insert(5193);
+        /*redBlackTree.insert(5247);
+        /*redBlackTree.insert(5351);
+        /*redBlackTree.insert(5782);
+        /*redBlackTree.insert(6329);
+        /*redBlackTree.insert(6410);
+        /*redBlackTree.insert(6486);
+        /*redBlackTree.insert(6536);
+        /*redBlackTree.insert(6578);
+        /*redBlackTree.insert(6794);
+        /*redBlackTree.insert(6865);
+        /*redBlackTree.insert(6979);
+        /*redBlackTree.insert(7089);
+        /*redBlackTree.insert(7209);
+        /*redBlackTree.insert(7378);
+        /*redBlackTree.insert(7391);
+        /*redBlackTree.insert(7552);
+        /*redBlackTree.insert(7883);
+        /*redBlackTree.insert(8160);
+        /*redBlackTree.insert(8307);
+        /*redBlackTree.insert(8755);
+        /*redBlackTree.insert(8857);
+        /*redBlackTree.insert(8927);
+        /*redBlackTree.insert(9073);
+        /*redBlackTree.insert(9138);
+        /*redBlackTree.insert(9180);*/
 
         out.println(redBlackTree);
     }
