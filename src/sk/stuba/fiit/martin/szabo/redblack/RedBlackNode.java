@@ -67,6 +67,8 @@ public class RedBlackNode extends BstNode{
     }
 
     public RedBlackNode getSibling(){
+        if(super.getParent() == null) { return null; }
+
         if(super.getParent().getRight() == this){
             return (RedBlackNode) super.getParent().getLeft();
         }

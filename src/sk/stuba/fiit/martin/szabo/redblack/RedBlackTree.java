@@ -54,7 +54,7 @@ public class RedBlackTree extends BstTree{
             }
 
             // Case Uncle is red colored
-            if(parent.getSibling() != null && parent.getSibling().getColor() == Color.RED){
+            if(parent.getSibling() != null && parent.getSibling().getColor() == Color.RED ){
                 grandParent.setColor(Color.RED);
                 grandParent.getLeft().setColor(Color.BLACK);
                 grandParent.getRight().setColor(Color.BLACK);
@@ -123,12 +123,22 @@ public class RedBlackTree extends BstTree{
                 }
             }
 
-            // We move up a node
-            parent = parent.getParent();
+            // We move up one grandparent node
+            parent = parent.getParent().getParent();
 
             // Root is always black // TODO:: Needed when you check if parent is not root?
             ((RedBlackNode) this.getRoot()).setColor(Color.BLACK);
         }
+    }
+
+    private static boolean checkChilds(RedBlackNode root){
+        if(root.getLeft() != null && root.getLeft().getColor() == root.getColor()){
+            return false;
+        }
+        else if(root.getLeft() != null && root.getRight().getColor() == root.getColor()){
+            return false;
+        }
+        return true;
     }
 
 
