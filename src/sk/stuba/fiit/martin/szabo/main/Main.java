@@ -8,6 +8,7 @@ package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
+import sk.stuba.fiit.martin.szabo.redblack.RedBlackNode;
 import sk.stuba.fiit.martin.szabo.redblack.RedBlackTree;
 
 import java.io.*;
@@ -27,14 +28,15 @@ public class Main{
         RedBlackTree redBlackTree = new RedBlackTree();
 
             //? Loading from file
-            String path = "data/data3.txt";
+            //String path = "data/data3.txt";
             //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            Main.createTreeFromFile(redBlackTree, path, ",");
+            //Main.createTreeFromFile(redBlackTree, path, ",");
 
             //? Generating random dataset
-            //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 10, 5);
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 1000000, 10000);
 
-        out.println(redBlackTree);
+        out.println("\nRed Black Tree:\n\n" + redBlackTree);
+        out.println("Root: " + redBlackTree.getRoot());
     }
 
     static void avlTreeExecute(){

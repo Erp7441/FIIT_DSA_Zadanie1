@@ -15,3 +15,7 @@ _
 /src/sk/stuba/fiit/martin/szabo/avl/AvlNode.java,3\6\36d1c66cd472b89f0b7a07bf4c32e734c3e7f766
 _
 /src/sk/stuba/fiit/martin/szabo/avl/AvlTree.java,6\9\69315c23a0b2f5c203fb07b2dd728959c049ee95
+_
+/src/sk/stuba/fiit/martin/szabo/bst/BstNode.java,4\5\451cc0465d6b62bef772b3316bfa697c71125c26
+_
+/src/sk/stuba/fiit/martin/szabo/bst/BstTree.java,6\a\6a646a759938504035d2dece7907975a56062883
