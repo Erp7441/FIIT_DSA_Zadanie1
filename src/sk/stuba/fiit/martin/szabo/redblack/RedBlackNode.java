@@ -60,6 +60,8 @@ public class RedBlackNode extends BstNode{
         return null;
     }
 
+    // TODO:: Needed?
+    // TODO:: Rewrite to use parent.getSibling()
     public RedBlackNode getUncle(){
         if(this.getGrandParent().getRight() == this){
             return this.getGrandParent().getLeft();
