@@ -137,4 +137,18 @@ public class BstNode{
     public void setKey(Integer key){
         this.key = key;
     }
+
+    public boolean isOnLeft(){
+        if(this.getParent() == null){
+            return true;
+        }
+        return this.getParent().getLeft() == this;
+    }
+
+    public boolean isOnRight(){
+        if(this.getParent() == null){
+            return true;
+        }
+        return this.getParent().getRight() == this;
+    }
 }

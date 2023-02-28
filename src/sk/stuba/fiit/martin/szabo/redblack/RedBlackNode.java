@@ -60,15 +60,16 @@ public class RedBlackNode extends BstNode{
         return null;
     }
 
-    // TODO:: Needed?
-    // TODO:: Rewrite to use parent.getSibling()
     public RedBlackNode getUncle(){
-        if(this.getGrandParent().getRight() == this){
-            return this.getGrandParent().getLeft();
-        }
-        else{
-            return this.getGrandParent().getRight();
-        }
+        return this.getParent().getSibling();
+    }
+
+    public RedBlackNode getRightNephew(){
+        return this.getSibling().getRight();
+    }
+
+    public RedBlackNode getLeftNephew(){
+        return this.getSibling().getLeft();
     }
 
     public RedBlackNode getSibling(){
@@ -77,9 +78,10 @@ public class RedBlackNode extends BstNode{
         if(super.getParent().getRight() == this){
             return (RedBlackNode) super.getParent().getLeft();
         }
-        else{
+        else if(super.getParent().getLeft() == this){
             return (RedBlackNode) super.getParent().getRight();
         }
+        return null;
     }
 
     public void setParent(RedBlackNode parent){
@@ -127,4 +129,5 @@ public class RedBlackNode extends BstNode{
 
         return sb.toString();
     }
+
 }

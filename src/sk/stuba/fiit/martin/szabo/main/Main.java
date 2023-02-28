@@ -33,7 +33,16 @@ public class Main{
             //Main.createTreeFromFile(redBlackTree, path, ",");
 
             //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 1000000, 10000);
+            //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 1000000, 10000);
+
+        redBlackTree.insert(17);
+        redBlackTree.insert(9);
+        redBlackTree.insert(19);
+        redBlackTree.insert(18);
+        redBlackTree.insert(75);
+
+        redBlackTree.delete(19);
+
 
         out.println("\nRed Black Tree:\n\n" + redBlackTree);
         out.println("Root: " + redBlackTree.getRoot());
