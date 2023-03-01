@@ -28,23 +28,36 @@ public class Main{
         RedBlackTree redBlackTree = new RedBlackTree();
 
             //? Loading from file
-            //String path = "data/data3.txt";
+            String path = "data/data6.txt";
             //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            //Main.createTreeFromFile(redBlackTree, path, ",");
+            Main.createTreeFromFile(redBlackTree, path, ",");
 
             //? Generating random dataset
             //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 1000000, 10000);
 
+        /*
         redBlackTree.insert(17);
         redBlackTree.insert(9);
         redBlackTree.insert(19);
         redBlackTree.insert(18);
         redBlackTree.insert(75);
+        redBlackTree.insert(3);
+        redBlackTree.insert(12);
 
+        redBlackTree.delete(9);
         redBlackTree.delete(19);
+        */
 
 
-        out.println("\nRed Black Tree:\n\n" + redBlackTree);
+        out.println("\nInserted Red Black Tree:\n\n" + redBlackTree);
+        out.println("Root: " + redBlackTree.getRoot());
+
+
+        //redBlackTree.delete(428);
+
+
+
+        out.println("\nDeleted Red Black Tree:\n\n" + redBlackTree);
         out.println("Root: " + redBlackTree.getRoot());
     }
 

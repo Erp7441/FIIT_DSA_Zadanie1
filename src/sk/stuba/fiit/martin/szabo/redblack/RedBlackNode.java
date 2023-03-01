@@ -130,4 +130,40 @@ public class RedBlackNode extends BstNode{
         return sb.toString();
     }
 
+    public Integer getBlackChildrenCount(){
+        if(
+            (this.getLeft() != null && this.getLeft().getColor() == Color.BLACK) || this.getLeft() == null &&
+            (this.getRight() != null && this.getRight().getColor() == Color.BLACK) || this.getRight() == null)
+        {
+            return 2;
+        }
+        else if(
+            (this.getLeft() != null && this.getLeft().getColor() == Color.BLACK) || this.getLeft() == null ||
+            (this.getRight() != null && this.getRight().getColor() == Color.BLACK) || this.getRight() == null)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    public RedBlackNode copy(){
+        RedBlackNode node = new RedBlackNode();
+        node.setColor(this.getColor());
+
+        RedBlackNode temp = this.getLeft().getParent();
+        node.setLeft(this.getLeft());
+        this.getLeft().setParent(temp);
+
+        temp = this.getRight().getParent();
+        node.setRight(this.getRight());
+        this.getRight().setParent(temp);
+
+        node.setKey(this.getKey());
+        node.setHeight(this.getHeight());
+
+        node.setParent(this.getParent());
+
+        return node;
+    }
+
 }
