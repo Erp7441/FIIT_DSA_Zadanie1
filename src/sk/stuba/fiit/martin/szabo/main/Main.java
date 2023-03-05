@@ -8,8 +8,6 @@ package sk.stuba.fiit.martin.szabo.main;
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
-import sk.stuba.fiit.martin.szabo.redblack.RedBlackNode;
-import sk.stuba.fiit.martin.szabo.redblack.RedBlackTree;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,46 +17,7 @@ import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
-        //avlTreeExecute();
-        redBlackTreeExecute();
-    }
-
-    static void redBlackTreeExecute(){
-
-        RedBlackTree redBlackTree = new RedBlackTree();
-
-            //? Loading from file
-            String path = "data/data6.txt";
-            //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            Main.createTreeFromFile(redBlackTree, path, ",");
-
-            //? Generating random dataset
-            //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(redBlackTree, 0, 1000000, 10000);
-
-        /*
-        redBlackTree.insert(17);
-        redBlackTree.insert(9);
-        redBlackTree.insert(19);
-        redBlackTree.insert(18);
-        redBlackTree.insert(75);
-        redBlackTree.insert(3);
-        redBlackTree.insert(12);
-
-        redBlackTree.delete(9);
-        redBlackTree.delete(19);
-        */
-
-
-        out.println("\nInserted Red Black Tree:\n\n" + redBlackTree);
-        out.println("Root: " + redBlackTree.getRoot());
-
-
-        //redBlackTree.delete(428);
-
-
-
-        out.println("\nDeleted Red Black Tree:\n\n" + redBlackTree);
-        out.println("Root: " + redBlackTree.getRoot());
+        avlTreeExecute();
     }
 
     static void avlTreeExecute(){
@@ -73,7 +32,7 @@ public class Main{
             //Main.createTreeFromFile(avlTree, path, ",");
 
             //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 10000);
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 1000000);
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
