@@ -55,6 +55,7 @@ public class Main{
 
         redBlackTree.delete(428);
         redBlackTree.delete(286);
+        redBlackTree.delete(115);
 
 
 
