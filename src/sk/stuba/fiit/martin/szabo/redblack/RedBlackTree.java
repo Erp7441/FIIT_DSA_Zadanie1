@@ -51,92 +51,72 @@ public class RedBlackTree extends BstTree{
         if(nodeToBeDeleted == null) { return false; }
 
         RedBlackNode sibling = nodeToBeDeleted.getSibling();
-
-        // If node to be deleted has no children we just, yeet it out
-        if(nodeToBeDeleted.getLeft() == null && nodeToBeDeleted.getRight() == null){
-            if(nodeToBeDeleted.isOnLeft()){
-                nodeToBeDeleted.getParent().setLeft(null);
-            }
-            else if(nodeToBeDeleted.isOnRight()){
-                nodeToBeDeleted.getParent().setRight(null);
-            }
-        }
-        // If node to be deleted has one child replace it with its child
-        if(nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() == null){
-            if(nodeToBeDeleted.isOnLeft()){
-                nodeToBeDeleted.getParent().setLeft(nodeToBeDeleted.getLeft());
-            }
-            else if(nodeToBeDeleted.isOnRight()){
-                nodeToBeDeleted.getParent().setRight(nodeToBeDeleted.getLeft());
-            }
-        }
-        else if(nodeToBeDeleted.getLeft() == null && nodeToBeDeleted.getRight() != null){
-            if(nodeToBeDeleted.isOnLeft()){
-                nodeToBeDeleted.getParent().setLeft(nodeToBeDeleted.getRight());
-            }
-            else if(nodeToBeDeleted.isOnRight()){
-                nodeToBeDeleted.getParent().setRight(nodeToBeDeleted.getRight());
-            }
-        }
-
-        // If node to be deleted has two children replace it with its successor
-        if(nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null){
-            if(nodeToBeDeleted.isOnLeft()){
-                nodeToBeDeleted.getParent().setLeft(BstNode.getInOrderPredeecesor(nodeToBeDeleted));
-            }
-            else if(nodeToBeDeleted.isOnRight()){
-                nodeToBeDeleted.getParent().setRight(BstNode.getInOrderPredeecesor(nodeToBeDeleted));
-            }
-        }
+        RedBlackNode left = nodeToBeDeleted.getLeft();
+        RedBlackNode right = nodeToBeDeleted.getRight();
+        super.delete(nodeToBeDeleted);
 
         // If node to be deleted is red. No adjustment is required
         if(nodeToBeDeleted.getColor() == Color.RED){ return true; }
-
-        fixBalanceDeletion(sibling);
+        // Else if node has one child that is red. Recolor the child
+        else if(left == null && right != null && right.getColor() == Color.RED){
+            right.setColor(nodeToBeDeleted.getColor());
+        }
+        else if(right == null && left != null && left.getColor() == Color.RED){
+            left.setColor(nodeToBeDeleted.getColor());
+        }
+        // Else we have to readjust the tree
+        else{
+            balanceDeletion(sibling);
+        }
 
 
         return true;
     }
 
-    private void fixBalanceDeletion(RedBlackNode sibling){
+    private void balanceDeletion(RedBlackNode sibling){
+        // a. If the node's sibling is red, rotate the parent of the deleted node so that the sibling becomes the parent's parent and recolor the new parent and its children as appropriate. This reduces the problem to the case where the sibling is black.
+        if(sibling.getColor() == Color.RED){
+            deletionHandlerRedSibling(sibling);
+        }
         // b. If the node's sibling is black and has two black children, recolor the sibling to red and reapply the deletion algorithm to the parent node (i.e., start again from step 7).
-        if(
-                sibling != null && sibling.getColor() == Color.BLACK &&
-                sibling.getLeft() == null || sibling.getLeft().getColor() == Color.BLACK &&
-                sibling.getRight() == null || sibling.getRight().getColor() == Color.BLACK
-        ){
+        else if(sibling.getColor() == Color.BLACK && sibling.getLeft() == null || sibling.getLeft().getColor() == Color.BLACK && sibling.getRight() == null || sibling.getRight().getColor() == Color.BLACK){
             sibling.setColor(Color.RED);
             // Reapply the deletion algorithm to the parent node (i.e., start again from step 7)
-            fixBalanceDeletion(sibling.getParent());
+            balanceDeletion(sibling.getParent());
         }
         // c. If the node's sibling is black and has at least one red child, rotate the parent node so that the sibling becomes the child of the node's grandparent and recolor the new parent and sibling as appropriate. Then, recolor the sibling's red child black to balance the tree.
         else if(sibling.getColor() == Color.BLACK && sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED || sibling.getRight() != null && sibling.getRight().getColor() == Color.RED){
-            if(sibling.isOnLeft()){
-                rightRotate(sibling.getParent());
-            }
-            else if(sibling.isOnRight()){
-                leftRotate(sibling.getParent());
-            }
-
-            if(sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED){
-                sibling.getLeft().setColor(Color.BLACK);
-            }
-            else if(sibling.getRight()!= null && sibling.getRight().getColor() == Color.RED){
-                sibling.getRight().setColor(Color.BLACK);
-            }
-
-        }
-        // a. If the node's sibling is red, rotate the parent of the deleted node so that the sibling becomes the parent's parent and recolor the new parent and its children as appropriate. This reduces the problem to the case where the sibling is black.
-        else if(sibling.getColor() == Color.RED){
-
-        }
-        // b. If the node's sibling is black and has two black children, recolor the sibling to red and reapply the deletion algorithm to the parent node (i.e., start again from step 7).
-        else if(sibling.getColor() == Color.BLACK){
-
+            deletionHandlerRedChild(sibling);
         }
 
+    }
 
+    private void deletionHandlerRedSibling(RedBlackNode sibling){
+        // Rotate parent of deleted node
+        // So that sibling becomes the parent's parent
 
+        if(sibling.isOnRight()){
+            leftRightRotate(sibling);
+        }
+        else if(sibling.isOnLeft()){
+            rightLeftRotate(sibling);
+        }
+    }
+
+    private void deletionHandlerRedChild(RedBlackNode sibling){
+        if(sibling.isOnLeft() && sibling.getParent() != null){
+            rightRotate(sibling.getParent());
+        }
+        else if(sibling.isOnRight() && sibling.getParent() != null){
+            leftRotate(sibling.getParent());
+        }
+
+        if(sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED){
+            sibling.getLeft().setColor(Color.BLACK);
+        }
+        if(sibling.getRight()!= null && sibling.getRight().getColor() == Color.RED){
+            sibling.getRight().setColor(Color.BLACK);
+        }
     }
 
     public void balanceInsertion(RedBlackNode node){

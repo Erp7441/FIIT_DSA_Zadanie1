@@ -53,7 +53,8 @@ public class Main{
         out.println("Root: " + redBlackTree.getRoot());
 
 
-        //redBlackTree.delete(428);
+        redBlackTree.delete(428);
+        redBlackTree.delete(286);
 
 
 
