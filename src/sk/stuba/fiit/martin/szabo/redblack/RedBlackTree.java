@@ -50,314 +50,83 @@ public class RedBlackTree extends BstTree{
         RedBlackNode nodeToBeDeleted = (RedBlackNode) this.search(node.getKey());
         if(nodeToBeDeleted == null) { return false; }
 
-        //* Z = nodeToBeDeleted
-        //* Y = nodeToBeDeletedHelper
-        //* X = Replacement node
+        RedBlackNode sibling = nodeToBeDeleted.getSibling();
 
-        RedBlackNode replacement = null;
-        RedBlackNode nodeToBeDeletedHelper = nodeToBeDeleted;
-        Color nodeToBeDeletedColor = nodeToBeDeletedHelper.getColor();
-
-        if(nodeToBeDeleted.getLeft() == null){
-            replacement = nodeToBeDeleted.getRight();
-            transplant(nodeToBeDeleted, nodeToBeDeleted.getRight());
-        }
-        else if(nodeToBeDeleted.getRight() == null){
-            replacement = nodeToBeDeleted.getLeft();
-            transplant(nodeToBeDeleted, nodeToBeDeleted.getLeft());
-        }
-        else{
-            // TODO:: Remake to your functions
-
-            nodeToBeDeletedHelper = (RedBlackNode) BstNode.minimum(nodeToBeDeleted.getRight());
-            nodeToBeDeletedColor = nodeToBeDeletedHelper.getColor();
-            replacement = nodeToBeDeletedHelper.getRight();
-
-            if(nodeToBeDeletedHelper.getParent() == nodeToBeDeleted){
-                replacement.setParent(nodeToBeDeletedHelper);
+        // If node to be deleted has no children we just, yeet it out
+        if(nodeToBeDeleted.getLeft() == null && nodeToBeDeleted.getRight() == null){
+            if(nodeToBeDeleted.isOnLeft()){
+                nodeToBeDeleted.getParent().setLeft(null);
             }
-            else{
-                transplant(nodeToBeDeletedHelper, nodeToBeDeletedHelper.getRight());
-                nodeToBeDeletedHelper.setRight(nodeToBeDeleted.getRight());
+            else if(nodeToBeDeleted.isOnRight()){
+                nodeToBeDeleted.getParent().setRight(null);
             }
-
-            transplant(nodeToBeDeleted, nodeToBeDeletedHelper);
-            nodeToBeDeletedHelper.setLeft(nodeToBeDeleted.getLeft());
-            nodeToBeDeletedHelper.setColor(nodeToBeDeleted.getColor());
-
-
         }
-        if(nodeToBeDeletedColor == Color.BLACK){
-            fixBalanceDeletion(replacement);
+        // If node to be deleted has one child replace it with its child
+        if(nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() == null){
+            if(nodeToBeDeleted.isOnLeft()){
+                nodeToBeDeleted.getParent().setLeft(nodeToBeDeleted.getLeft());
+            }
+            else if(nodeToBeDeleted.isOnRight()){
+                nodeToBeDeleted.getParent().setRight(nodeToBeDeleted.getLeft());
+            }
         }
+        else if(nodeToBeDeleted.getLeft() == null && nodeToBeDeleted.getRight() != null){
+            if(nodeToBeDeleted.isOnLeft()){
+                nodeToBeDeleted.getParent().setLeft(nodeToBeDeleted.getRight());
+            }
+            else if(nodeToBeDeleted.isOnRight()){
+                nodeToBeDeleted.getParent().setRight(nodeToBeDeleted.getRight());
+            }
+        }
+
+        // If node to be deleted has two children replace it with its successor
+        if(nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null){
+            if(nodeToBeDeleted.isOnLeft()){
+                nodeToBeDeleted.getParent().setLeft(BstNode.getInOrderPredeecesor(nodeToBeDeleted));
+            }
+            else if(nodeToBeDeleted.isOnRight()){
+                nodeToBeDeleted.getParent().setRight(BstNode.getInOrderPredeecesor(nodeToBeDeleted));
+            }
+        }
+
+        // If node to be deleted is red. No adjustment is required
+        if(nodeToBeDeleted.getColor() == Color.RED){ return true; }
+
+        fixBalanceDeletion(sibling);
+
 
         return true;
     }
 
-    private void fixBalanceDeletion(RedBlackNode node){
-        RedBlackNode sibling;
-
-        while(node.getParent() != null && node.getColor() != Color.BLACK){
-            if(node == node.getParent().getLeft()){
-                sibling = node.getParent().getRight();
-
-                if(sibling == null) { continue; }
-
-                // Case 3.1
-                if(sibling.getColor() != Color.RED){
-                    sibling.setColor(Color.BLACK);
-                    node.getParent().setColor(Color.RED);
-                    leftRotate(node.getParent());
-                    sibling = node.getParent().getRight();
-                }
-
-                if(sibling == null) { continue; }
-
-                // Case 3.2
-                if(sibling.getLeft() != null && sibling.getRight() != null){
-                    if(sibling.getLeft().getColor() == Color.BLACK && sibling.getRight().getColor() == Color.BLACK){
-                        sibling.setColor(Color.RED);
-                        node = node.getParent();
-                    }
-                }
-
-
-                else{
-                    // Case 3.3
-
-                    if(sibling.getRight() != null && (sibling.getRight().getColor() == Color.BLACK)){
-                        sibling.getLeft().setColor(Color.BLACK);
-                        sibling.setColor(Color.RED);
-                        rightRotate(sibling);
-                        sibling = node.getParent().getRight();
-                    }
-
-                    if(sibling == null) { continue; }
-
-                    // Case 3.4
-
-                    sibling.setColor(node.getParent().getColor());
-                    node.getParent().setColor(Color.BLACK);
-                    sibling.getRight().setColor(Color.BLACK);
-                    leftRotate(node.getParent());
-                    node = (RedBlackNode) this.getRoot();
-                }
-            }
-            else{
-                sibling = node.getParent().getLeft();
-
-                // Case 3.1
-                if(sibling.getColor() == Color.RED){
-                    sibling.setColor(Color.BLACK);
-                    node.getParent().setColor(Color.RED);
-                    rightRotate(node.getParent());
-                    sibling = node.getParent().getLeft();
-                }
-
-                // Case 3.2
-                if(sibling.getLeft().getColor() == Color.BLACK && sibling.getRight().getColor() == Color.BLACK){
-                    sibling.setColor(Color.RED);
-                    node = node.getParent();
-                }
-                else{
-
-                    // Case 3.3
-                    if(sibling.getLeft().getColor() == Color.BLACK){
-                        sibling.getRight().setColor(Color.BLACK);
-                        sibling.setColor(Color.RED);
-                        leftRotate(sibling);
-                        sibling = node.getParent().getLeft();
-                    }
-
-                    // Case 3.4
-                    sibling.setColor(node.getParent().getColor());
-                    node.getParent().setColor(Color.BLACK);
-                    sibling.getLeft().setColor(Color.BLACK);
-                    rightRotate(node.getParent());
-                    node = (RedBlackNode) this.getRoot();
-                }
-            }
-        }
-        node.setColor(Color.BLACK);
-    }
-
-    private void transplant(RedBlackNode node1, RedBlackNode node2){
-        if(node1.getParent() == null){
-            this.setRoot(node2);
-        }
-        else if(node1.isOnLeft()){
-            node1.getParent().setLeft(node2);
-        }
-        else{
-            node1.getParent().setRight(node2);
-        }
-    }
-
-
-    private void bdChildRight(RedBlackNode nodeToBeDeleted, RedBlackNode child, RedBlackNode sibling){
-
-        /*
-         * Legend:
-         *
-         * x --> child
-         * w --> sibling
-         * nodeToBeDeleted --> (doensn't have a marker)
-         */
-
-
-        if(sibling.getColor() == Color.RED){
-            // Set the color of the right child of the parent of x as BLACK.
-            child.getParent().getLeft().setColor(Color.BLACK);
-
-            // Set the color of the parent of x as RED
-            child.getParent().setColor(Color.RED);
-
-            // Left-Rotate the parent of x
-            leftRotate(child.getParent());
-
-            // Assign the rightChild of the parent of x to w.
-            sibling = child.getParent().getLeft();
-        }
-        //If the color of both the right and the leftChild of w is BLACK
+    private void fixBalanceDeletion(RedBlackNode sibling){
+        // b. If the node's sibling is black and has two black children, recolor the sibling to red and reapply the deletion algorithm to the parent node (i.e., start again from step 7).
         if(
-            (sibling.getLeft() != null && sibling.getRight() != null) &&
-            (sibling.getLeft().getColor() == Color.BLACK && sibling.getRight().getColor() == Color.BLACK)
+                sibling != null && sibling.getColor() == Color.BLACK &&
+                sibling.getLeft() == null || sibling.getLeft().getColor() == Color.BLACK &&
+                sibling.getRight() == null || sibling.getRight().getColor() == Color.BLACK
         ){
-            // Set the color of w as RED
             sibling.setColor(Color.RED);
-
-            // Assign the parent of x to x.
-            child.setParent(child); //TODO:: WTF???
+            // Reapply the deletion algorithm to the parent node (i.e., start again from step 7)
+            fixBalanceDeletion(sibling.getParent());
         }
-        // Else if the color of the rightChild of w is BLACK
-        else if(sibling.getLeft() != null && sibling.getLeft().getColor() == Color.BLACK){
+        // c. If the node's sibling is black and has at least one red child, rotate the parent node so that the sibling becomes the child of the node's grandparent and recolor the new parent and sibling as appropriate. Then, recolor the sibling's red child black to balance the tree.
+        else if(sibling.getColor() == Color.BLACK && sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED){
 
-            // Set the color of the leftChild of w as BLACK
-            if(sibling.getRight() != null){
-                sibling.getRight().setColor(Color.BLACK);
-            }
-
-            // Set the color of w as RED
-            sibling.setColor(Color.RED);
-
-            // Right-Rotate w
-            rightRotate(sibling);
-
-            // Assign the rightChild of the parent of x to w.
-            child.getParent().setRight(sibling);
-            //sibling = sibling.getParent().getLeft();
         }
-        else{
+        else if(sibling.getRight() != null && sibling.getRight().getColor() == Color.RED){
 
-            // Set the color of w as the color of the parent of x.
-            if(child != null){
-                sibling.setColor(child.getColor());
-            }
-            else{
-                sibling.setColor(Color.BLACK);
-            }
-
-            // Set the color of the parent of parent of x as BLACK.
-            if(child != null && child.getParent() != null && child.getParent().getParent() != null){
-                child.getParent().getParent().setColor(Color.BLACK);
-            }
-
-            // Set the color of the right child of w as BLACK.
-            if(sibling.getLeft() != null){
-                sibling.getLeft().setColor(Color.BLACK);
-            }
-
-            // Left-Rotate the parent of x.
-            if(child != null && child.getParent() != null){
-                leftRotate(child.getParent());
-            }
-
-            //Set x as the root of the tree.
-            this.setRoot(child);
         }
-    }
+        // a. If the node's sibling is red, rotate the parent of the deleted node so that the sibling becomes the parent's parent and recolor the new parent and its children as appropriate. This reduces the problem to the case where the sibling is black.
+        else if(sibling.getColor() == Color.RED){
 
-    private void bdChildLeft(RedBlackNode nodeToBeDeleted, RedBlackNode child, RedBlackNode sibling){
-
-        /*
-         * Legend:
-         *
-         * x --> child
-         * w --> sibling
-         * nodeToBeDeleted --> (doensn't have a marker)
-         */
-
-
-        if(sibling.getColor() == Color.RED){
-            // Set the color of the right child of the parent of x as BLACK.
-            child.getParent().getRight().setColor(Color.BLACK);
-
-            // Set the color of the parent of x as RED
-            child.getParent().setColor(Color.RED);
-
-            // Left-Rotate the parent of x
-            leftRotate(child.getParent());
-
-            // Assign the rightChild of the parent of x to w.
-            sibling = child.getParent().getRight();
         }
-        //If the color of both the right and the leftChild of w is BLACK
-        if(
-            (sibling.getRight() != null && sibling.getLeft() != null) &&
-            (sibling.getRight().getColor() == Color.BLACK && sibling.getLeft().getColor() == Color.BLACK)
-        ){
-            // Set the color of w as RED
-            sibling.setColor(Color.RED);
+        // b. If the node's sibling is black and has two black children, recolor the sibling to red and reapply the deletion algorithm to the parent node (i.e., start again from step 7).
+        else if(sibling.getColor() == Color.BLACK){
 
-            // Assign the parent of x to x.
-            child.setParent(child); //TODO:: WTF???
         }
-        // Else if the color of the rightChild of w is BLACK
-        else if(sibling.getRight() != null && sibling.getRight().getColor() == Color.BLACK){
 
-            // Set the color of the leftChild of w as BLACK
-            if(sibling.getLeft() != null){
-                sibling.getLeft().setColor(Color.BLACK);
-            }
 
-            // Set the color of w as RED
-            sibling.setColor(Color.RED);
 
-            // Right-Rotate w
-            rightRotate(sibling);
-
-            // Assign the rightChild of the parent of x to w.
-            child.getParent().setRight(sibling);
-            //sibling = sibling.getParent().getRight();
-        }
-        else{
-
-            // Set the color of w as the color of the parent of x.
-            if(child != null){
-                sibling.setColor(child.getColor());
-            }
-            else{
-                sibling.setColor(Color.BLACK);
-            }
-
-            // Set the color of the parent of parent of x as BLACK.
-            if(child != null && child.getParent() != null && child.getParent().getParent() != null){
-                child.getParent().getParent().setColor(Color.BLACK);
-            }
-
-            // Set the color of the right child of w as BLACK.
-            if(sibling.getRight() != null){
-                sibling.getRight().setColor(Color.BLACK);
-            }
-
-            // Left-Rotate the parent of x.
-            if(child != null && child.getParent() != null){
-                leftRotate(child.getParent());
-            }
-
-            //Set x as the root of the tree.
-            this.setRoot(child);
-        }
     }
 
     public void balanceInsertion(RedBlackNode node){
