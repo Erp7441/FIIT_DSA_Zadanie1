@@ -110,10 +110,20 @@ public class RedBlackTree extends BstTree{
             fixBalanceDeletion(sibling.getParent());
         }
         // c. If the node's sibling is black and has at least one red child, rotate the parent node so that the sibling becomes the child of the node's grandparent and recolor the new parent and sibling as appropriate. Then, recolor the sibling's red child black to balance the tree.
-        else if(sibling.getColor() == Color.BLACK && sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED){
+        else if(sibling.getColor() == Color.BLACK && sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED || sibling.getRight() != null && sibling.getRight().getColor() == Color.RED){
+            if(sibling.isOnLeft()){
+                rightRotate(sibling.getParent());
+            }
+            else if(sibling.isOnRight()){
+                leftRotate(sibling.getParent());
+            }
 
-        }
-        else if(sibling.getRight() != null && sibling.getRight().getColor() == Color.RED){
+            if(sibling.getLeft() != null && sibling.getLeft().getColor() == Color.RED){
+                sibling.getLeft().setColor(Color.BLACK);
+            }
+            else if(sibling.getRight()!= null && sibling.getRight().getColor() == Color.RED){
+                sibling.getRight().setColor(Color.BLACK);
+            }
 
         }
         // a. If the node's sibling is red, rotate the parent of the deleted node so that the sibling becomes the parent's parent and recolor the new parent and its children as appropriate. This reduces the problem to the case where the sibling is black.
