@@ -30,7 +30,7 @@ public class Main{
         SplayTree splayTree = new SplayTree();
 
         //? Loading from file
-        String path = "data/data6.txt";
+        String path = "data/data8.txt";
         //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
         Main.createTreeFromFile(splayTree, path, ",");
 
@@ -38,6 +38,13 @@ public class Main{
         //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, 1000000, 1000000);
 
         out.println(splayTree);
+
+        splayTree.delete(7);
+        splayTree.delete(20);
+        splayTree.delete(6);
+        splayTree.delete(12);
+        splayTree.delete(13);
+        splayTree.delete(4);
 
         out.println(splayTree);
 

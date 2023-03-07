@@ -1,12 +1,17 @@
 package sk.stuba.fiit.martin.szabo.splay;
 
-import org.w3c.dom.Node;
 import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
 import java.util.Objects;
 
 public class SplayTree extends BstTree{
+
+    public SplayTree(){
+    }
+    public SplayTree(BstNode root){
+        this.setRoot(root);
+    }
 
     public BstNode splay(BstNode node){
         if(node == null) return null;
@@ -27,7 +32,10 @@ public class SplayTree extends BstTree{
         // If node we are inserting is already present in the tree then we should return as no duplicates are allowed.
         // If node is a duplicate value we don't want to modify the tree.
         // We use super here because we need search without modification to tree.
-        if(node == super.search(node.getKey())){
+
+        BstNode found = super.search(node.getKey());
+        if(found != null && (node == found ||  node.getKey().equals(found.getKey()))){
+            splay(super.search(node.getKey()));
             return false;
         }
 
@@ -94,6 +102,32 @@ public class SplayTree extends BstTree{
             }
         }
         return true;
+    }
+
+    @Override
+    public BstNode delete(BstNode node){
+        if(this.getRoot() == null) return null;
+
+        // Find node that needs to be deleted
+        BstNode nodeToBeDeleted = this.search(node.getKey());
+        if(!Objects.equals(nodeToBeDeleted.getKey(), this.getRoot().getKey())) return null;
+
+        SplayTree rightSubtree = new SplayTree(nodeToBeDeleted.getRight());
+
+        // If we have no right subtree set left subtree as new tree
+        if(rightSubtree.getRoot() == null){
+            this.setRoot(nodeToBeDeleted.getLeft());
+        }
+        else{
+            // Else splay lowest value from right subtree
+            rightSubtree.splay(BstNode.minimum(rightSubtree.getRoot()));
+            // Reassign left subtree of node to be deleted as left subtree of right subtree (which will form the new tree)
+            rightSubtree.getRoot().setLeft(nodeToBeDeleted.getLeft());
+            // Assign root of right subtree as root of this tree effectively finalaizing the deletion
+            this.setRoot(rightSubtree.getRoot());
+        }
+
+        return this.getRoot();
     }
 
     @Override

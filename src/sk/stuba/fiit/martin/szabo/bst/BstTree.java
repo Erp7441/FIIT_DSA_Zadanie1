@@ -14,7 +14,9 @@ public class BstTree{
     }
     public BstTree(BstNode root){
         this.root = root;
-        this.root.setHeight(0);
+        if(root != null){
+            this.root.setHeight(0);
+        }
     }
 
 
@@ -22,9 +24,11 @@ public class BstTree{
     public boolean insert(BstNode node){
 
         // If node we are inserting is already present in the tree then we should return as no duplicates are allowed.
-        if(node == this.search(node.getKey())){
+        BstNode found = this.search(node.getKey());
+        if(found != null && (node == found ||  node.getKey().equals(found.getKey()))){
             return false;
         }
+
 
         // If node we are inserting is root then we should just insert it as head of the tree and return.
         if(root == null){
