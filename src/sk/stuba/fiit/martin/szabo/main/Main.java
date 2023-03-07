@@ -6,6 +6,8 @@ package sk.stuba.fiit.martin.szabo.main;
 // TODO:: !!! Remove redundant calculations !!!
 // TODO:: Remove debug outputs
 
+// TODO:: ADDDDDDD STRINGGGGGGGSSSSSSS
+
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
@@ -19,37 +21,26 @@ import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
-        //avlTreeExecute();
-        splayTreeExecute();
+        avlTreeExecute(1000000000, 1000000);
+        splayTreeExecute(1000000000, 1000000);
     }
 
-    static void splayTreeExecute(){
+    static void splayTreeExecute(Integer max, Integer count){
 
         //* ----------------------------- Splay Tree creation -----------------------------
         long startTime = System.nanoTime();
         SplayTree splayTree = new SplayTree();
 
         //? Loading from file
-        String path = "data/data8.txt";
-        //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-        Main.createTreeFromFile(splayTree, path, ",");
+        //String path = "data/data9.txt";
+        //Main.generateRandomDatasetToFile(path, 0, 10000000, 1000000);
+        //Main.createTreeFromFile(splayTree, path, ",");
 
         //? Generating random dataset
-        //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, 1000000, 1000000);
-
-        out.println(splayTree);
-
-        splayTree.delete(7);
-        splayTree.delete(20);
-        splayTree.delete(6);
-        splayTree.delete(12);
-        splayTree.delete(13);
-        splayTree.delete(4);
-
-        out.println(splayTree);
+        ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, max, count);
 
         //* Fancy output
-        /*
+
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
@@ -57,7 +48,7 @@ public class Main{
         //* ----------------------------- Splay insert -----------------------------
         startTime = System.nanoTime();
 
-
+        splayTree.insert(605022365);
 
         endTime = System.nanoTime();
         long insertNanoSeconds = (endTime - startTime);
@@ -75,7 +66,7 @@ public class Main{
         //* ----------------------------- Splay output -----------------------------
         startTime = System.nanoTime();
 
-        out.println(splayTree);
+        //out.println(splayTree);
 
         endTime = System.nanoTime();
         long outputNanoSeconds = (endTime - startTime);
@@ -87,6 +78,8 @@ public class Main{
         for(int nodeToDelete : randomDataset){
             splayTree.delete(nodeToDelete);
         }
+
+        //splayTree.delete(522);
 
         endTime = System.nanoTime();
         long deletionNanoSeconds = endTime - startTime;
@@ -108,13 +101,11 @@ public class Main{
         out.println("Splay Tree deletion took " + deletionNanoSeconds + (
                 deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
         ));
+        out.println();
         //* --------------------------------------------------------------------------
-
-
-         */
     }
 
-    static void avlTreeExecute(){
+    static void avlTreeExecute(Integer max, Integer count){
 
         //* ----------------------------- AvlTree creation -----------------------------
         long startTime = System.nanoTime();
@@ -126,7 +117,7 @@ public class Main{
             //Main.createTreeFromFile(avlTree, path, ",");
 
             //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 10000);
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, max, count);
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
@@ -153,7 +144,7 @@ public class Main{
         //* ----------------------------- AvlTree output -----------------------------
         startTime = System.nanoTime();
 
-            out.println(avlTree);
+            //out.println(avlTree);
 
         endTime = System.nanoTime();
         long outputNanoSeconds = (endTime - startTime);
@@ -186,6 +177,7 @@ public class Main{
         out.println("AvlTree deletion took " + deletionNanoSeconds + (
                 deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
         ));
+        out.println();
         //* --------------------------------------------------------------------------
     }
 

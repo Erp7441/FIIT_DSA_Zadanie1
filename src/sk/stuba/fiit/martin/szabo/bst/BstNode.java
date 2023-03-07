@@ -4,26 +4,25 @@ public class BstNode{
 
     //* Attributes
     private Integer key = null;
+    private String value = null;
     private BstNode left = null;
     private BstNode right = null;
     private BstNode parent = null;
-    private Integer height = 0;
+
     //* Constructors
 
     public BstNode(){}
     public BstNode(Integer key){
         this.key = key;
     }
+    public BstNode(Integer key, String value){
+        this.key = key;
+        this.value = value;
+    }
 
     //* Utility methods
 
-    // TODO:: Refactor to avoid recursion. This is killing your performance
-    public Integer calculateHeight(){
-        int leftHeight = left != null ? left.calculateHeight() : 0;
-        int rightHeight = right != null ? right.calculateHeight() : 0;
-        this.setHeight((Math.max(leftHeight, rightHeight)) + 1);
-        return this.getHeight();
-    }
+
 
     public static BstNode minimum(BstNode root){
 
@@ -122,14 +121,6 @@ public class BstNode{
         this.parent = parent;
     }
 
-    public Integer getHeight(){
-        return height;
-    }
-
-    public void setHeight(Integer height){
-        this.height = height;
-    }
-
     public Integer getKey(){
         return key;
     }
@@ -150,5 +141,13 @@ public class BstNode{
             return true;
         }
         return this.getParent().getRight() == this;
+    }
+
+    public String getValue(){
+        return value;
+    }
+
+    public void setValue(String value){
+        this.value = value;
     }
 }

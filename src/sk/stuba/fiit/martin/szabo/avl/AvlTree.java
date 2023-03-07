@@ -1,5 +1,6 @@
 package sk.stuba.fiit.martin.szabo.avl;
 
+import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ public class AvlTree extends BstTree{
     }
     public AvlTree(AvlNode root){
         this.setRoot(root);
-        this.getRoot().setHeight(0);
+        if(this.getRoot() != null){
+            ((AvlNode) this.getRoot()).setHeight(0);
+        }
     }
 
     public boolean insert(AvlNode node){
@@ -149,5 +152,31 @@ public class AvlTree extends BstTree{
             }
             currentLevelNodes = nextLevelNodes;
         }
+    }
+
+    @Override
+    public void leftRotate(BstNode node){
+        AvlNode right = (AvlNode) node.getRight();
+        super.leftRotate(node);
+        // And we recalculate the height's
+        ((AvlNode)node).calculateHeight();
+        right.calculateHeight();
+    }
+
+    @Override
+    public void rightRotate(BstNode node){
+        AvlNode left = (AvlNode) node.getLeft();
+        super.rightRotate(node);
+        // And we recalculate the height's
+        ((AvlNode)node).calculateHeight();
+        left.calculateHeight();
+    }
+
+    public Integer getHeight(){
+        return ((AvlNode) this.getRoot()).getHeight();
+    }
+
+    public void setHeight(Integer height){
+        ((AvlNode) this.getRoot()).setHeight(height);
     }
 }

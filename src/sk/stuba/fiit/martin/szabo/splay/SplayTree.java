@@ -42,7 +42,6 @@ public class SplayTree extends BstTree{
         // If node we are inserting is root then we should just insert it as head of the tree and return.
         if(this.getRoot() == null){
             this.setRoot(node);
-            this.getRoot().setHeight(0);
             return false;
         }
 

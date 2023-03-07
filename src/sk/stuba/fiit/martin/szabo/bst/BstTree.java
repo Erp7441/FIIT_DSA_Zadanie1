@@ -14,9 +14,6 @@ public class BstTree{
     }
     public BstTree(BstNode root){
         this.root = root;
-        if(root != null){
-            this.root.setHeight(0);
-        }
     }
 
 
@@ -33,7 +30,6 @@ public class BstTree{
         // If node we are inserting is root then we should just insert it as head of the tree and return.
         if(root == null){
             this.root = node;
-            this.root.setHeight(0);
             return false;
         }
 
@@ -219,9 +215,7 @@ public class BstTree{
         // Now we rotate the node to the left
         right.setLeft(node);
 
-        // And we recalculate the height's
-        node.calculateHeight();
-        right.calculateHeight();
+
     }
 
     public void rightRotate(BstNode node){
@@ -250,9 +244,6 @@ public class BstTree{
         // Now we rotate the node to the right
         left.setRight(node);
 
-        // And we recalculate the height's
-        node.calculateHeight();
-        left.calculateHeight();
     }
 
     public void leftRightRotate(BstNode node){
@@ -322,14 +313,6 @@ public class BstTree{
     }
 
     //* Getters and setters
-    public Integer getHeight(){
-        return this.getRoot().getHeight();
-    }
-
-    public void setHeight(Integer height){
-        this.getRoot().setHeight(height);
-    }
-
     public BstNode getRoot(){
         return root;
     }
