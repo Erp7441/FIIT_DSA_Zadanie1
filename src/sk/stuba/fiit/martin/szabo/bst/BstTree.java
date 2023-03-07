@@ -165,6 +165,8 @@ public class BstTree{
         // RR rotation
 
         BstNode right = node.getRight(); // Get right child of node we want to rotate
+        if(right == null) { return; }
+
         BstNode rightLeft = right.getLeft(); // Get left child of the right child
 
         // If current node is root. We just set the right child as root
@@ -194,6 +196,8 @@ public class BstTree{
         // LL rotation
 
         BstNode left = node.getLeft(); // Get left child of node we want to rotate
+        if(left == null) { return; }
+
         BstNode leftRight = left.getRight(); // Get right child of the left child
 
         // If current node is root. We just set the right child as root

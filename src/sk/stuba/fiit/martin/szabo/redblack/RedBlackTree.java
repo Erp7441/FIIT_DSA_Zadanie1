@@ -53,18 +53,23 @@ public class RedBlackTree extends BstTree{
         RedBlackNode sibling = nodeToBeDeleted.getSibling();
         RedBlackNode left = nodeToBeDeleted.getLeft();
         RedBlackNode right = nodeToBeDeleted.getRight();
-        super.delete(nodeToBeDeleted);
+        RedBlackNode successor = (RedBlackNode) super.delete(nodeToBeDeleted);
 
-        // If node to be deleted is red. No adjustment is required
+        // If node to be deleted is red. No adjustment is required.
         if(nodeToBeDeleted.getColor() == Color.RED){ return true; }
-        /*// Else if node has one child that is red. Recolor the child
+        // Else if node has one child that is red. Recolor the child.
         else if(left == null && right != null && right.getColor() == Color.RED){
             right.setColor(nodeToBeDeleted.getColor());
         }
         else if(right == null && left != null && left.getColor() == Color.RED){
             left.setColor(nodeToBeDeleted.getColor());
-        }*/ // TODO:: Uncomment?
-        // Else we have to readjust the tree
+        }
+        // Else if the node to be deleted children are both red we just find the corrent replacement node and change it's color.
+        // The replacement of a node to be deleted with correct node is happening in super.delete() method.
+        else if(right != null && left != null && left.getColor() == Color.RED && right.getColor() == Color.RED){
+            successor.setColor(nodeToBeDeleted.getColor());
+        }
+        // Else we have to readjust the tree. We will now only care about sibling and it's children to balance the tree.
         else{
             balanceDeletion(sibling);
         }
@@ -104,9 +109,6 @@ public class RedBlackTree extends BstTree{
     }
 
     private void deletionHandlerRedChild(RedBlackNode sibling){
-
-        // TODO:: Fix this
-
         if(sibling.isOnLeft() && sibling.getParent() != null){
             rightRotate(sibling.getParent());
         }

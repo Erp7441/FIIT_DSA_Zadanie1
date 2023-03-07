@@ -53,9 +53,12 @@ public class Main{
         out.println("Root: " + redBlackTree.getRoot());
 
 
-        redBlackTree.delete(428);
-        redBlackTree.delete(286);
-        redBlackTree.delete(115);
+        redBlackTree.delete(428); // Black node with one red and one black child
+        redBlackTree.delete(286); // Black Node with single red child
+        redBlackTree.delete(115); // Black Node with two red children
+        redBlackTree.delete(475); // Red node with two black children
+        // Red node with one black child only (Possible?)
+        // Red node with one black and one red child (Possible?)
 
 
 
