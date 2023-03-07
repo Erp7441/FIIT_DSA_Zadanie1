@@ -15,7 +15,7 @@ public class AvlTree extends BstTree{
     public AvlTree(AvlNode root){
         this.setRoot(root);
         if(this.getRoot() != null){
-            ((AvlNode) this.getRoot()).setHeight(0);
+            ((AvlNode) this.getRoot()).setHeight(1);
         }
     }
 
@@ -132,26 +132,8 @@ public class AvlTree extends BstTree{
     }
 
     public void balanceDeletionSubTree(AvlNode root){
-        ArrayList<AvlNode> currentLevelNodes = new ArrayList<>();
-        currentLevelNodes.add(root); // Gets current level nodes
-
-        while(!currentLevelNodes.isEmpty()){
-
-            ArrayList<AvlNode> nextLevelNodes = new ArrayList<>();
-
-            for(AvlNode node : currentLevelNodes){ // For each node on current level
-
-                this.balanceDeletion(node);
-
-                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
-                    nextLevelNodes.add((AvlNode) node.getLeft());
-                }
-                if(node != null && node.getRight() != null){
-                    nextLevelNodes.add((AvlNode) node.getRight());
-                }
-            }
-            currentLevelNodes = nextLevelNodes;
-        }
+        // TODO:: Get rid of deepest node and recalculate from balance deletion from root downwards.
+        this.balanceDeletion((AvlNode) BstNode.getDeepestNode(root));
     }
 
     @Override
@@ -178,5 +160,13 @@ public class AvlTree extends BstTree{
 
     public void setHeight(Integer height){
         ((AvlNode) this.getRoot()).setHeight(height);
+    }
+
+    @Override
+    public void setRoot(BstNode root){
+        if(this.getRoot() == null){
+            ((AvlNode) root).setHeight(1);
+        }
+        super.setRoot(root);
     }
 }

@@ -9,7 +9,6 @@ package sk.stuba.fiit.martin.szabo.main;
 // TODO:: ADDDDDDD STRINGGGGGGGSSSSSSS
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
-import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
 import sk.stuba.fiit.martin.szabo.splay.SplayTree;
 
@@ -21,196 +20,90 @@ import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
-        avlTreeExecute(1000000000, 1000000);
-        splayTreeExecute(1000000000, 1000000);
-    }
-
-    static void splayTreeExecute(Integer max, Integer count){
-
-        //* ----------------------------- Splay Tree creation -----------------------------
-        long startTime = System.nanoTime();
+        AvlTree avlTree = new AvlTree();
         SplayTree splayTree = new SplayTree();
 
-            //? Loading from file
-            //String path = "data/data9.txt";
-            //Main.generateRandomDatasetToFile(path, 0, 10000000, 1000000);
-            //Main.createTreeFromFile(splayTree, path, ",");
+        ArrayList<Integer> dataset = Main.createDataset("data/data11.txt", 0, 1000000000, 1000000, true);
 
-            splayTree.insert(515475465); // For splaying in search
-
-            //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, max, count);
-
-        long endTime = System.nanoTime();
-        long durationNanoseconds = (endTime - startTime);
-        //* --------------------------------------------------------------------------
-
-        //* ----------------------------- Splay insert -----------------------------
-        startTime = System.nanoTime();
-
-            splayTree.insert(605022365);
-
-        endTime = System.nanoTime();
-        long insertNanoSeconds = (endTime - startTime);
-        //* --------------------------------------------------------------------------
-
-        //* ----------------------------- Splay search -----------------------------
-        startTime = System.nanoTime();
-
-            splayTree.search(515475465);
-
-        endTime = System.nanoTime();
-        long searchNanoSeconds = (endTime - startTime);
-        //* --------------------------------------------------------------------------
-
-        //* ----------------------------- Splay output -----------------------------
-        startTime = System.nanoTime();
-
-            //out.println(splayTree);
-
-        endTime = System.nanoTime();
-        long outputNanoSeconds = (endTime - startTime);
-        //* --------------------------------------------------------------------------
-
-        //* ----------------------------- Splay deletion -----------------------------
-        startTime = System.nanoTime();
-
-            for(int nodeToDelete : randomDataset){
-                splayTree.delete(nodeToDelete);
-            }
-
-        endTime = System.nanoTime();
-        long deletionNanoSeconds = endTime - startTime;
-        //* --------------------------------------------------------------------------
-
-        //*  ----------------------------- Staistics  -----------------------------
-        out.println("Splay Tree creation took " + durationNanoseconds + (
-                durationNanoseconds != 1 ? " nano seconds " : " nano second"
-        ));
-        out.println("Splay Tree insertion took " + insertNanoSeconds + (
-                insertNanoSeconds != 1 ? " nano seconds " : " nano second"
-        ));
-        out.println("Splay Tree search took " + searchNanoSeconds + (
-                searchNanoSeconds != 1 ? " nano seconds " : " nano second"
-        ));
-        out.println("Splay Tree output took " + outputNanoSeconds + (
-                outputNanoSeconds != 1 ? " nano seconds " : " nano second"
-        ));
-        out.println("Splay Tree deletion took " + deletionNanoSeconds + (
-                deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
-        ));
-        out.println();
-        //* --------------------------------------------------------------------------
+        treeExecute(avlTree, "Avl Tree", 605022365, false, dataset);
+        treeExecute(splayTree, "Splay Tree", 605022365, false, dataset);
     }
 
-    static void avlTreeExecute(Integer max, Integer count){
+    static void treeExecute(BstTree tree, String type, Integer insertionValue, Boolean output, ArrayList<Integer> dataset){
 
-        //* ----------------------------- AvlTree creation -----------------------------
+        //* ----------------------------- Tree creation -----------------------------
         long startTime = System.nanoTime();
-        AvlTree avlTree = new AvlTree();
 
-            //? Loading from file
-            //String path = "data/data8.txt";
-            //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
-            //Main.createTreeFromFile(avlTree, path, ",");
-
-            //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, max, count);
+        for(Integer i: dataset){
+            tree.insert(i);
+        }
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
-        //* ----------------------------- AvlTree insert -----------------------------
+        //* ----------------------------- Tree insert -----------------------------
         startTime = System.nanoTime();
 
-            avlTree.insert(605022365);
+        tree.insert(insertionValue);
 
         endTime = System.nanoTime();
         long insertNanoSeconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
-        //* ----------------------------- AvlTree search -----------------------------
+        //* ----------------------------- Tree search -----------------------------
         startTime = System.nanoTime();
 
-            avlTree.search(605022365);
+        tree.search(insertionValue);
 
         endTime = System.nanoTime();
         long searchNanoSeconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
-        //* ----------------------------- AvlTree output -----------------------------
+        //* ----------------------------- Tree output -----------------------------
         startTime = System.nanoTime();
 
-            //out.println(avlTree);
+        if(Boolean.TRUE.equals(output)){
+            out.println(tree);
+        }
 
         endTime = System.nanoTime();
         long outputNanoSeconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
-        //* ----------------------------- AvlTree deletion -----------------------------
+        //* ----------------------------- Tree deletion -----------------------------
         startTime = System.nanoTime();
 
-            for(int nodeToDelete : randomDataset){
-                avlTree.delete(nodeToDelete);
-            }
+        for(int nodeToDelete : dataset){
+            tree.delete(nodeToDelete);
+        }
+        tree.delete(insertionValue);
 
         endTime = System.nanoTime();
         long deletionNanoSeconds = endTime - startTime;
         //* --------------------------------------------------------------------------
 
-        //*  ----------------------------- Staistics  -----------------------------
-        out.println("AvlTree creation took " + durationNanoseconds + (
-                durationNanoseconds != 1 ? " nano seconds " : " nano second"
+        //*  ----------------------------- Statistics  -----------------------------
+        out.println(type + " creation took " + Main.nanoToSeconds(durationNanoseconds) + (
+                durationNanoseconds != 1 ? " seconds " : " second"
         ));
-        out.println("AvlTree insertion took " + insertNanoSeconds + (
-                insertNanoSeconds != 1 ? " nano seconds " : " nano second"
+        out.println(type + " insertion took " + Main.nanoToSeconds(insertNanoSeconds) + (
+                insertNanoSeconds != 1 ? " seconds " : " second"
         ));
-        out.println("AvlTree search took " + searchNanoSeconds + (
-                searchNanoSeconds != 1 ? " nano seconds " : " nano second"
+        out.println(type + " search took " + Main.nanoToSeconds(searchNanoSeconds) + (
+                searchNanoSeconds != 1 ? " seconds " : " second"
         ));
-        out.println("AvlTree output took " + outputNanoSeconds + (
-                outputNanoSeconds != 1 ? " nano seconds " : " nano second"
+        out.println(type + " output took " + Main.nanoToSeconds(outputNanoSeconds) + (
+                outputNanoSeconds != 1 ? " seconds " : " second"
         ));
-        out.println("AvlTree deletion took " + deletionNanoSeconds + (
-                deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
+        out.println(type + " deletion took " + Main.nanoToSeconds(deletionNanoSeconds) + (
+                deletionNanoSeconds != 1 ? " seconds " : " second"
         ));
         out.println();
         //* --------------------------------------------------------------------------
     }
 
-    static void createTreeFromFile(BstTree tree, String path, String delimiter){
-        File file = new File(path);
-
-        try(Scanner sc = new Scanner(file)){
-            while(sc.hasNext()){
-                String line = sc.next();
-                insertLine(tree, line, delimiter);
-            }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-    }
-
-    private static void insertLine(BstTree tree, String line, String delimiter){
-        if(delimiter != null){
-            String[] split = line.split(delimiter);
-            for(String input : split){
-                try{
-                    tree.insert(Integer.parseInt(input));
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
-        else{
-            tree.insert(Integer.parseInt(line));
-        }
-    }
-
-    static void generateRandomDatasetToFile(String path, Integer min, Integer max, Integer count){
+    private static void generateRandomDatasetToFile(String path, Integer min, Integer max, Integer count){
         File file = new File(path);
 
         try{
@@ -239,14 +132,61 @@ public class Main{
 
     }
 
-    static ArrayList<Integer> generateRandomDatasetToTree(BstTree tree, Integer min, Integer max, Integer count){
+    private static ArrayList<Integer> generateRandomDataset(Integer min, Integer max, Integer count){
         ArrayList<Integer> randomDataset = new ArrayList<>();
         for(int i=0; i<count; i++){
             Integer number = (int) Math.floor((Math.random() * (max - min + 1)) + min);
             randomDataset.add(number);
-            tree.insert(number);
         }
         return randomDataset;
+    }
+
+    private static String nanoToSeconds(Long nanoseconds){
+        Long decimal = Main.getNumberLength(nanoseconds);
+        String specifier = "%." + ((decimal < 9L) ? 9L : decimal) + "f";
+        return String.format(specifier, (nanoseconds.floatValue() / 1000000000));
+    }
+
+    private static Long getNumberLength(Long number){
+        Long count = 0L;
+        while(number != 0){
+            count++;
+            number = number / 10;
+        }
+        return count;
+    }
+
+    private static ArrayList<Integer> createDataset(String pathToFile, Integer min, Integer max, Integer count, Boolean overwrite){
+        if(pathToFile != null){
+            File file = new File(pathToFile);
+            if(!file.exists() || Boolean.TRUE.equals(overwrite)){
+                Main.generateRandomDatasetToFile(pathToFile, min, max, count);
+            }
+            return Main.fileToArray(pathToFile);
+        }
+        else{
+            //? Generating random dataset
+            return Main.generateRandomDataset(min, max, count);
+        }
+    }
+
+    private static ArrayList<Integer> fileToArray(String pathToFile){
+        File file = new File(pathToFile);
+        Scanner sc;
+
+        try{
+            sc = new Scanner(file);
+        }
+        catch(FileNotFoundException e){
+            throw new RuntimeException(e);
+        }
+
+        ArrayList<Integer> dataset = new ArrayList<>();
+        while(sc.hasNext()){
+            dataset.add(Integer.valueOf(sc.next()));
+        }
+
+        return dataset;
     }
 
 }

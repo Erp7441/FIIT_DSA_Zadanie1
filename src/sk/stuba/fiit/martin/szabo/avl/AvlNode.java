@@ -38,7 +38,7 @@ public class AvlNode extends BstNode{
     // TODO:: Refactor to avoid recursion. This is killing your performance
     public Integer calculateHeight(){
         if (this.getLeft() == null && this.getRight() == null) {
-            this.setHeight(0); // height of leaf node is 0
+            this.setHeight(1);
         }
         else if (this.getLeft() == null) {
             this.setHeight(((AvlNode) this.getRight()).getHeight() + 1);

@@ -1,5 +1,9 @@
 package sk.stuba.fiit.martin.szabo.bst;
 
+import sk.stuba.fiit.martin.szabo.avl.AvlNode;
+
+import java.util.ArrayList;
+
 public class BstNode{
 
     //* Attributes
@@ -71,6 +75,14 @@ public class BstNode{
         return null;
     }
 
+    public static BstNode getInOrderSuccessor(BstNode root){
+        if(root.getRight() != null){
+            // Gets min node value from right subtree
+            return BstNode.minimum(root.getRight());
+        }
+        return null;
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -88,6 +100,28 @@ public class BstNode{
             sb.append("x");
         }
         return sb.toString();
+    }
+
+    public static BstNode getDeepestNode(BstNode root){
+        ArrayList<BstNode> currentLevelNodes = new ArrayList<>();
+        currentLevelNodes.add(root); // Gets current level nodes
+
+        while(true){
+
+            ArrayList<BstNode> nextLevelNodes = new ArrayList<>();
+
+            for(BstNode node : currentLevelNodes){ // For each node on current level
+                if(node != null && node.getLeft() != null){ // And append it to the list of next level nodes.
+                    nextLevelNodes.add(node.getLeft());
+                }
+                if(node != null && node.getRight() != null){
+                    nextLevelNodes.add(node.getRight());
+                }
+            }
+            if(nextLevelNodes.isEmpty()){ break; }
+            currentLevelNodes = nextLevelNodes;
+        }
+        return currentLevelNodes.get(0);
     }
 
     //* Getters and setters

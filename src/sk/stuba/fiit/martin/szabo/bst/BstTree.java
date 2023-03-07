@@ -133,11 +133,26 @@ public class BstTree{
         }
 
         BstNode child = null;
-        BstNode childsParent;
+        BstNode childsParent = null;
 
         // If node to be deleted has two children we need to find in order predecessor
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
-            child = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
+            BstNode predecessor = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
+            BstNode successor = BstNode.getInOrderSuccessor(nodeToBeDeleted);
+            if(successor != null && predecessor != null){
+                if(predecessor.getKey() < successor.getKey()){
+                    child = predecessor;
+                }
+                else{
+                    child = successor;
+                }
+            }
+            else if(successor == null){
+                child = predecessor;
+            }
+            else if(predecessor == null){
+                child = successor;
+            }
         }
         // If node to be deleted has one child use that child as replacement
         else if(nodeToBeDeleted.getLeft() != null || nodeToBeDeleted.getRight() != null){
@@ -148,19 +163,23 @@ public class BstTree{
         if(child != null){
             childsParent = child.getParent();
 
-            // Ripping away child from its parent
-            if(childsParent != null && childsParent.getLeft() == child){
-                childsParent.setLeft(null);
-            }
-            else if(childsParent != null && childsParent.getRight() == child){
-                childsParent.setRight(null);
-            }
-
             // If node to be deleted has children where child does not. Move them to the replacement node.
-            if(nodeToBeDeleted.getLeft() != null && child.getLeft() == null){
+            if(nodeToBeDeleted.getLeft() != null){
+                if(child.isOnRight()){
+                    child.getParent().setRight(child.getLeft());
+                }
+                else if(child.isOnLeft()){
+                    child.getParent().setLeft(child.getLeft());
+                }
                 child.setLeft(nodeToBeDeleted.getLeft());
             }
-            if(nodeToBeDeleted.getRight() != null && child.getRight() == null){
+            if(nodeToBeDeleted.getRight() != null){
+                if(child.isOnRight()){
+                    child.getParent().setRight(child.getRight());
+                }
+                else if(child.isOnLeft()){
+                    child.getParent().setLeft(child.getRight());
+                }
                 child.setRight(nodeToBeDeleted.getRight());
             }
         }
@@ -177,9 +196,8 @@ public class BstTree{
             nodeToBeDeleted.getParent().setRight(child);
         }
 
-        // We should either return the child we replaced nodeTobeDeleted with or if we just yet out the nodeToBeDeleted
-        // then we need parent node of the nodeToBeDeleted
-        return child != null ? child : nodeToBeDeleted.getParent();
+        // We should either return the child we replaced nodeTobeDeleted with or if it is parent we want to return the subtree we took it from
+        return (child != null && child.getParent() != null) ? child : childsParent;
     }
 
     public boolean delete(Integer value){
