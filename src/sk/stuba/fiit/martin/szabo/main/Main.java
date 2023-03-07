@@ -31,15 +31,15 @@ public class Main{
         long startTime = System.nanoTime();
         SplayTree splayTree = new SplayTree();
 
-        //? Loading from file
-        //String path = "data/data9.txt";
-        //Main.generateRandomDatasetToFile(path, 0, 10000000, 1000000);
-        //Main.createTreeFromFile(splayTree, path, ",");
+            //? Loading from file
+            //String path = "data/data9.txt";
+            //Main.generateRandomDatasetToFile(path, 0, 10000000, 1000000);
+            //Main.createTreeFromFile(splayTree, path, ",");
 
-        //? Generating random dataset
-        ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, max, count);
+            splayTree.insert(515475465); // For splaying in search
 
-        //* Fancy output
+            //? Generating random dataset
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, max, count);
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
@@ -48,7 +48,7 @@ public class Main{
         //* ----------------------------- Splay insert -----------------------------
         startTime = System.nanoTime();
 
-        splayTree.insert(605022365);
+            splayTree.insert(605022365);
 
         endTime = System.nanoTime();
         long insertNanoSeconds = (endTime - startTime);
@@ -57,7 +57,7 @@ public class Main{
         //* ----------------------------- Splay search -----------------------------
         startTime = System.nanoTime();
 
-        splayTree.search(605022365);
+            splayTree.search(515475465);
 
         endTime = System.nanoTime();
         long searchNanoSeconds = (endTime - startTime);
@@ -66,7 +66,7 @@ public class Main{
         //* ----------------------------- Splay output -----------------------------
         startTime = System.nanoTime();
 
-        //out.println(splayTree);
+            //out.println(splayTree);
 
         endTime = System.nanoTime();
         long outputNanoSeconds = (endTime - startTime);
@@ -75,11 +75,9 @@ public class Main{
         //* ----------------------------- Splay deletion -----------------------------
         startTime = System.nanoTime();
 
-        for(int nodeToDelete : randomDataset){
-            splayTree.delete(nodeToDelete);
-        }
-
-        //splayTree.delete(522);
+            for(int nodeToDelete : randomDataset){
+                splayTree.delete(nodeToDelete);
+            }
 
         endTime = System.nanoTime();
         long deletionNanoSeconds = endTime - startTime;
