@@ -96,6 +96,34 @@ public class BstTree{
         return null;
     }
 
+    public BstNode search(Integer value, boolean returnLast){
+        // We transverse the tree
+        BstNode previous = null;
+        BstNode currentNode = root;
+        while(currentNode != null){
+            // If key of node we are looking for is less than key of current node then we move left.
+            if(value < currentNode.getKey()){
+                // Move left
+                previous = currentNode;
+                currentNode = currentNode.getLeft();
+            }
+            // If key of node we are looking for is greater than key of current node then we move right.
+            else if(value > currentNode.getKey()){
+                // Move right
+                previous = currentNode;
+                currentNode = currentNode.getRight();
+            }
+            // Else we found our node.
+            else{
+                return currentNode;
+            }
+        }
+        if(returnLast){
+            return previous;
+        }
+        return null;
+    }
+
     public BstNode delete(BstNode node){
 
         // Find node that needs to be deleted
@@ -165,6 +193,8 @@ public class BstTree{
         // RR rotation
 
         BstNode right = node.getRight(); // Get right child of node we want to rotate
+        if(right == null) return;
+
         BstNode rightLeft = right.getLeft(); // Get left child of the right child
 
         // If current node is root. We just set the right child as root
@@ -194,6 +224,8 @@ public class BstTree{
         // LL rotation
 
         BstNode left = node.getLeft(); // Get left child of node we want to rotate
+        if(left == null) return;
+
         BstNode leftRight = left.getRight(); // Get right child of the left child
 
         // If current node is root. We just set the right child as root
@@ -224,9 +256,11 @@ public class BstTree{
 
         // First we get left child of node
         BstNode left = node.getLeft();
+        if(left == null) return;
 
         // Then that left child's right child
         BstNode leftRight = left.getRight();
+        if(leftRight == null) return;
 
         // First we rotate the left child to the left. This will "straighten" the left subtree.
         leftRotate(left);
@@ -241,9 +275,11 @@ public class BstTree{
 
         // First we get right child of node
         BstNode right = node.getRight();
+        if(right == null) return;
 
         // Then that right child's left child
         BstNode rightLeft = right.getLeft();
+        if(rightLeft == null) return;
 
         // First we rotate the right child to the right. This will "straighten" the right subtree.
         rightRotate(right);

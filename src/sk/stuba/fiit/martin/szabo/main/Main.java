@@ -7,7 +7,9 @@ package sk.stuba.fiit.martin.szabo.main;
 // TODO:: Remove debug outputs
 
 import sk.stuba.fiit.martin.szabo.avl.AvlTree;
+import sk.stuba.fiit.martin.szabo.bst.BstNode;
 import sk.stuba.fiit.martin.szabo.bst.BstTree;
+import sk.stuba.fiit.martin.szabo.splay.SplayTree;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,7 +19,92 @@ import static java.lang.System.*;
 
 public class Main{
     public static void main(String[] args){
-        avlTreeExecute();
+        //avlTreeExecute();
+        splayTreeExecute();
+    }
+
+    static void splayTreeExecute(){
+
+        //* ----------------------------- Splay Tree creation -----------------------------
+        long startTime = System.nanoTime();
+        SplayTree splayTree = new SplayTree();
+
+        //? Loading from file
+        String path = "data/data6.txt";
+        //Main.generateRandomDatasetToFile(path, 0, 100000, 10000);
+        Main.createTreeFromFile(splayTree, path, ",");
+
+        //? Generating random dataset
+        //ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(splayTree, 0, 1000000, 1000000);
+
+        out.println(splayTree);
+
+        out.println(splayTree);
+
+        //* Fancy output
+        /*
+        long endTime = System.nanoTime();
+        long durationNanoseconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- Splay insert -----------------------------
+        startTime = System.nanoTime();
+
+
+
+        endTime = System.nanoTime();
+        long insertNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- Splay search -----------------------------
+        startTime = System.nanoTime();
+
+        splayTree.search(605022365);
+
+        endTime = System.nanoTime();
+        long searchNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- Splay output -----------------------------
+        startTime = System.nanoTime();
+
+        out.println(splayTree);
+
+        endTime = System.nanoTime();
+        long outputNanoSeconds = (endTime - startTime);
+        //* --------------------------------------------------------------------------
+
+        //* ----------------------------- Splay deletion -----------------------------
+        startTime = System.nanoTime();
+
+        for(int nodeToDelete : randomDataset){
+            splayTree.delete(nodeToDelete);
+        }
+
+        endTime = System.nanoTime();
+        long deletionNanoSeconds = endTime - startTime;
+        //* --------------------------------------------------------------------------
+
+        //*  ----------------------------- Staistics  -----------------------------
+        out.println("Splay Tree creation took " + durationNanoseconds + (
+                durationNanoseconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("Splay Tree insertion took " + insertNanoSeconds + (
+                insertNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("Splay Tree search took " + searchNanoSeconds + (
+                searchNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("Splay Tree output took " + outputNanoSeconds + (
+                outputNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        out.println("Splay Tree deletion took " + deletionNanoSeconds + (
+                deletionNanoSeconds != 1 ? " nano seconds " : " nano second"
+        ));
+        //* --------------------------------------------------------------------------
+
+
+         */
     }
 
     static void avlTreeExecute(){
@@ -32,7 +119,7 @@ public class Main{
             //Main.createTreeFromFile(avlTree, path, ",");
 
             //? Generating random dataset
-            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 1000000);
+            ArrayList <Integer> randomDataset = Main.generateRandomDatasetToTree(avlTree, 0, 1000000, 10000);
 
         long endTime = System.nanoTime();
         long durationNanoseconds = (endTime - startTime);
