@@ -1,6 +1,4 @@
-package sk.stuba.fiit.martin.szabo.bst;
-
-import sk.stuba.fiit.martin.szabo.avl.AvlNode;
+package sk.stuba.fiit.martin.szabo.tree.bst;
 
 import java.util.ArrayList;
 
@@ -99,6 +97,7 @@ public class BstNode{
         else{
             sb.append("x");
         }
+        sb.append(", ").append(this.getValue());
         return sb.toString();
     }
 

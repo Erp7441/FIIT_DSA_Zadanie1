@@ -1,8 +1,6 @@
-package sk.stuba.fiit.martin.szabo.bst;
+package sk.stuba.fiit.martin.szabo.tree.bst;
 
 import java.util.ArrayList;
-
-import static java.lang.System.*;
 
 public class BstTree{
 
@@ -28,12 +26,12 @@ public class BstTree{
 
 
         // If node we are inserting is root then we should just insert it as head of the tree and return.
-        if(root == null){
-            this.root = node;
+        if(this.getRoot() == null){
+            this.setRoot(node);
             return false;
         }
 
-        BstNode currentRoot = this.root;
+        BstNode currentRoot = this.getRoot();
 
         // Loop through tree nodes until you find a leaf.
         while(currentRoot != null){
@@ -68,9 +66,14 @@ public class BstTree{
         return true;
     }
 
-    public boolean insert(Integer value){
+    public boolean insert(Integer key){
         // This overloaded method makes life a bit easier :)
-        BstNode node = new BstNode(value);
+        BstNode node = new BstNode(key);
+        return insert(node);
+    }
+
+    public boolean insert(Integer key, String value){
+        BstNode node = new BstNode(key, value);
         return insert(node);
     }
 

@@ -1,7 +1,7 @@
-package sk.stuba.fiit.martin.szabo.splay;
+package sk.stuba.fiit.martin.szabo.tree.splay;
 
-import sk.stuba.fiit.martin.szabo.bst.BstNode;
-import sk.stuba.fiit.martin.szabo.bst.BstTree;
+import sk.stuba.fiit.martin.szabo.tree.bst.BstNode;
+import sk.stuba.fiit.martin.szabo.tree.bst.BstTree;
 
 import java.util.Objects;
 

@@ -1,11 +1,7 @@
-package sk.stuba.fiit.martin.szabo.avl;
+package sk.stuba.fiit.martin.szabo.tree.avl;
 
-import sk.stuba.fiit.martin.szabo.bst.BstNode;
-import sk.stuba.fiit.martin.szabo.bst.BstTree;
-
-import java.util.ArrayList;
-
-import static java.lang.System.*;
+import sk.stuba.fiit.martin.szabo.tree.bst.BstNode;
+import sk.stuba.fiit.martin.szabo.tree.bst.BstTree;
 
 public class AvlTree extends BstTree{
 
@@ -30,9 +26,16 @@ public class AvlTree extends BstTree{
     }
 
     @Override
-    public boolean insert(Integer value){
+    public boolean insert(Integer key){
         // This overloaded method makes life a bit easier :)
-        AvlNode node = new AvlNode(value);
+        AvlNode node = new AvlNode(key);
+        return insert(node);
+    }
+
+    @Override
+    public boolean insert(Integer key, String value){
+        // This overloaded method makes life a bit easier :)
+        AvlNode node = new AvlNode(key, value);
         return insert(node);
     }
 

@@ -1,6 +1,6 @@
-package sk.stuba.fiit.martin.szabo.avl;
+package sk.stuba.fiit.martin.szabo.tree.avl;
 
-import sk.stuba.fiit.martin.szabo.bst.BstNode;
+import sk.stuba.fiit.martin.szabo.tree.bst.BstNode;
 
 public class AvlNode extends BstNode{
 
@@ -35,7 +35,6 @@ public class AvlNode extends BstNode{
         return this.getBalance();
     }
 
-    // TODO:: Refactor to avoid recursion. This is killing your performance
     public Integer calculateHeight(){
         if (this.getLeft() == null && this.getRight() == null) {
             this.setHeight(1);
