@@ -1,6 +1,5 @@
 package sk.stuba.fiit.martin.szabo.tree;
 
-import sk.stuba.fiit.martin.szabo.main.Main;
 import sk.stuba.fiit.martin.szabo.tree.bst.BstTree;
 import sk.stuba.fiit.martin.szabo.utils.TimeConverter;
 
@@ -9,6 +8,9 @@ import java.util.ArrayList;
 import static java.lang.System.out;
 
 public class TreeHelper{
+
+    private TreeHelper(){}
+
     public static void treeExecute(BstTree tree, String type, Integer insertionValue, Boolean output, ArrayList<Integer> dataset, ArrayList<String> datasetValue){
 
         //* ----------------------------- Tree creation -----------------------------
