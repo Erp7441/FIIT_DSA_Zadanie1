@@ -65,6 +65,8 @@ public class AvlTree extends BstTree{
         // We transverse up the tree.
         while(current != null){
             // Recalculating balance and height of each node we go through.
+
+            // TODO:: mioght not be the smartes idea to recalculate this every time.
             current.calculateHeight();
             current.calculateBalance();
 
