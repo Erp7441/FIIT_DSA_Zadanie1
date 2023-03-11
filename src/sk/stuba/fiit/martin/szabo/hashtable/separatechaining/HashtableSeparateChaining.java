@@ -6,6 +6,10 @@ import java.util.LinkedList;
 
 public class HashtableSeparateChaining extends Hashtable{
 
+    public HashtableSeparateChaining(){
+        super();
+    }
+
     public HashtableSeparateChaining(int size){
         super(size);
     }
@@ -16,13 +20,13 @@ public class HashtableSeparateChaining extends Hashtable{
     }
 
     @Override
-    public Object delete(Object value){
-        return null;
+    public boolean delete(Object value){
+        return false;
     }
 
     public void resolveCollision(int index, Object value){
 
-        Object tableValue = this.getTable().get(index);
+        Object tableValue = this.search(value);
 
         if(tableValue instanceof LinkedList<?>){
             try{

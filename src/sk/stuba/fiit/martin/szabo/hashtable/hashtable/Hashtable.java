@@ -5,13 +5,17 @@ import java.util.List;
 
 public abstract class Hashtable{
 
+    public static final String  DELETED_VALUE = "DELETED_VALUE";
+
     private ArrayList<Object> table = new ArrayList<>();
 
+    protected Hashtable(){ initialize(1); }
     protected Hashtable(int size){
         initialize(size);
     }
 
     public void initialize(int size){
+        table = new ArrayList<>();
         for(int i=0; i<size; i++){
             table.add(null);
         }
@@ -19,7 +23,14 @@ public abstract class Hashtable{
 
     public abstract void resolveCollision(int index, Object value);
     public abstract Object search(Object value);
-    public abstract Object delete(Object value);
+    public abstract boolean delete(Object value);
+
+    public Integer hash(Object value){
+        if(value instanceof String){
+            return hash((String) value);
+        }
+        else return null;
+    }
 
     public int hash(String value){
         int hashValue = 0;
@@ -29,14 +40,36 @@ public abstract class Hashtable{
         return hashValue % this.getSize();
     }
 
-    public void insert(String value){
-        int index = hash(value);
+    public void insert(Object value){
+        int index;
 
-        if(this.getTable().get(index) != null){
+        if(value instanceof String) index = hash(value);
+        else return;
+
+        if(this.getTable().get(index) != null && !this.getTable().get(index).equals(DELETED_VALUE)){
             resolveCollision(index, value);
         }
         else{
             this.set(index, value);
+        }
+
+        if(calculateLoad() > 0.75) rehash();
+    }
+
+    public double calculateLoad(){
+        int numOfNonNull = 0;
+        for(Object value : this.getTable()){
+            if(value != null) numOfNonNull++;
+        }
+        return ((double) numOfNonNull / (double) this.getSize());
+    }
+
+    public void rehash(){
+        ArrayList<Object> values = new ArrayList<>(this.getTable());
+        initialize(this.getSize() * 2);
+
+        for(Object value : values){
+            this.insert(value);
         }
     }
 
