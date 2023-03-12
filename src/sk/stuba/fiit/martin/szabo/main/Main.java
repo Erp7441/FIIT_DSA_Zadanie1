@@ -40,8 +40,8 @@ public class Main{
         AvlTree avlTree = new AvlTree();
         SplayTree splayTree = new SplayTree();
 
-        TreeHelper.treeExecute(avlTree, "Avl Tree", insertionValue, output, dataset, datasetString);
-        TreeHelper.treeExecute(splayTree, "Splay Tree", insertionValue, output, dataset, datasetString);
+        TreeHelper.treeExecute(avlTree, "Avl Tree", insertionValue, output, dataset, datasetString, delete);
+        TreeHelper.treeExecute(splayTree, "Splay Tree", insertionValue, output, dataset, datasetString, delete);
     }
 
     private static void hashtables(ArrayList<String> dataset, Integer insertionValue, Boolean output, Boolean delete){
