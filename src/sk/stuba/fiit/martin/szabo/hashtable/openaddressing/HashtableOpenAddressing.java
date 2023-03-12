@@ -16,6 +16,7 @@ public class HashtableOpenAddressing extends Hashtable{
 
     @Override
     public Object search(Object value){
+
         if(!(value instanceof String)){ return null; } // Functions to hash other types are not implemented yet
 
         // Get value from table
@@ -38,7 +39,7 @@ public class HashtableOpenAddressing extends Hashtable{
                 }
 
                 // If we found the node we were looking for return it
-                if(this.getTable().get(index).equals(tableValue)){
+                if(this.getTable().get(index).equals(value)){
                     return this.getTable().get(index);
                 }
 
@@ -61,31 +62,15 @@ public class HashtableOpenAddressing extends Hashtable{
     }
 
     @Override
-    public boolean delete(Object value){
-
-        // Find the value
-        Object found = search(value);
-
-        // If we have not found value there is nothing to delete
-        if(found == null) return false;
-
-        // Calculate index
-        Integer index = hash(found);
-
-        // Replace value at index with DELETED_VALUE, so it won't get searched again
-        if(index != null) this.getTable().set(index, DELETED_VALUE);
-        return true;
-    }
-
-    @Override
     public void resolveCollision(int index, Object value){
         boolean weGoAgain = false;
+        int quadrant = 1;
 
         // Loop through the table until we reach null
         while(this.getTable().get(index) != null){
 
             // If we are at the end of the table we go again
-            if(index == this.getSize()-1 && !weGoAgain){
+            if(index == this.getSize() - 1 && !weGoAgain){
                 index = 0;
                 weGoAgain = true;
             }
@@ -97,9 +82,18 @@ public class HashtableOpenAddressing extends Hashtable{
                 return;
             }
 
-            index = (index + 1) % this.getSize();
+            index = quadraticProbing(index, quadrant);
+            quadrant++;
         }
         this.set(index, value);
+    }
+
+    private Integer linearProbing(Integer index){
+        return (index + 1) % this.getSize();
+    }
+
+    private Integer quadraticProbing(Integer index, Integer quadrant){
+        return (int) ((index + Math.pow(quadrant, 2)) % this.getSize());
     }
 
 }

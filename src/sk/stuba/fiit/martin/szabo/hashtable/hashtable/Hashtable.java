@@ -8,6 +8,7 @@ public abstract class Hashtable{
     public static final String  DELETED_VALUE = "DELETED_VALUE";
 
     private ArrayList<Object> table = new ArrayList<>();
+    private Long elements = 0L;
 
     protected Hashtable(){ initialize(1); }
     protected Hashtable(int size){
@@ -23,7 +24,23 @@ public abstract class Hashtable{
 
     public abstract void resolveCollision(int index, Object value);
     public abstract Object search(Object value);
-    public abstract boolean delete(Object value);
+    public boolean delete(Object value){
+        // Find the value
+        Object found = search(value);
+
+        // If we have not found value there is nothing to delete
+        if(found == null) return false;
+
+        // Calculate index
+        Integer index = hash(found);
+
+        // Replace value at index with DELETED_VALUE, so it won't get searched again
+        if(index != null) this.getTable().set(index, DELETED_VALUE);
+
+        this.decrementElements();
+
+        return true;
+    }
 
     public Integer hash(Object value){
         if(value instanceof String){
@@ -53,15 +70,13 @@ public abstract class Hashtable{
             this.set(index, value);
         }
 
+        this.incrementElements();
+
         if(calculateLoad() > 0.75) rehash();
     }
 
     public double calculateLoad(){
-        int numOfNonNull = 0;
-        for(Object value : this.getTable()){
-            if(value != null) numOfNonNull++;
-        }
-        return ((double) numOfNonNull / (double) this.getSize());
+        return ((double) this.getElements() / (double) this.getSize());
     }
 
     public void rehash(){
@@ -102,5 +117,19 @@ public abstract class Hashtable{
         this.getTable().set(index, value);
     }
 
+    public Long getElements(){
+        return elements;
+    }
 
+    public void setElements(Long elements){
+        this.elements = elements;
+    }
+
+    public void incrementElements(){
+        this.elements++;
+    }
+
+    public void decrementElements(){
+        this.elements--;
+    }
 }

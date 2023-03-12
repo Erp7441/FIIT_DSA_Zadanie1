@@ -11,76 +11,118 @@ public class TreeHelper{
 
     private TreeHelper(){}
 
-    public static void treeExecute(BstTree tree, String type, Integer insertionValue, Boolean output, ArrayList<Integer> dataset, ArrayList<String> datasetValue){
+    public static void treeExecute(BstTree tree, String type, Integer insertionValue, Boolean output, ArrayList<Integer> dataset, ArrayList<String> datasetValue, Boolean delete){
+
+        if(tree == null) return;
 
         //* ----------------------------- Tree creation -----------------------------
-        long startTime = System.nanoTime();
+        long startTime;
+        long endTime;
+        long durationNanoseconds = -1;
 
-        for(int i = 0; i < dataset.size(); i++){
-            tree.insert(dataset.get(i), datasetValue.get(i));
+        if(dataset != null && datasetValue != null){
+            startTime = System.nanoTime();
+
+            for(int i = 0; i < dataset.size(); i++){
+                tree.insert(dataset.get(i), datasetValue.get(i));
+            }
+
+            endTime = System.nanoTime();
+            durationNanoseconds = (endTime - startTime);
         }
-
-        long endTime = System.nanoTime();
-        long durationNanoseconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Tree insert -----------------------------
-        startTime = System.nanoTime();
+        long insertNanoSeconds = -1;
 
-        tree.insert(insertionValue);
+        if(insertionValue != null){
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long insertNanoSeconds = (endTime - startTime);
+            tree.insert(insertionValue);
+
+            endTime = System.nanoTime();
+            insertNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Tree search -----------------------------
-        startTime = System.nanoTime();
+        long searchNanoSeconds = -1;
 
-        tree.search(insertionValue);
+        if(insertionValue != null){
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long searchNanoSeconds = (endTime - startTime);
+            tree.search(insertionValue);
+
+            endTime = System.nanoTime();
+            searchNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Tree output -----------------------------
-        startTime = System.nanoTime();
+        long outputNanoSeconds = -1;
 
         if(Boolean.TRUE.equals(output)){
-            out.println(tree);
-        }
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long outputNanoSeconds = (endTime - startTime);
+
+            out.println(tree);
+
+            endTime = System.nanoTime();
+            outputNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Tree deletion -----------------------------
-        startTime = System.nanoTime();
+        long deletionNanoSeconds = -1;
 
-        for(int nodeToDelete : dataset){
-            tree.delete(nodeToDelete);
+        if(Boolean.TRUE.equals(delete)){
+
+            startTime = System.nanoTime();
+
+            if(dataset != null){
+                for(int nodeToDelete : dataset){
+                    tree.delete(nodeToDelete);
+                }
+            }
+            if(insertionValue != null) tree.delete(insertionValue);
+
+            endTime = System.nanoTime();
+            deletionNanoSeconds = endTime - startTime;
         }
-        tree.delete(insertionValue);
-
-        endTime = System.nanoTime();
-        long deletionNanoSeconds = endTime - startTime;
         //* --------------------------------------------------------------------------
 
         //*  ----------------------------- Statistics  -----------------------------
-        out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
-                durationNanoseconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " insertion took " + TimeConverter.nanoToSeconds(insertNanoSeconds) + (
-                insertNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " search took " + TimeConverter.nanoToSeconds(searchNanoSeconds) + (
-                searchNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " output took " + TimeConverter.nanoToSeconds(outputNanoSeconds) + (
-                outputNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " deletion took " + TimeConverter.nanoToSeconds(deletionNanoSeconds) + (
-                deletionNanoSeconds != 1 ? " seconds " : " second"
-        ));
+
+        if(dataset != null && datasetValue != null){
+            out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
+                    durationNanoseconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(insertionValue != null){
+            out.println(type + " insertion took " + TimeConverter.nanoToSeconds(insertNanoSeconds) + (
+                    insertNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(insertionValue != null){
+            out.println(type + " search took " + TimeConverter.nanoToSeconds(searchNanoSeconds) + (
+                    searchNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(Boolean.TRUE.equals(output)){
+            out.println(type + " output took " + TimeConverter.nanoToSeconds(outputNanoSeconds) + (
+                    outputNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(Boolean.TRUE.equals(delete)){
+            out.println(type + " deletion took " + TimeConverter.nanoToSeconds(deletionNanoSeconds) + (
+                    deletionNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
         out.println();
         //* --------------------------------------------------------------------------
     }

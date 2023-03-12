@@ -11,76 +11,117 @@ public class HashtableHelper{
 
     private HashtableHelper(){}
 
-    public static void hashtableExecute(Hashtable hashtable, String type, Integer insertionValue, Boolean output, ArrayList<String> dataset){
+    public static void hashtableExecute(Hashtable hashtable, String type, Integer insertionValue, Boolean output, Boolean delete, ArrayList<String> dataset){
+
+        if(hashtable == null) return;
 
         //* ----------------------------- Hashtable creation -------------------------
-        long startTime = System.nanoTime();
+        long startTime;
+        long endTime;
+        long durationNanoseconds = -1;
 
-        for(String s : dataset){
-            hashtable.insert(s);
+        if(dataset != null){
+            startTime = System.nanoTime();
+
+            for(String s : dataset){
+                hashtable.insert(s);
+            }
+
+            endTime = System.nanoTime();
+            durationNanoseconds = (endTime - startTime);
         }
-
-        long endTime = System.nanoTime();
-        long durationNanoseconds = (endTime - startTime);
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Hashtable insert ---------------------------
-        startTime = System.nanoTime();
+        long insertNanoSeconds = -1;
 
-        hashtable.insert(insertionValue);
+        if(insertionValue != null){
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long insertNanoSeconds = (endTime - startTime);
+            hashtable.insert(insertionValue);
+
+            endTime = System.nanoTime();
+            insertNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Hashtable search ---------------------------
-        startTime = System.nanoTime();
+        long searchNanoSeconds = -1;
 
-        hashtable.search(insertionValue);
+        if(insertionValue != null){
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long searchNanoSeconds = (endTime - startTime);
+
+            hashtable.search(insertionValue);
+
+            endTime = System.nanoTime();
+            searchNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Hashtable output ---------------------------
-        startTime = System.nanoTime();
+        long outputNanoSeconds = -1;
 
         if(Boolean.TRUE.equals(output)){
-            out.println(hashtable);
-        }
+            startTime = System.nanoTime();
 
-        endTime = System.nanoTime();
-        long outputNanoSeconds = (endTime - startTime);
+            out.println(hashtable);
+
+            endTime = System.nanoTime();
+            outputNanoSeconds = (endTime - startTime);
+        }
         //* --------------------------------------------------------------------------
 
         //* ----------------------------- Hashtable deletion -------------------------
-        startTime = System.nanoTime();
+        long deletionNanoSeconds = -1;
 
-        for(String dataToDelete : dataset){
-            hashtable.delete(dataToDelete);
+        if(Boolean.TRUE.equals(delete)){
+            startTime = System.nanoTime();
+
+            if(dataset != null){
+                for(String dataToDelete : dataset){
+                    hashtable.delete(dataToDelete);
+                }
+            }
+            if(insertionValue != null) hashtable.delete(insertionValue);
+
+            endTime = System.nanoTime();
+            deletionNanoSeconds = endTime - startTime;
         }
-        hashtable.delete(insertionValue);
-
-        endTime = System.nanoTime();
-        long deletionNanoSeconds = endTime - startTime;
         //* --------------------------------------------------------------------------
 
         //*  ----------------------------- Statistics  -------------------------------
-        out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
-                durationNanoseconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " insertion took " + TimeConverter.nanoToSeconds(insertNanoSeconds) + (
-                insertNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " search took " + TimeConverter.nanoToSeconds(searchNanoSeconds) + (
-                searchNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " output took " + TimeConverter.nanoToSeconds(outputNanoSeconds) + (
-                outputNanoSeconds != 1 ? " seconds " : " second"
-        ));
-        out.println(type + " deletion took " + TimeConverter.nanoToSeconds(deletionNanoSeconds) + (
-                deletionNanoSeconds != 1 ? " seconds " : " second"
-        ));
+
+        if(dataset != null){
+            out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
+                    durationNanoseconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(insertionValue != null){
+            out.println(type + " insertion took " + TimeConverter.nanoToSeconds(insertNanoSeconds) + (
+                    insertNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(insertionValue != null){
+            out.println(type + " search took " + TimeConverter.nanoToSeconds(searchNanoSeconds) + (
+                    searchNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(Boolean.TRUE.equals(output)){
+            out.println(type + " output took " + TimeConverter.nanoToSeconds(outputNanoSeconds) + (
+                    outputNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
+        if(Boolean.TRUE.equals(delete)){
+            out.println(type + " deletion took " + TimeConverter.nanoToSeconds(deletionNanoSeconds) + (
+                    deletionNanoSeconds != 1 ? " seconds " : " second"
+            ));
+        }
+
         out.println();
         //* ---------------------------------------------------------------------------
     }
