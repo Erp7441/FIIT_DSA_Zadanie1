@@ -5,73 +5,64 @@ import java.util.List;
 
 public abstract class Hashtable{
 
-    public static final String  DELETED_VALUE = "DELETED_VALUE";
+    public static final String DELETED_VALUE = "DELETED_VALUE";
 
     private ArrayList<Object> table = new ArrayList<>();
     private Long elements = 0L;
 
-    protected Hashtable(){ initialize(1); }
+    protected Hashtable(){ table.add(null); }
     protected Hashtable(int size){
         initialize(size);
     }
 
+    public abstract void resolveCollision(int index, Object value);
+    public abstract Object search(Object value);
+
     public void initialize(int size){
         table = new ArrayList<>();
-        for(int i=0; i<size; i++){
+        for(int i = 0; i < size; i++){
             table.add(null);
         }
     }
 
-    public abstract void resolveCollision(int index, Object value);
-    public abstract Object search(Object value);
     public boolean delete(Object value){
+
+        if(value == null) return false;
+
         // Find the value
         Object found = search(value);
 
         // If we have not found value there is nothing to delete
-        if(found == null) return false;
-
-        // Calculate index
-        Integer index = hash(found);
+        if(found == null){
+            return false;
+        }
 
         // Replace value at index with DELETED_VALUE, so it won't get searched again
-        if(index != null) this.getTable().set(index, DELETED_VALUE);
+        this.getTable().set(hash(found), DELETED_VALUE);
 
         this.decrementElements();
 
         return true;
     }
 
-    public Integer hash(Object value){
-        if(value instanceof String){
-            return hash((String) value);
-        }
-        else return null;
-    }
-
-    public int hash(String value){
-        int hashValue = 0;
-        for(int i = 0; i < value.length(); i++){
-            hashValue += value.charAt(i) - 64;
-        }
-        return hashValue % this.getSize();
+    public int hash(Object value){
+        return Math.abs(value.hashCode()) % this.getSize();
     }
 
     public void insert(Object value){
-        int index;
 
-        if(value instanceof String) index = hash(value);
-        else return;
+        if(value == null) return;
 
-        if(this.getTable().get(index) != null && !this.getTable().get(index).equals(DELETED_VALUE)){
-            resolveCollision(index, value);
+        Object found = search(value);
+
+        if(found != null && !found.equals(DELETED_VALUE)){
+            resolveCollision(hash(value), value);
         }
         else{
-            this.set(index, value);
+            this.set(hash(value), value);
         }
 
         this.incrementElements();
-
         if(calculateLoad() > 0.75) rehash();
     }
 
@@ -80,6 +71,9 @@ public abstract class Hashtable{
     }
 
     public void rehash(){
+
+        if(this.getTable() == null || this.getSize() == 0) return;
+
         ArrayList<Object> values = new ArrayList<>(this.getTable());
         initialize(this.getSize() * 2);
 

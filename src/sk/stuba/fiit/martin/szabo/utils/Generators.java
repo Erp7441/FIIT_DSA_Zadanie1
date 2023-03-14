@@ -54,7 +54,7 @@ public class Generators{
         ArrayList<String> randomDataset = new ArrayList<>();
         for(int i=0; i<count; i++){
             String value;
-            value = generateRandomString(Objects.requireNonNullElseGet(lenght, () -> generateRandomInt(0, 100)), alphabetOnly);
+            value = generateRandomString(Objects.requireNonNullElseGet(lenght, () -> generateRandomInt(1, 100)), alphabetOnly);
             randomDataset.add(value);
         }
         return randomDataset;

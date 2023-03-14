@@ -21,7 +21,7 @@ import static java.lang.System.*;
 public class Main{
     public static void main(String[] args){
         //ArrayList<Integer> dataset = Dataset.createIntegerDataset(null, 0, 1147483647, 1000000, false);
-        ArrayList<String> datasetString = Dataset.createStringDataset(null, 100000);
+        ArrayList<String> datasetString = Dataset.createStringDataset(null, 1000000);
 
         //trees(dataset, 605022365, datasetString, false);
 
@@ -32,7 +32,7 @@ public class Main{
             Open Addressing Hashtable output took 0.145627290 seconds
             Open Addressing Hashtable deletion took 82.18177032471 seconds
         */
-        hashtables(datasetString, 605022365,false, false);
+        hashtables(datasetString, "TEST_INSERT",false, true);
     }
 
     // TODO:: add if statements to tree handler to match hashtable handler
@@ -44,7 +44,7 @@ public class Main{
         TreeHelper.treeExecute(splayTree, "Splay Tree", insertionValue, output, dataset, datasetString, delete);
     }
 
-    private static void hashtables(ArrayList<String> dataset, Integer insertionValue, Boolean output, Boolean delete){
+    private static void hashtables(ArrayList<String> dataset, String insertionValue, Boolean output, Boolean delete){
         HashtableOpenAddressing openAddressing = new HashtableOpenAddressing();
         HashtableSeparateChaining separateChaining = new HashtableSeparateChaining();
 

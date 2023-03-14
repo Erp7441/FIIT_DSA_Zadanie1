@@ -11,7 +11,7 @@ public class HashtableHelper{
 
     private HashtableHelper(){}
 
-    public static void hashtableExecute(Hashtable hashtable, String type, Integer insertionValue, Boolean output, Boolean delete, ArrayList<String> dataset){
+    public static void hashtableExecute(Hashtable hashtable, String type, String insertionValue, Boolean output, Boolean delete, ArrayList<String> dataset){
 
         if(hashtable == null) return;
 
