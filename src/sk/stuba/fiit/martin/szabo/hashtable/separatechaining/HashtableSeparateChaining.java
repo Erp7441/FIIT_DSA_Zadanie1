@@ -23,7 +23,7 @@ public class HashtableSeparateChaining extends Hashtable{
         int index = hash(value);
 
         // Get value from table
-        Object current = this.getTable().get(index);
+        Object current = this.get(index);
 
         if(current == null || current == value) return current;
 
@@ -41,8 +41,8 @@ public class HashtableSeparateChaining extends Hashtable{
 
             // Search doesn't stop at deleted values
             if(current.equals(Hashtable.DELETED_VALUE)){
-                index++;
-                current = this.getTable().get(index);
+                index = linearProbing(index);
+                current = this.get(index);
                 continue;
             }
 
@@ -69,8 +69,8 @@ public class HashtableSeparateChaining extends Hashtable{
                 return null;
             }
 
-            index++;
-            current = this.getTable().get(index);
+            index = linearProbing(index);
+            current = this.get(index);
         }
         return null;
     }

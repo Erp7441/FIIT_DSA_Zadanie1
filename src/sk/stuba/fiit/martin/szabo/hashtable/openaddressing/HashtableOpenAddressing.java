@@ -21,20 +21,17 @@ public class HashtableOpenAddressing extends Hashtable{
 
         // Get value from table
         int index = hash(value);
-        Object current = this.getTable().get(index);
+        Object current = this.get(index);
 
         if(current == null || current == value) return current;
-
-        // Get index of current value
-        boolean weGoAgain = false;
 
         // Go through the table until we find a null
         while(current != null){
 
             // Search doesn't stop at deleted values
             if(current.equals(Hashtable.DELETED_VALUE)){
-                index++;
-                current = this.getTable().get(index);
+                index = linearProbing(index);
+                current = this.get(index);
                 continue;
             }
 
@@ -43,59 +40,78 @@ public class HashtableOpenAddressing extends Hashtable{
                 return current;
             }
 
-            // If we are at the end of the table we jump back to the beginning of table
-            if(index == this.getSize() - 1 && !weGoAgain){
-                index = 0;
-                weGoAgain = true;
-            }
-
-            // Else if we already jumped back at the end of the table and managed to reach the end of the table again
-            // We have not found the value we were looking for
-            else if(index == this.getSize() - 1 && weGoAgain){
-                return null;
-            }
-
-            index++;
-            current = this.getTable().get(index);
+            index = linearProbing(index);
+            current = this.get(index);
         }
         return null;
     }
 
+    public int searchIndex(Object value){
+
+        if(value == null){ return -1; } // Functions to hash other types are not implemented yet
+
+        // Get value from table
+        int index = hash(value);
+        Object current = this.get(index);
+
+        if(current == null || current == value) return index;
+
+        // Go through the table until we find a null
+        while(current != null){
+
+            // If we found the node we were looking for return it
+            if(current.equals(value)){
+                return index;
+            }
+
+            // Search doesn't stop at deleted values
+            else if(current.equals(Hashtable.DELETED_VALUE)){
+                index = linearProbing(index);
+                current = this.get(index);
+                continue;
+            }
+
+            index = linearProbing(index);
+            current = this.get(index);
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean delete(Object value){
+
+        if(value == null) return false;
+
+        // Find the value
+        int foundIndex = searchIndex(value);
+
+        // If we have not found value there is nothing to delete
+        if(foundIndex == -1){
+            return false;
+        }
+
+        // Replace value at index with DELETED_VALUE, so it won't get searched again
+        this.set(foundIndex, DELETED_VALUE);
+
+        this.decrementElements();
+
+        return true;
+    }
+
     @Override
     public void resolveCollision(int index, Object value){
-        boolean weGoAgain = false;
-        int quadrant = 1;
-        Object current = this.getTable().get(index);
+        Object current = this.get(index);
 
         // Loop through the table until we reach null
         while(current != null){
 
-            // If we are at the end of the table we go again
-            if(index == this.getSize() - 1 && !weGoAgain){
+            if(index == this.getSize()-1){
                 index = 0;
-                weGoAgain = true;
             }
 
-            // Else if we already jumped back at the end of the table and managed to reach the end of the table again
-            // We have no null node
-            else if(weGoAgain && index == this.getSize()-1){
-                rehash();
-                return;
-            }
-
-            index = quadraticProbing(index, quadrant);
-            quadrant++;
-            current = this.getTable().get(index);
+            index = linearProbing(index);
+            current = this.get(index);
         }
         this.set(index, value);
     }
-
-    private int linearProbing(int index){
-        return (index + 1) % this.getSize();
-    }
-
-    private int quadraticProbing(int index, int quadrant){
-        return (int) ((index + Math.pow(quadrant, 2)) % this.getSize());
-    }
-
 }

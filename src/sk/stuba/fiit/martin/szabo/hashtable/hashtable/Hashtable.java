@@ -38,7 +38,7 @@ public abstract class Hashtable{
         }
 
         // Replace value at index with DELETED_VALUE, so it won't get searched again
-        this.getTable().set(hash(found), DELETED_VALUE);
+        this.set(hash(found), DELETED_VALUE);
 
         this.decrementElements();
 
@@ -53,6 +53,8 @@ public abstract class Hashtable{
 
         if(value == null) return;
 
+        if(rehashNeeded()) rehash();
+
         Object found = search(value);
 
         if(found != null && !found.equals(DELETED_VALUE)){
@@ -63,11 +65,10 @@ public abstract class Hashtable{
         }
 
         this.incrementElements();
-        if(calculateLoad() > 0.75) rehash();
     }
 
-    public double calculateLoad(){
-        return ((double) this.getElements() / (double) this.getSize());
+    public boolean rehashNeeded(){
+        return this.getElements() >= this.getSize() * 0.75;
     }
 
     public void rehash(){
@@ -86,7 +87,7 @@ public abstract class Hashtable{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < this.getSize(); i++){
-            Object value = this.getTable().get(i);
+            Object value = this.get(i);
             if(value != null){
                 sb.append(i).append(": ").append(value).append("\n");
             }
@@ -111,6 +112,10 @@ public abstract class Hashtable{
         this.getTable().set(index, value);
     }
 
+    protected Object get(int index){
+        return this.getTable().get(index);
+    }
+
     public Long getElements(){
         return elements;
     }
@@ -126,4 +131,13 @@ public abstract class Hashtable{
     public void decrementElements(){
         this.elements--;
     }
+
+    protected int linearProbing(int index){
+        return (index + 1) % this.getSize();
+    }
+
+    protected int quadraticProbing(int index, int quadrant){
+        return (int) ((index + Math.pow(quadrant, 2)) % this.getSize());
+    }
+
 }

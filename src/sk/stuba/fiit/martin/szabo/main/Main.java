@@ -53,5 +53,7 @@ public class Main{
 
         out.println("DEBUG: separateChaining:");
         HashtableHelper.hashtableExecute(separateChaining, "Separate Chaning Hashtable", insertionValue, output, delete, dataset);
+
+        out.println();
     }
 }
