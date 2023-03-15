@@ -5,6 +5,8 @@ import java.util.List;
 
 public abstract class Hashtable{
 
+    public ArrayList<Long> time = new ArrayList<>();
+
     public static final String DELETED_VALUE = "DELETED_VALUE";
 
     private ArrayList<Object> table = new ArrayList<>();
@@ -38,9 +40,7 @@ public abstract class Hashtable{
         }
 
         // Replace value at index with DELETED_VALUE, so it won't get searched again
-        this.set(hash(found), DELETED_VALUE);
-
-        this.decrementElements();
+        deleteValue(hash(found));
 
         return true;
     }
@@ -73,6 +73,8 @@ public abstract class Hashtable{
 
     public void rehash(){
 
+        long startTime = System.nanoTime();
+
         if(this.getTable() == null || this.getSize() == 0) return;
 
         ArrayList<Object> values = new ArrayList<>(this.getTable());
@@ -81,6 +83,9 @@ public abstract class Hashtable{
         for(Object value : values){
             this.insert(value);
         }
+
+        long endTime = System.nanoTime();
+        this.time.add(endTime - startTime);
     }
 
     @Override
@@ -138,6 +143,11 @@ public abstract class Hashtable{
 
     protected int quadraticProbing(int index, int quadrant){
         return (int) ((index + Math.pow(quadrant, 2)) % this.getSize());
+    }
+
+    protected void deleteValue(int index){
+        this.set(index, DELETED_VALUE);
+        this.decrementElements();
     }
 
 }

@@ -2,6 +2,8 @@ package sk.stuba.fiit.martin.szabo.hashtable.openaddressing;
 
 import sk.stuba.fiit.martin.szabo.hashtable.hashtable.Hashtable;
 
+import java.util.ArrayList;
+
 import static java.lang.System.*;
 
 public class HashtableOpenAddressing extends Hashtable{
@@ -23,17 +25,9 @@ public class HashtableOpenAddressing extends Hashtable{
         int index = hash(value);
         Object current = this.get(index);
 
-        if(current == null || current == value) return current;
 
         // Go through the table until we find a null
         while(current != null){
-
-            // Search doesn't stop at deleted values
-            if(current.equals(Hashtable.DELETED_VALUE)){
-                index = linearProbing(index);
-                current = this.get(index);
-                continue;
-            }
 
             // If we found the node we were looking for return it
             if(current.equals(value)){
@@ -43,18 +37,17 @@ public class HashtableOpenAddressing extends Hashtable{
             index = linearProbing(index);
             current = this.get(index);
         }
+
         return null;
     }
 
     public int searchIndex(Object value){
 
-        if(value == null){ return -1; } // Functions to hash other types are not implemented yet
+        if(value == null){ return -1; }
 
         // Get value from table
         int index = hash(value);
         Object current = this.get(index);
-
-        if(current == null || current == value) return index;
 
         // Go through the table until we find a null
         while(current != null){
@@ -62,13 +55,6 @@ public class HashtableOpenAddressing extends Hashtable{
             // If we found the node we were looking for return it
             if(current.equals(value)){
                 return index;
-            }
-
-            // Search doesn't stop at deleted values
-            else if(current.equals(Hashtable.DELETED_VALUE)){
-                index = linearProbing(index);
-                current = this.get(index);
-                continue;
             }
 
             index = linearProbing(index);
@@ -91,9 +77,7 @@ public class HashtableOpenAddressing extends Hashtable{
         }
 
         // Replace value at index with DELETED_VALUE, so it won't get searched again
-        this.set(foundIndex, DELETED_VALUE);
-
-        this.decrementElements();
+        this.deleteValue(foundIndex);
 
         return true;
     }
@@ -104,11 +88,6 @@ public class HashtableOpenAddressing extends Hashtable{
 
         // Loop through the table until we reach null
         while(current != null){
-
-            if(index == this.getSize()-1){
-                index = 0;
-            }
-
             index = linearProbing(index);
             current = this.get(index);
         }
