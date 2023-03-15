@@ -41,6 +41,7 @@ public abstract class Hashtable{
 
         // Replace value at index with DELETED_VALUE, so it won't get searched again
         deleteValue(hash(found));
+        if(rehashNeeded()) rehash(false);
 
         return true;
     }
@@ -53,7 +54,7 @@ public abstract class Hashtable{
 
         if(value == null) return;
 
-        if(rehashNeeded()) rehash();
+        if(rehashNeeded()) rehash(true);
 
         Object found = search(value);
 
@@ -65,27 +66,25 @@ public abstract class Hashtable{
         }
 
         this.incrementElements();
+
     }
 
     public boolean rehashNeeded(){
-        return this.getElements() >= this.getSize() * 0.75;
+        return this.getElements() >= this.getSize() * 0.75 || this.getElements() <= this.getSize() * 0.25;
     }
 
-    public void rehash(){
-
-        long startTime = System.nanoTime();
+    public void rehash(boolean increase){
 
         if(this.getTable() == null || this.getSize() == 0) return;
 
         ArrayList<Object> values = new ArrayList<>(this.getTable());
-        initialize(this.getSize() * 2);
+
+        if(increase) initialize(this.getSize() * 2);
+        else initialize(this.getSize() / 2);
 
         for(Object value : values){
             this.insert(value);
         }
-
-        long endTime = System.nanoTime();
-        this.time.add(endTime - startTime);
     }
 
     @Override

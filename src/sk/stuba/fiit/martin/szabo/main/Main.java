@@ -28,13 +28,6 @@ public class Main{
 
         //trees(dataset, 605022365, datasetString, false);
 
-        /*
-            Open Addressing Hashtable creation took 177.813201904297 seconds
-            Open Addressing Hashtable insertion took 0.000154300 seconds
-            Open Addressing Hashtable search took 0.000024600 seconds
-            Open Addressing Hashtable output took 0.145627290 seconds
-            Open Addressing Hashtable deletion took 82.18177032471 seconds
-        */
         hashtables(datasetString, "TEST_INSERT",false, true);
     }
 
@@ -70,9 +63,13 @@ public class Main{
             }
         }
 
-        Long average = max / hashtable.time.size() ;
+        if(hashtable.time.size() != 0){
+            Long average = max / hashtable.time.size() ;
 
-        out.println("DEBUG: Misko Average - " + TimeConverter.nanoToSeconds(average) + "\n");
+            out.println("DEBUG: Misko Average - " + TimeConverter.nanoToSeconds(average) + "\n");
+        }
+
+
     }
 
 
