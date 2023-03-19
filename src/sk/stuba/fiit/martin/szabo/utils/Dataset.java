@@ -24,7 +24,6 @@ public class Dataset{
     }
 
     public static ArrayList<String> createStringDataset(Integer length, Integer count){
-        // TODO:: Implement generating to file
         return Generators.generateRandomDataset(true, length, count);
     }
 

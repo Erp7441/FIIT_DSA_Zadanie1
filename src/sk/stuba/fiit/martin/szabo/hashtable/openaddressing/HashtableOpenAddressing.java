@@ -2,10 +2,6 @@ package sk.stuba.fiit.martin.szabo.hashtable.openaddressing;
 
 import sk.stuba.fiit.martin.szabo.hashtable.hashtable.Hashtable;
 
-import java.util.ArrayList;
-
-import static java.lang.System.*;
-
 public class HashtableOpenAddressing extends Hashtable{
 
     public HashtableOpenAddressing(){

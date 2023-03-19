@@ -66,7 +66,6 @@ public class AvlTree extends BstTree{
         while(current != null){
             // Recalculating balance and height of each node we go through.
 
-            // TODO:: mioght not be the smartes idea to recalculate this every time.
             current.calculateHeight();
             current.calculateBalance();
 
@@ -137,7 +136,6 @@ public class AvlTree extends BstTree{
     }
 
     public void balanceDeletionSubTree(AvlNode root){
-        // TODO:: Get rid of deepest node and recalculate from balance deletion from root downwards.
         this.balanceDeletion((AvlNode) BstNode.getDeepestNode(root));
     }
 

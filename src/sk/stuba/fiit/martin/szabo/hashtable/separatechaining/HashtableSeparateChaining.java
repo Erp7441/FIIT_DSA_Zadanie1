@@ -89,7 +89,6 @@ public class HashtableSeparateChaining extends Hashtable{
 
         if(tableValue instanceof LinkedList<?>){
             try{
-                // TODO:: fix this :(
                 ((LinkedList <Object>) tableValue).add(value);
             }
             catch(ClassCastException e){
