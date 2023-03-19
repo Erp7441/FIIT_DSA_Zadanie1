@@ -27,18 +27,15 @@ public class Main{
         SplayTree splayTree = new SplayTree();
 
         TreeHelper.treeExecute(avlTree, "Avl Tree", insertionValue, output, dataset, datasetString, delete);
-        TreeHelper.treeExecute(splayTree, "Splay Tree", insertionValue, output, dataset, datasetString, delete);
+        //TreeHelper.treeExecute(splayTree, "Splay Tree", insertionValue, output, dataset, datasetString, delete);
     }
 
     private static void hashtables(ArrayList<String> dataset, String insertionValue, Boolean output, Boolean delete){
         HashtableOpenAddressing openAddressing = new HashtableOpenAddressing();
         HashtableSeparateChaining separateChaining = new HashtableSeparateChaining();
 
-        HashtableHelper.hashtableExecute(openAddressing, "Open Addressing Hashtable", insertionValue, output, delete, dataset);
-
-        HashtableHelper.hashtableExecute(separateChaining, "Separate Chaning Hashtable", insertionValue, output, delete, dataset);
-
-        out.println();
+        //HashtableHelper.hashtableExecute(openAddressing, "Open Addressing Hashtable", insertionValue, output, delete, dataset);
+        //HashtableHelper.hashtableExecute(separateChaining, "Separate Chaning Hashtable", insertionValue, output, delete, dataset);
     }
 
 

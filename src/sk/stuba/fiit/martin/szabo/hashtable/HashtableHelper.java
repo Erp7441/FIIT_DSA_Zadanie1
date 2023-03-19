@@ -16,19 +16,29 @@ public class HashtableHelper{
         if(hashtable == null) return;
 
         //* ----------------------------- Hashtable creation -------------------------
-        long startTime;
+        long startTime = 0L;
         long endTime;
         long durationNanoseconds = -1;
 
         if(dataset != null){
-            startTime = System.nanoTime();
 
+            //? COUNTER
+            int i = 0;
             for(String s : dataset){
+                i++;
+                if(i % 1000 == 0) startTime = System.nanoTime();
+
                 hashtable.insert(s);
+
+                if(i % 1000 == 0){
+                    endTime = System.nanoTime();
+                    durationNanoseconds = (endTime - startTime);
+                    out.println(durationNanoseconds);
+                }
             }
 
-            endTime = System.nanoTime();
-            durationNanoseconds = (endTime - startTime);
+            /*endTime = System.nanoTime();
+            durationNanoseconds = (endTime - startTime);*/
         }
         //* --------------------------------------------------------------------------
 
@@ -78,9 +88,12 @@ public class HashtableHelper{
         if(Boolean.TRUE.equals(delete)){
             startTime = System.nanoTime();
 
+            int i = 0;
             if(dataset != null){
                 for(String dataToDelete : dataset){
+
                     hashtable.delete(dataToDelete);
+
                 }
             }
             if(insertionValue != null) hashtable.delete(insertionValue);
@@ -92,6 +105,7 @@ public class HashtableHelper{
 
         //*  ----------------------------- Statistics  -------------------------------
 
+        /*
         if(dataset != null){
             out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
                     durationNanoseconds != 1 ? " seconds " : " second"
@@ -122,7 +136,7 @@ public class HashtableHelper{
             ));
         }
 
-        out.println();
+        out.println();*/
         //* ---------------------------------------------------------------------------
     }
 }

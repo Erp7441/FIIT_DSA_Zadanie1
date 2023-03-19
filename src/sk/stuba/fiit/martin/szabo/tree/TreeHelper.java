@@ -79,9 +79,19 @@ public class TreeHelper{
 
             startTime = System.nanoTime();
 
+            int i = 0;
             if(dataset != null){
                 for(int nodeToDelete : dataset){
+                    i++;
+                    if(i % 1000 == 0) startTime = System.nanoTime();
+
                     tree.delete(nodeToDelete);
+
+                    if(i % 1000 == 0){
+                        endTime = System.nanoTime();
+                        durationNanoseconds = (endTime - startTime);
+                        out.println(durationNanoseconds);
+                    }
                 }
             }
             if(insertionValue != null) tree.delete(insertionValue);
@@ -93,7 +103,7 @@ public class TreeHelper{
 
         //*  ----------------------------- Statistics  -----------------------------
 
-        if(dataset != null && datasetValue != null){
+        /*if(dataset != null && datasetValue != null){
             out.println(type + " creation took " + TimeConverter.nanoToSeconds(durationNanoseconds) + (
                     durationNanoseconds != 1 ? " seconds " : " second"
             ));
@@ -123,7 +133,7 @@ public class TreeHelper{
             ));
         }
 
-        out.println();
+        out.println();*/
         //* --------------------------------------------------------------------------
     }
 
