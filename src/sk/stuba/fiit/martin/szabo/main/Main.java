@@ -68,10 +68,7 @@ public class Main{
         HashtableSeparateChaining separateChaining = new HashtableSeparateChaining();
 
         HashtableHelper.hashtableExecute(openAddressing, "Open Addressing Hashtable", insertionValue, output, delete, dataset);
-
         HashtableHelper.hashtableExecute(separateChaining, "Separate Chaning Hashtable", insertionValue, output, delete, dataset);
-
-        out.println();
     }
 
 
