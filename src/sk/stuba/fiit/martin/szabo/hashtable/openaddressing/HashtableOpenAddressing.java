@@ -2,6 +2,7 @@ package sk.stuba.fiit.martin.szabo.hashtable.openaddressing;
 
 import sk.stuba.fiit.martin.szabo.hashtable.hashtable.Hashtable;
 
+// TODO:: Add javadoc comments
 public class HashtableOpenAddressing extends Hashtable{
 
     public HashtableOpenAddressing(){

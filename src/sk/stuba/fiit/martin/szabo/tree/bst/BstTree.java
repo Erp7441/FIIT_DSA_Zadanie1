@@ -2,20 +2,46 @@ package sk.stuba.fiit.martin.szabo.tree.bst;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a binary search tree. A binary search tree is a hierarchical data structure in which
+ * each node has at most two children, referred to as the left child and the right child. The left child of a
+ * node contains only nodes with keys lesser than the node's key. The right child of a node contains only nodes
+ * with keys greater than the node's key. A node can have at most two children. If a node has no children, it is
+ * referred to as a leaf node.
+ */
 public class BstTree{
 
     //* Attributes
     private BstNode root = null;
 
     //* Constructors
+
+    /**
+     * Creates a new Binary search tree with null values for its attributes.
+     */
     public BstTree(){
     }
+
+    /**
+     * Creates a new Binary Search tree with a root node
+     * @param root root of the Splay Tree
+     */
     public BstTree(BstNode root){
         this.root = root;
     }
 
 
     //* Basic methods for binary tree
+
+    /**
+     * Inserts a new node into the Binary Search Tree. If the node to be inserted already exists in the tree, it
+     * is not inserted as duplicates are not allowed. If the tree is empty, the node is set as the root. The method
+     * traverses the tree, moving left if the value of the node to be inserted is lesser than the current one and
+     * right if greater than the current one, until a leaf node is found, where the new node is inserted.
+     *
+     * @param node the node to be inserted into the Binary Search Tree
+     * @return true if the node was successfully inserted, false otherwise.
+     */
     public boolean insert(BstNode node){
 
         // If node we are inserting is already present in the tree then we should return as no duplicates are allowed.
@@ -23,7 +49,6 @@ public class BstTree{
         if(found != null && (node == found ||  node.getKey().equals(found.getKey()))){
             return false;
         }
-
 
         // If node we are inserting is root then we should just insert it as head of the tree and return.
         if(this.getRoot() == null){
@@ -73,10 +98,23 @@ public class BstTree{
     }
 
     public boolean insert(Integer key, String value){
+        // This overloaded method makes life a bit easier :)
         BstNode node = new BstNode(key, value);
         return insert(node);
     }
 
+    /**
+     * Searches for a node in the binary search tree with the specified key. This method performs a traversal
+     * of the binary search tree starting at the root node. During the traversal, the method compares the key
+     * of each node with the specified key. If the key of the current node is less than the specified key, the
+     * method moves to the left child of the current node. If the key of the current node is greater than the
+     * specified key, the method moves to the right child of the current node. If the key of the current node
+     * is equal to the specified key, the method returns the current node. If the traversal reaches a leaf node
+     * without finding a node with the specified key, the method returns null.
+     *
+     * @param value the key of the node to search for
+     * @return the node with the specified key, or null if no such node is found
+     */
     public BstNode search(Integer value){
         // We transverse the tree
         BstNode currentNode = root;
@@ -99,6 +137,14 @@ public class BstTree{
         return null;
     }
 
+    /**
+     * Searches for a node in the binary search tree with the specified value.
+     *
+     * @param value the value of the node to be searched for
+     * @param returnLast whether to return the last node visited during the search if the node is not found
+     * @return the node with the specified value, or the last node visited during the search if returnLast is
+     * true and the node is not found, or null if the node is not found and returnLast is false
+     */
     public BstNode search(Integer value, boolean returnLast){
         // We transverse the tree
         BstNode previous = null;
@@ -127,6 +173,15 @@ public class BstTree{
         return null;
     }
 
+    /**
+     * Deletes a node from the binary search tree and returns the node that was deleted. If the given node is not
+     * present in the tree, it returns null. If the deleted node had two children, it finds the in-order predecessor
+     * or successor of the node and uses it as the replacement node. If the deleted node had only one child, it uses
+     * that child as the replacement node. If the deleted node had no children, it removes the node from the tree.
+     *
+     * @param node the node to be deleted from the tree
+     * @return the node that was deleted, or the subtree where the deleted node was located
+     */
     public BstNode delete(BstNode node){
 
         // Find node that needs to be deleted
@@ -140,7 +195,7 @@ public class BstTree{
 
         // If node to be deleted has two children we need to find in order predecessor
         if (nodeToBeDeleted.getLeft() != null && nodeToBeDeleted.getRight() != null) {
-            BstNode predecessor = BstNode.getInOrderPredeecesor(nodeToBeDeleted);
+            BstNode predecessor = BstNode.getInOrderPredecessor(nodeToBeDeleted);
             BstNode successor = BstNode.getInOrderSuccessor(nodeToBeDeleted);
             if(successor != null && predecessor != null){
                 if(predecessor.getKey() < successor.getKey()){
@@ -210,6 +265,15 @@ public class BstTree{
     }
 
     //* BST methods
+
+    /**
+     * Performs a left rotation on the given node in the binary search tree. This operation restructures the
+     * tree such that the right child of the given node becomes the new root, and the given node becomes the
+     * left child of the new root. If the given node has no right child, this method does nothing and returns
+     * immediately.
+     *
+     * @param node the node to rotate left
+     */
     public void leftRotate(BstNode node){
         // RR rotation
 
@@ -239,6 +303,15 @@ public class BstTree{
 
     }
 
+    /**
+     * Performs a right rotation on the specified node, which means it switches the position of the node with its
+     * left child, making the left child the new root of the subtree and the original node its right child. This
+     * is known as an LL rotation. If the node has no left child, the method does nothing. If the node is the root
+     * of the tree, the new root will be the left child. If the node is not the root of the tree, it will be replaced
+     * by its left child.
+     *
+     * @param node the node to be rotated to the right
+     */
     public void rightRotate(BstNode node){
         // LL rotation
 
@@ -267,6 +340,12 @@ public class BstTree{
 
     }
 
+    /**
+     * Performs a left-right rotation on the given node. This operation "straightens" the left subtree of
+     * the node before performing a right rotation on the node's parent.
+     *
+     * @param node the node to perform the left-right rotation on
+     */
     public void leftRightRotate(BstNode node){
         // LR rotation
 
@@ -286,6 +365,12 @@ public class BstTree{
 
     }
 
+    /**
+     * Performs a right-left rotation on the given node. This operation "straightens" the right subtree of
+     * the node before performing a left rotation on the node's parent.
+     *
+     * @param node the node to be rotated
+     */
     public void rightLeftRotate(BstNode node){
         // RL rotation
 

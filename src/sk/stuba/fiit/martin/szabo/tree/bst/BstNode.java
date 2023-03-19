@@ -2,6 +2,11 @@ package sk.stuba.fiit.martin.szabo.tree.bst;
 
 import java.util.ArrayList;
 
+/**
+ * BstNode represents a node of a binary search tree. It has an integer key value, a string value, left and right child
+ * nodes, and a parent node. The class provides methods to find the minimum and maximum nodes of a subtree, the in-order
+ * predecessor and successor of a node, and the deepest node of the tree.
+ */
 public class BstNode{
 
     //* Attributes
@@ -13,10 +18,24 @@ public class BstNode{
 
     //* Constructors
 
+    /**
+     * Creates a new Binary Search Tree Node with null values for its attributes.
+     */
     public BstNode(){}
+
+    /**
+     * Creates a new Binary Search Tree Node with the specified key and null value for its attributes.
+     * @param key the key value of the node
+     */
     public BstNode(Integer key){
         this.key = key;
     }
+
+    /**
+     * Creates a new BstNode with the specified key and value.
+     * @param key the key value of the node
+     * @param value the value of the node
+     */
     public BstNode(Integer key, String value){
         this.key = key;
         this.value = value;
@@ -25,7 +44,15 @@ public class BstNode{
     //* Utility methods
 
 
-
+    /**
+     * Returns the node with the minimum key value in the subtree rooted at the given node. If the given root node is null,
+     * null is returned. This method traverses the subtree by moving down the left side of the tree, since the smallest
+     * value is guaranteed to be in the leftmost node. If the left child of a node is smaller than the node itself, we
+     * continue moving down the left subtree; otherwise, we have found the node with the minimum key value and return it.
+     *
+     * @param root the root of the subtree to search for the minimum node
+     * @return the node with the minimum key value in the subtree, or null if the subtree is empty
+     */
     public static BstNode minimum(BstNode root){
 
         if(root == null){ return null; }
@@ -46,6 +73,16 @@ public class BstNode{
         return current;
     }
 
+    /**
+     * Returns the node with the maximum key value in the subtree rooted at the given node. If the given root node is
+     * null, null is returned. This method traverses the subtree by moving down the right side of the tree, since the
+     * largest value is guaranteed to be in the rightmost node. If the right child of a node is greater than the node
+     * itself, we continue moving down the right subtree; otherwise, we have found the node with the maximum key value
+     * and return it.
+     *
+     * @param root the root node of the binary search tree to search for the maximum key value.
+     * @return the node with the maximum key value in the given binary search tree, or null if the tree is empty.
+     */
     public static BstNode maximum(BstNode root){
 
         if(root == null){ return null; }
@@ -65,7 +102,16 @@ public class BstNode{
         return current;
     }
 
-    public static BstNode getInOrderPredeecesor(BstNode root){
+    /**
+     * This method returns the in-order predecessor node of the given node in a binary search tree. An in-order
+     * predecessor is the node with the greatest key value smaller than the key value of the given node. If the
+     * given node has a left subtree, the in-order predecessor will be the rightmost node in that subtree.
+     * Otherwise, there is no in-order predecessor for the given node.
+     *
+     * @param root the node for which the in-order predecessor is required
+     * @return the in-order predecessor of the given node or null if it doesn't have one
+     */
+    public static BstNode getInOrderPredecessor(BstNode root){
         if(root.getLeft() != null){
             // Gets max node value from left subtree
             return BstNode.maximum(root.getLeft());
@@ -73,6 +119,13 @@ public class BstNode{
         return null;
     }
 
+    /**
+     * Returns the in-order successor of the given node. If the right subtree of the given node is not
+     * null, then the in-order successor is the minimum node of the right subtree.
+     *
+     * @param root the root node of the binary search tree to search for in-order successor
+     * @return the in-order successor of the given node, or null if the right subtree is null
+     */
     public static BstNode getInOrderSuccessor(BstNode root){
         if(root.getRight() != null){
             // Gets min node value from right subtree
@@ -101,6 +154,13 @@ public class BstNode{
         return sb.toString();
     }
 
+    /**
+     * Returns the deepest node in a binary search tree rooted at the specified root. If there are multiple
+     * deepest nodes, returns the one that appears first in an in-order traversal.
+     *
+     * @param root The root of the binary search tree.
+     * @return The deepest node in the binary search tree. Returns null if the root is null.
+     */
     public static BstNode getDeepestNode(BstNode root){
         ArrayList<BstNode> currentLevelNodes = new ArrayList<>();
         currentLevelNodes.add(root); // Gets current level nodes

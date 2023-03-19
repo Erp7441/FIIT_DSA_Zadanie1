@@ -5,6 +5,7 @@ import sk.stuba.fiit.martin.szabo.hashtable.hashtable.Hashtable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+// TODO:: Add javadoc comments
 public class HashtableSeparateChaining extends Hashtable{
 
     public HashtableSeparateChaining(){
