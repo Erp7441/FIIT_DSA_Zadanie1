@@ -8,10 +8,7 @@ import sk.stuba.fiit.martin.szabo.tree.TreeHelper;
 import sk.stuba.fiit.martin.szabo.tree.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.tree.splay.SplayTree;
 import sk.stuba.fiit.martin.szabo.utils.Dataset;
-
 import java.util.ArrayList;
-
-import static java.lang.System.out;
 
 /**
  * This program implements four different data structures: {@link AvlTree AVL Tree}, {@link SplayTree Splay Tree},

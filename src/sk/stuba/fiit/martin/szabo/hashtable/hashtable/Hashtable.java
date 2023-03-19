@@ -1,7 +1,6 @@
 package sk.stuba.fiit.martin.szabo.hashtable.hashtable;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 /**
