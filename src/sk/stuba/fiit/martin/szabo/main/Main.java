@@ -13,7 +13,40 @@ import java.util.ArrayList;
 
 import static java.lang.System.out;
 
-
+/**
+ * This program implements four different data structures: {@link AvlTree AVL Tree}, {@link SplayTree Splay Tree},
+ * {@link HashtableOpenAddressing Open Addressing Hashtable}, and {@link HashtableSeparateChaining Separate Chaining Hashtable}.
+ * Each data structure is designed to store and retrieve data in a specific way.
+ * <p>
+ * {@link AvlTree AVL Tree} is a self-balancing {@link sk.stuba.fiit.martin.szabo.tree.bst.BstTree binary search tree}.
+ * It maintains a balance factor for each node and adjusts the tree structure whenever an insertion or deletion causes
+ * the balance factor to become out of balance. This ensures that the height of the tree is always logarithmic and
+ * guarantees efficient {@link AvlTree#search(Integer) search}, {@link AvlTree#insert(Integer) insertion}, and
+ * {@link AvlTree#delete(Integer) deletion} operations.
+ * <p>
+ * {@link SplayTree Splay Tree} is another self-balancing binary search tree that reorganizes itself based on the
+ * recently accessed nodes. Whenever a node is accessed, it becomes the root of the tree, and the tree is reorganized
+ * to minimize the depth of the recently accessed nodes. This provides efficient {@link SplayTree#search(Integer) search}
+ * times for frequently accessed data.
+ * <p>
+ * {@link HashtableOpenAddressing Open Addressing Hashtable} is a data structure that stores data in an array, using a
+ * {@link HashtableOpenAddressing#hash(Object) hash} function to map the data to a specific index in the array. If the
+ * index is already occupied, the {@link HashtableOpenAddressing#hash(Object) hash} function is modified to find the next
+ * available index until an empty slot is found. This allows for efficient {@link HashtableOpenAddressing#search(Object)
+ * search}, {@link HashtableOpenAddressing#insert(Object) insertion}, and {@link HashtableOpenAddressing#delete(Object)
+ * deletion} of data.
+ * <p>
+ * {@link HashtableSeparateChaining Separate Chaining Hashtable} is another type of {@link sk.stuba.fiit.martin.szabo.hashtable.hashtable.Hashtable
+ * Hashtable} that uses a {@link java.util.LinkedList LinkedList} to store data. Each index in the array stores a pointer
+ * to the head of a {@link java.util.LinkedList LinkedList}, and data is inserted at the beginning of the list. If
+ * multiple items are stored at the same index, they are stored in a {@link java.util.LinkedList LinkedList}, ensuring
+ * efficient retrieval of data.
+ * <p>
+ * Overall, this program provides a variety of data structures that can be used to store and retrieve data efficiently.
+ *
+ * @author <a href="mailto:xszabom5@stuba.sk">Martin Szabo</a>
+ * @version 1.0
+ */
 public class Main{
     public static void main(String[] args){
         ArrayList<Integer> dataset = Dataset.createIntegerDataset(null, 0, 1147483647, 1000000, false);

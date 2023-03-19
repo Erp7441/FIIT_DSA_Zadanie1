@@ -33,6 +33,8 @@ public class HashtableOpenAddressing extends Hashtable{
     /**
      * Constructs a new empty {@link HashtableOpenAddressing} object with the specific capacity and default
      * load factor (0.75).
+     *
+     * @param size initial hashtable capacity
      * @see Hashtable#Hashtable()
      */
     public HashtableOpenAddressing(int size){

@@ -1,11 +1,18 @@
 package sk.stuba.fiit.martin.szabo.hashtable.hashtable;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
+/**
+ * The Hashtable class provides an abstract data type for a hash table that maps keys to values. It implements the
+ * hash table using an {@link ArrayList} of {@link Object}s. The class is abstract, so it needs to be extended by another
+ * class that implements the {@link #resolveCollision} and {@link #search(Object)} methods, which are abstract methods of
+ * this class. The {@link Hashtable} class provides methods for initializing the hashtable, computing the hash value
+ * for a given object, inserting an object into the hashtable, searching for an object in the hashtable, deleting an
+ * object from the hashtable, and rehashing the hashtable if the load factor becomes too low or too high.
+ */
 public abstract class Hashtable{
-
-    public ArrayList<Long> time = new ArrayList<>();
 
     public static final String DELETED_VALUE = "DELETED_VALUE";
 
