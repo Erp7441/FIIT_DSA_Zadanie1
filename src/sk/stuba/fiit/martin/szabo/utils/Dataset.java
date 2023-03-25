@@ -45,4 +45,34 @@ public class Dataset{
 
         return dataset;
     }
+
+    public static ArrayList<Integer> createInOrderIntegerDataset(int start, int end){
+        ArrayList<Integer> dataset = new ArrayList<>();
+        if(start <= end){
+            for(int i=start; i <= end; i++){
+                dataset.add(i);
+            }
+        }
+        else{
+            for(int i=start; i >= end; i--){
+                dataset.add(i);
+            }
+        }
+        return dataset;
+    }
+
+    public static ArrayList<String> createInOrderStringDataset(int start, int end){
+        ArrayList<String> dataset = new ArrayList<>();
+        if(start <= end){
+            for(int i=start; i <= end; i++){
+                dataset.add(String.valueOf(i));
+            }
+        }
+        else{
+            for(int i=start; i >= end; i--){
+                dataset.add(String.valueOf(i));
+            }
+        }
+        return dataset;
+    }
 }

@@ -25,16 +25,7 @@ public class HashtableHelper{
             //? COUNTER
             int i = 0;
             for(String s : dataset){
-                i++;
-                if(i % 1000 == 0) startTime = System.nanoTime();
 
-                hashtable.insert(s);
-
-                if(i % 1000 == 0){
-                    endTime = System.nanoTime();
-                    durationNanoseconds = (endTime - startTime);
-                    out.println(durationNanoseconds);
-                }
             }
 
             /*endTime = System.nanoTime();
@@ -92,7 +83,17 @@ public class HashtableHelper{
             if(dataset != null){
                 for(String dataToDelete : dataset){
 
+
+                    i++;
+                    if(i % 1000 == 0) startTime = System.nanoTime();
+
                     hashtable.delete(dataToDelete);
+
+                    if(i % 1000 == 0){
+                        endTime = System.nanoTime();
+                        durationNanoseconds = (endTime - startTime);
+                        out.println(durationNanoseconds);
+                    }
 
                 }
             }
