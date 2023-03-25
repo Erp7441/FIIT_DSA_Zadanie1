@@ -8,6 +8,7 @@ import sk.stuba.fiit.martin.szabo.tree.TreeHelper;
 import sk.stuba.fiit.martin.szabo.tree.avl.AvlTree;
 import sk.stuba.fiit.martin.szabo.tree.splay.SplayTree;
 import sk.stuba.fiit.martin.szabo.utils.Dataset;
+
 import java.util.ArrayList;
 
 /**
@@ -46,8 +47,14 @@ import java.util.ArrayList;
  */
 public class Main{
     public static void main(String[] args){
+
+        // Dataset file
+        //ArrayList<Integer> dataset = Dataset.createIntegerDataset("data/data1.txt", null, null, null, false);
+
+        // Generating random dataset
         ArrayList<Integer> dataset = Dataset.createIntegerDataset(null, 0, 1147483647, 1000000, false);
         ArrayList<String> datasetString = Dataset.createStringDataset(null, dataset.size());
+
         trees(dataset, 605022365, datasetString, false, true);
         hashtables(datasetString, "TEST_INSERT",false, true);
     }
