@@ -53,7 +53,23 @@ public class HashtableHelper{
             startTime = System.nanoTime();
 
 
-            hashtable.search(insertionValue);
+
+            int i = 0;
+            if(dataset != null){
+                for(String dataToSearch : dataset){
+                    i++;
+                    if(i % 1000 == 0) startTime = System.nanoTime();
+
+                    hashtable.search(dataToSearch);
+
+                    if(i % 1000 == 0){
+                        endTime = System.nanoTime();
+                        durationNanoseconds = (endTime - startTime);
+                        out.println(durationNanoseconds);
+                    }
+
+                }
+            }
 
             endTime = System.nanoTime();
             searchNanoSeconds = (endTime - startTime);
@@ -77,7 +93,7 @@ public class HashtableHelper{
         long deletionNanoSeconds = -1;
 
         if(Boolean.TRUE.equals(delete)){
-            startTime = System.nanoTime();
+            /*startTime = System.nanoTime();
 
             int i = 0;
             if(dataset != null){
@@ -95,8 +111,8 @@ public class HashtableHelper{
                         out.println(durationNanoseconds);
                     }
 
-                }
-            }
+                    }
+                }*/
             if(insertionValue != null) hashtable.delete(insertionValue);
 
             endTime = System.nanoTime();

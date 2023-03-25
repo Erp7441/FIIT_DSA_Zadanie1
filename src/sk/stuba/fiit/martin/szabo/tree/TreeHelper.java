@@ -24,15 +24,9 @@ public class TreeHelper{
             startTime = System.nanoTime();
 
             for(int i = 0; i < dataset.size(); i++){
-                if(i % 1000 == 0) startTime = System.nanoTime();
 
                 tree.insert(dataset.get(i), datasetValue.get(i));
 
-                if(i % 1000 == 0){
-                    endTime = System.nanoTime();
-                    durationNanoseconds = (endTime - startTime);
-                    out.println(durationNanoseconds);
-                }
             }
 
 
@@ -60,7 +54,24 @@ public class TreeHelper{
         if(insertionValue != null){
             startTime = System.nanoTime();
 
-            tree.search(insertionValue);
+
+
+            int i = 0;
+            if(dataset != null){
+                for(Integer dataToSearch : dataset){
+                    i++;
+                    if(i % 1000 == 0) startTime = System.nanoTime();
+
+                    tree.search(dataToSearch);
+
+                    if(i % 1000 == 0){
+                        endTime = System.nanoTime();
+                        durationNanoseconds = (endTime - startTime);
+                        out.println(durationNanoseconds);
+                    }
+
+                }
+            }
 
             endTime = System.nanoTime();
             searchNanoSeconds = (endTime - startTime);
